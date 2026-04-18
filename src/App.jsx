@@ -9,7 +9,7 @@ const APP = {
   color: "#1a3a6e",
   colorLight: "#2a5298",
   colorAccent: "#4a7fd4",
-  payhip: "https://payhip.com/b/PLACEHOLDER",
+  payhip: "https://payhip.com/b/Sry6P",
   support: "support@buyappsonce.com",
   price: "$39",
   sessionKey: "tf_form",

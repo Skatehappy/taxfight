@@ -1,7 +1,7 @@
 // api/checklist.js
 export const config = { runtime: 'edge' };
 
-const PRODUCT_LINK = 'PLACEHOLDER';
+const PRODUCT_LINK = 'Sry6P';
 
 export default async function handler(req) {
   const headers = {

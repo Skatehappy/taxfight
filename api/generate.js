@@ -3,7 +3,7 @@
 
 export const config = { runtime: 'edge' };
 
-const PRODUCT_LINK = 'PLACEHOLDER'; // Replace with Payhip product code after listing created
+const PRODUCT_LINK = 'Sry6P'; // Replace with Payhip product code after listing created
 
 export default async function handler(req) {
   const headers = {
