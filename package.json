@@ -6,11 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:content": "node scripts/generate-content.js",
+    "generate:pages": "node scripts/build-pages.js",
+    "generate:all": "npm run generate:content && npm run generate:pages"
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@anthropic-ai/sdk": "^0.27.0",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
