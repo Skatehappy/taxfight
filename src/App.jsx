@@ -267,6 +267,35 @@ export default function TaxFight() {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
     if (code) setAccessCode(code.toUpperCase());
+
+    const stateParam = params.get("state");
+    const disputeParam = params.get("dispute");
+    const slugToStateName = {
+      "california": "California", "texas": "Texas", "florida": "Florida",
+      "new-york": "New York", "illinois": "Illinois", "pennsylvania": "Pennsylvania",
+      "ohio": "Ohio", "georgia": "Georgia", "north-carolina": "North Carolina", "arizona": "Arizona"
+    };
+    const slugToReason = {
+      "property-tax-assessment-appeal": "Assessed value exceeds fair market value",
+      "over-assessed-property-value": "Assessment higher than comparable properties",
+      "homestead-exemption-denial": "Other",
+      "senior-tax-exemption-appeal": "Other",
+      "veteran-tax-exemption-appeal": "Other",
+      "disability-tax-exemption-appeal": "Other",
+      "agricultural-use-valuation-appeal": "Other",
+      "commercial-property-tax-appeal": "Assessed value exceeds fair market value",
+      "property-tax-abatement-request": "Other",
+      "reassessment-after-damage": "Property condition not reflected (damage, deterioration)"
+    };
+    const slugToPropertyType = {
+      "commercial-property-tax-appeal": "Commercial",
+      "agricultural-use-valuation-appeal": "Vacant Land"
+    };
+    const updates = {};
+    if (stateParam && slugToStateName[stateParam]) updates.state = slugToStateName[stateParam];
+    if (disputeParam && slugToReason[disputeParam]) updates.reasonForAppeal = slugToReason[disputeParam];
+    if (disputeParam && slugToPropertyType[disputeParam]) updates.propertyType = slugToPropertyType[disputeParam];
+    if (Object.keys(updates).length) setFormData(prev => ({ ...prev, ...updates }));
   }, []);
 
   useEffect(() => {
