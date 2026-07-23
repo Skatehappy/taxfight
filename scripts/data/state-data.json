@@ -1,0 +1,308 @@
+{
+  "CA": {
+    "state": "California",
+    "abbreviation": "CA",
+    "property_tax_statute": {
+      "name": "California Revenue and Taxation Code (property taxation), implementing Article XIII A of the CA Constitution (Proposition 13)",
+      "citation": "Cal. Const. art. XIII A (Prop 13); Cal. Rev. & Tax. Code §§ 110, 619, 1603, 3691 et seq."
+    },
+    "assessment_cycle": "Annual lien date of January 1 each year; under Prop 13 the base-year (purchase-price) value is set at acquisition and capped at a maximum 2% inflationary increase per year unless there is a change in ownership or new construction that triggers reassessment.",
+    "appeal_deadline": "Regular assessment appeals filing period runs July 2 through either September 15 or November 30 depending on the county. As of 2025, 11 counties (incl. Alameda, San Francisco, Santa Clara, Ventura) use September 15; the other 47 counties use November 30. Supplemental and escape assessments must be appealed within 60 days of the notice/tax bill mailing date. No extensions.",
+    "first_level_appeal": "Application for Changed Assessment filed with the clerk of the county Assessment Appeals Board (AAB), or in smaller counties the county Board of Equalization sitting as the appeals board (Cal. Rev. & Tax. Code § 1603).",
+    "second_level_appeal": "After exhausting the administrative appeal before the Assessment Appeals Board, the taxpayer's further remedy is a refund action in California Superior Court (judicial review), typically after paying the tax and filing a refund claim; there is no intermediate second administrative appeal body.",
+    "grounds_for_appeal": "Assessor's full cash value (fair market value) exceeds actual market value; incorrect base-year value; decline-in-value (Prop 8) below the factored Prop 13 base value; improper change-in-ownership or new-construction reassessment; supplemental or escape assessment disputes.",
+    "evidence_accepted": "Comparable sales, appraisals, income/expense data (income approach), cost data, and evidence of fair market value as of the valuation date; the § 110(b) rebuttable presumption is that full cash value equals actual purchase price in an open-market transaction.",
+    "hearing_format": "In-person (and increasingly virtual) evidentiary hearing before the county Assessment Appeals Board; taxpayer and assessor present evidence and testimony, and the board renders a value determination.",
+    "assessment_ratio": "100% of full cash value (fair market value). Cal. Rev. & Tax. Code § 401 requires assessment at full value. Under Prop 13 the taxable value is the factored base-year value (acquisition value + 2%/yr max), not annual market value.",
+    "exemptions": "Homeowners' Exemption: $7,000 reduction in assessed value of an owner-occupied principal residence. Veterans' Exemption: up to $4,000. Disabled Veterans' Exemption: roughly $161,083 basic / $241,627 low-income for 2026 (inflation-adjusted). Property Tax Postponement (age 62+, blind, or disabled) and Prop 19 base-year-value transfers for homeowners 55+, severely disabled, or disaster victims. Prop 13 caps assessed-value growth at 2%/yr.",
+    "tax_lien_process": "A tax lien attaches on the January 1 lien date. Property with unpaid taxes becomes tax-defaulted at 12:01 a.m. July 1; redemption penalties accrue at 1.5% per month. Under Cal. Rev. & Tax. Code § 3691, after the property is tax-defaulted for five or more years the tax collector obtains power to sell and may sell at a public tax-deed auction. Right to redeem ends the last business day before the sale; California is a tax-deed state.",
+    "regulatory_body": "County Assessor (assessment) and county Assessment Appeals Board / county Board of Equalization (appeals) at the local level; the California State Board of Equalization (BOE) provides statewide oversight, guidance, and property tax rules.",
+    "unique_features": [
+      "Proposition 13 acquisition-value system: property is taxed on its base-year (purchase) value with a maximum 2% annual increase, not on current market value, so appeals often turn on base-year value or Prop 8 decline-in-value",
+      "Two county-deadline system (September 15 for 11 designated counties vs. November 30 for the other 47)",
+      "Proposition 8 temporary decline-in-value reassessments allow reduction when market value falls below the factored Prop 13 base value",
+      "Tax-deed (not tax-lien-certificate) state with a five-year defaulted period before power-to-sell"
+    ],
+    "common_disputes": [
+      "Decline-in-value (Prop 8) claims that current market value is below the factored Prop 13 base-year value",
+      "Change-in-ownership and new-construction reassessments that reset the base-year value",
+      "Supplemental and escape assessments (60-day appeal window) after transfers or construction"
+    ],
+    "recent_reform": "Proposition 19 (passed Nov. 2020; base-year-value transfers effective April 1, 2021) lets homeowners 55+, severely and permanently disabled, or victims of wildfire/disaster transfer their Prop 13 base-year value to a replacement home anywhere in California up to three times, while narrowing the parent-child reassessment exclusion largely to a primary residence the transferee occupies."
+  },
+  "TX": {
+    "state": "Texas",
+    "abbreviation": "TX",
+    "property_tax_statute": {
+      "name": "Texas Property Tax Code, Chapter 41 (Local Review / Protest) and Chapter 42 (Judicial Review)",
+      "citation": "Tex. Tax Code Ch. 41 (§§ 41.41 Right of Protest, 41.44 Notice of Protest); Ch. 42 (judicial appeal); Ch. 23 (appraisal, incl. § 23.23 residence homestead cap)"
+    },
+    "assessment_cycle": "Annual. Property is appraised each year as of January 1 by the county appraisal district (CAD); notices of appraised value are typically mailed in April/May.",
+    "appeal_deadline": "Protest must be filed by May 15 or the 30th day after the appraisal district delivered the notice of appraised value, whichever is later (Tex. Tax Code § 41.44). If the deadline falls on a weekend or legal holiday, it shifts to the next business day. Late protests may be allowed before the ARB approves the appraisal records upon good cause.",
+    "first_level_appeal": "File a written Notice of Protest (Comptroller Form 50-132) with the local county Appraisal Review Board (ARB). An informal review with appraisal district staff usually occurs first, followed by a formal ARB hearing if unresolved.",
+    "second_level_appeal": "After the ARB order, the owner may (1) appeal to state district court in the county where the property is located within 60 days of receiving the ARB order (Tex. Tax Code Ch. 42), or (2) request regular binding arbitration within 60 days (available for residence homesteads of any value or properties appraised at $5 million or less); certain matters may also go to SOAH.",
+    "grounds_for_appeal": "Appraised (market) value too high (over-valuation); unequal appraisal relative to comparable properties; wrongful denial of an exemption or special appraisal; errors in the appraisal records; inclusion of property that should not be taxed; and other adverse actions of the appraisal district or ARB (Tex. Tax Code § 41.41).",
+    "evidence_accepted": "Comparable sales, sales/market data, independent appraisals, photographs of condition/defects, repair estimates, closing statements for a recent purchase, income and expense statements (income-producing property), equity/uniformity comparison of assessed values, and appraisal-district-provided evidence.",
+    "hearing_format": "Informal meeting with appraisal district staff, then a formal ARB hearing before a panel of citizen board members; owner and district present evidence and testimony. Hearings may be in person, by telephone, by videoconference, or by written affidavit; most complete by about July 20.",
+    "assessment_ratio": "Texas requires appraisal at 100% of market value as of January 1 (full-value assessment; no fractional statutory ratio). A separate 10% annual cap on the increase in appraised value applies to residence homesteads under Tex. Tax Code § 23.23 (taxable value cannot rise more than 10% per year, plus new improvements).",
+    "exemptions": "General residence homestead: $140,000 school-district exemption (raised from $100,000, effective 2026 via SB 4 / Prop 13). Age 65+ or disabled homeowners: additional $60,000 school exemption (raised from $10,000 via Prop 11), plus a school-tax ceiling (freeze). Disabled veterans: sliding scale from $5,000 (10-29%) up to $12,000 (70%+); 100% service-connected disabled veterans receive a total homestead exemption. Business personal property exemption raised to $125,000 via Prop 9. Most homestead applications due by April 30.",
+    "tax_lien_process": "A tax lien attaches on January 1 each year (Tex. Tax Code § 32.01). Taxes are due upon receipt and become delinquent February 1, when a 6% penalty plus 1% monthly interest begins; on July 1 an additional collection fee up to 20% may be added. The taxing unit may sue to foreclose; delinquent property is sold at public auction. Post-sale right of redemption: 2 years for residence homesteads/agricultural land, 6 months for other property.",
+    "regulatory_body": "County Appraisal District (CAD) and its Appraisal Review Board (ARB) administer local appraisal and protests; the Texas Comptroller of Public Accounts Property Tax Assistance Division provides statewide oversight, forms, and guidance. Judicial appeals go to state district court.",
+    "unique_features": [
+      "10% annual appraisal cap on residence homesteads (Tex. Tax Code § 23.23)",
+      "No state income tax; Texas relies heavily on local property taxes, and there is no statewide property tax",
+      "Full binding-arbitration alternative to court for homesteads (any value) and properties appraised at $5 million or less",
+      "'Unequal appraisal' (uniformity/equity) is an independent statutory ground for protest",
+      "School-tax ceiling (freeze) for homeowners 65+ and disabled homeowners"
+    ],
+    "common_disputes": [
+      "Over-valuation / market value set too high by the appraisal district",
+      "Unequal appraisal relative to comparable neighboring properties (uniformity)",
+      "Wrongful denial or removal of homestead, over-65, disability, or veteran exemptions"
+    ],
+    "recent_reform": "In November 2025 Texas voters approved property-tax-relief constitutional amendments. Proposition 13 (with SB 4) raised the school-district general homestead exemption from $100,000 to $140,000, effective 2026. Proposition 11 raised the additional exemption for homeowners 65+ or disabled from $10,000 to $60,000. Proposition 9 raised the business personal property exemption from $2,500 to $125,000."
+  },
+  "FL": {
+    "state": "Florida",
+    "abbreviation": "FL",
+    "property_tax_statute": {
+      "name": "Florida Statutes Title XIV — Ad Valorem Taxation; Administrative and Judicial Review (Value Adjustment Board)",
+      "citation": "Fla. Stat. Ch. 194 (§§ 194.011, 194.032, 194.171); assessment under Ch. 193; collection/tax deeds under Ch. 197"
+    },
+    "assessment_cycle": "Annual. Property is assessed at just (fair market) value as of January 1. The property appraiser mails a Notice of Proposed Property Taxes (TRIM notice) in mid-to-late August showing proposed assessed value, exemptions, and estimated taxes.",
+    "appeal_deadline": "Petition to the Value Adjustment Board (VAB) must be RECEIVED (not merely postmarked) no later than 25 days after the property appraiser mails the TRIM notice. The exact deadline date is printed on each parcel's TRIM notice (typically September). Late petitions accepted only on a written showing of good cause.",
+    "first_level_appeal": "Informal review with the county Property Appraiser's office (optional) and/or a formal petition to the county Value Adjustment Board (VAB) under Fla. Stat. § 194.011. Petitions are heard by a special magistrate who issues a recommended decision that the VAB adopts.",
+    "second_level_appeal": "Judicial review by filing suit in the circuit court of the county (de novo) under Fla. Stat. § 194.171. Deadline: no action may be brought after 60 days from the date the assessment is certified for collection, or 60 days from the VAB decision.",
+    "grounds_for_appeal": "Just/market value exceeds actual fair market value; assessment is not uniform/equitable versus comparable properties; denial or removal of an exemption or classification (homestead, agricultural); denial of a Save Our Homes portability transfer; or a change in ownership/qualifying improvement determination.",
+    "evidence_accepted": "Comparable sales, independent fee appraisals, income/expense statements for income-producing property, photographs documenting condition/damage, cost or repair estimates, closing statements, and documentation of market value or exemption eligibility. The property appraiser must exchange evidence with the petitioner before the hearing on request.",
+    "hearing_format": "Quasi-judicial administrative hearing before a VAB special magistrate (or the board itself). Testimony under oath, evidence exchange, and a written recommended decision; may be in person or, in many counties, remote.",
+    "assessment_ratio": "Statutory standard is 100% of just (fair market) value (Fla. Stat. § 193.011); no fractional assessment ratio. However, homestead assessed value growth is capped by Save Our Homes at the lesser of 3% or the change in CPI, and non-homestead property at 10% annually, creating an assessed-vs-market gap over time.",
+    "exemptions": "Standard $25,000 homestead exemption (all taxes) plus an additional exemption up to $25,000 on assessed value above $50,000 for non-school taxes (indexed to inflation by Amendment 5 of 2024 — $26,411 for 2026); senior (65+) additional exemption (income-limited); $5,000 exemption for veterans with 10%+ service-connected disability; total exemption for veterans with total & permanent service-connected disability; widow/widower and blind/disability exemptions. Homestead filing deadline is March 1.",
+    "tax_lien_process": "Real property taxes become delinquent April 1. By June 1 the tax collector auctions tax certificates (interest-bearing first liens) on unpaid parcels (Fla. Stat. Ch. 197). After 2 years from delinquency, a certificate holder may file a tax deed application (§ 197.502), and the Clerk of the Circuit Court sells the property at a public tax-deed auction; the owner may redeem by paying taxes, interest, and costs before the sale.",
+    "regulatory_body": "County Value Adjustment Board (VAB) and county Property Appraiser handle assessments/appeals; the Florida Department of Revenue, Property Tax Oversight Program, supervises and issues uniform rules and VAB procedures statewide.",
+    "unique_features": [
+      "Save Our Homes 3% assessment cap: annual increase in homestead assessed value limited to the lesser of 3% or CPI change (Fla. Const. Art. VII, § 4)",
+      "Portability: accumulated Save Our Homes benefit (up to $500,000) can be transferred to a new Florida homestead",
+      "10% assessment cap on non-homestead/commercial property (excludes school taxes)",
+      "TRIM (Truth-in-Millage) notice system triggers the 25-day appeal clock rather than a tax bill"
+    ],
+    "common_disputes": [
+      "Just/market value overstated relative to comparable sales, especially after a purchase reset or market decline",
+      "Denial or retroactive removal of the homestead exemption or Save Our Homes cap (e.g., alleged non-residency)",
+      "Denial of Save Our Homes portability transfers or agricultural/classified-use classification"
+    ],
+    "recent_reform": "Amendment 5 (approved Nov. 2024, effective Jan. 1, 2025) indexes the additional $25,000 homestead exemption to inflation ($26,411 for 2026). Separately, the 2026 Legislature placed a major property-tax constitutional amendment on the November 2026 ballot: if passed, it would exempt the first $150,000 of homestead assessed value from non-school taxes beginning Jan. 1, 2027, rising to $250,000 on Jan. 1, 2028."
+  },
+  "NY": {
+    "state": "New York",
+    "abbreviation": "NY",
+    "property_tax_statute": {
+      "name": "New York Real Property Tax Law (RPTL); assessment review under Article 5, judicial review under Article 7, enforcement under Article 11",
+      "citation": "N.Y. Real Property Tax Law (RPTL) §§ 512, 524, 525 (BAR review); Article 7 (judicial review); Article 11 (enforcement)"
+    },
+    "assessment_cycle": "Annual assessment roll. Assessor files a tentative assessment roll (typically May 1 in most towns), followed by Grievance Day, then a final roll (typically July 1). Property is assessed at a locally-determined uniform percentage of market value; NYC and Nassau County operate on their own class-based cycles.",
+    "appeal_deadline": "Complaint (Form RP-524) must be filed with the assessor or Board of Assessment Review (BAR) on or before Grievance Day. Under RPTL § 512 the default Grievance Day is the fourth Tuesday of May (May 26, 2026), but many municipalities adopt alternate dates by local law, so confirm the local date. SCAR/Article 7 petitions must be filed within 30 days after the final roll is filed.",
+    "first_level_appeal": "Board of Assessment Review (BAR) — file Form RP-524 by Grievance Day; the BAR convenes to hear and determine complaints and mails a notice of determination (RPTL §§ 524-525).",
+    "second_level_appeal": "After a BAR determination, two judicial paths: (1) Small Claims Assessment Review (SCAR) — low-cost ($30 filing fee), no attorney required, informal, limited to owner-occupied 1-3 family residences; or (2) Tax Certiorari under RPTL Article 7 in Supreme Court — formal, for commercial/multi-unit/higher-value property. Both must be filed within 30 days of the final assessment roll.",
+    "grounds_for_appeal": "Four statutory grounds under RPTL § 524: (1) excessive assessment (overvaluation, or improper denial/reduction of an exemption); (2) unequal assessment (higher percentage of market value than other property); (3) unlawful assessment; and (4) misclassification.",
+    "evidence_accepted": "Recent comparable sales, appraisals, the property's purchase price, the municipal equalization rate / residential assessment ratio (to prove unequal assessment), income/expense data for income-producing property, and condition evidence. Article 7 proceedings typically require USPAP-compliant certified appraisals. Complaint must be on Form RP-524.",
+    "hearing_format": "BAR: informal in-person hearing (Grievance Day) with sworn statements. SCAR: informal hearing before a court-appointed hearing officer, no attorney needed, relaxed rules of evidence. Article 7: formal Supreme Court litigation with pleadings, appraisals, and trial.",
+    "assessment_ratio": "No single statewide ratio — each municipality assesses at a locally-determined uniform percentage of market value (the 'level of assessment'). ORPTS establishes an annual equalization rate / residential assessment ratio (RAR) for each municipality, used to prove unequal assessment. NYC uses a class-based system with statutory assessment percentages per tax class.",
+    "exemptions": "STAR / School Tax Relief (Basic STAR; Enhanced STAR for seniors 65+ with limited income, RPTL § 425, now delivered largely as a credit/check for newer applicants); Senior Citizens 'Aged' exemption (RPTL § 467, income-limited); Persons with Disabilities exemption (§ 459-c); Veterans exemptions — Alternative (§ 458-a), Eligible Funds (§ 458), and Cold War (§ 458-b); agricultural, religious, and charitable exemptions. Most require a one-time application; some (e.g., Aged) require annual income recertification.",
+    "tax_lien_process": "Governed by RPTL Article 11. Unpaid taxes become a lien; the redemption period generally expires two years after lien date (a tax district may lengthen it for residential/farm property or shorten it to one year for vacant/abandoned residential property) (RPTL § 1110). Enforcement is by in rem tax foreclosure or, where a district sells liens, by foreclosure of the tax lien as in a mortgage action (§ 1194).",
+    "regulatory_body": "New York State Department of Taxation and Finance, Office of Real Property Tax Services (ORPTS) — oversight, equalization rates, STAR administration, and forms; assessments administered locally by municipal assessors and Boards of Assessment Review, with judicial review in the state Supreme Court. NYC assessments are administered by the NYC Department of Finance.",
+    "unique_features": [
+      "Statutory 'Grievance Day' (default fourth Tuesday of May, RPTL § 512) as the single annual filing window before the BAR",
+      "Small Claims Assessment Review (SCAR) — an inexpensive ($30), attorney-optional appeal track reserved for owner-occupied 1-3 family homes",
+      "Two-track second level: informal SCAR for eligible homes vs. formal Article 7 tax certiorari litigation for commercial/high-value property",
+      "Locally-set fractional assessment ratios with ORPTS equalization rates / RARs used to prove 'unequal assessment'"
+    ],
+    "common_disputes": [
+      "Overvaluation — assessed value exceeding true market value, especially after market shifts or a purchase below assessed value",
+      "Unequal assessment — property assessed at a higher percentage of market value than comparable properties, using the equalization rate/RAR",
+      "Exemption denials or reductions (STAR, senior/Aged, veterans, disability)"
+    ],
+    "recent_reform": "2025 real property tax legislation authorizes ORPTS-driven automatic upgrade of qualifying Basic STAR recipients to Enhanced STAR without a new application, with most changes taking effect in 2026. Effective December 2025, Cold War veterans became eligible to apply for the Alternative Veterans Exemption."
+  },
+  "IL": {
+    "state": "Illinois",
+    "abbreviation": "IL",
+    "property_tax_statute": {
+      "name": "Illinois Property Tax Code",
+      "citation": "35 ILCS 200/1-1 et seq. (appeals: 35 ILCS 200/16-160; PTAB: Article 16, Div. 5)"
+    },
+    "assessment_cycle": "General (quadrennial) reassessment every four years in most counties; Cook County reassesses on a triennial (three-year) cycle by geographic triad. Assessment date is January 1 of the tax year.",
+    "appeal_deadline": "Board of Review: within 30 days of publication of the township assessment list (deadlines vary by county/township). Property Tax Appeal Board (PTAB): petition must be postmarked within 30 days of the Board of Review's final written decision; faxed/emailed appeals not accepted.",
+    "first_level_appeal": "County Board of Review (BOR) — a quasi-judicial body providing an informal venue to resolve assessed-value disputes (some counties allow an informal review with the township/county assessor first). In Cook County, an initial appeal may be filed with the Cook County Assessor before the Board of Review.",
+    "second_level_appeal": "Illinois Property Tax Appeal Board (PTAB) — a five-member statewide quasi-judicial body; alternatively, taxpayers may seek judicial review by filing a tax objection complaint in the circuit court. PTAB decisions are reviewable by the Appellate Court under the Administrative Review Law.",
+    "grounds_for_appeal": "Overvaluation (assessment exceeds 33 1/3% of fair market value) and lack of uniformity/assessment inequity (property assessed higher than comparable properties). Decisions are based on equity and the weight of the evidence (35 ILCS 200/16-160).",
+    "evidence_accepted": "Comparable sales, comparable assessments (equity/uniformity grids), recent independent appraisals, a recent arm's-length purchase price, and documentation of property condition or income/expense data. PTAB weighs comparables by similarity in age, design, size, and features.",
+    "hearing_format": "Board of Review: informal hearings (written submission or in-person). PTAB: appeals may be decided on written evidence submissions; a formal in-person or telephonic hearing may be requested. The Illinois Supreme Court has affirmed that payment of the tax is NOT a prerequisite to appeal to PTAB.",
+    "assessment_ratio": "33 1/3% (one-third) of fair market value statewide (the Illinois Department of Revenue targets a 33.3% level of assessment). Cook County uses classification: approximately 10% for residential and 25% for commercial/industrial, reconciled via a state equalization multiplier.",
+    "exemptions": "General Homestead Exemption (up to $10,000 EAV in Cook County / $6,000 in other counties for 2026); Senior Citizens Homestead Exemption ($5,000, age 65+); Senior Citizens Assessment Freeze (income limit raised to $75,000 for tax year 2026); Returning Veterans' Homestead Exemption ($5,000 for two years); Disabled Veterans' Standard Homestead Exemption ($2,500 for 30-49% disability, $5,000 for 50-69%, total exemption for 70%+); plus Home Improvement and Persons with Disabilities exemptions.",
+    "tax_lien_process": "Delinquent taxes are sold at an Annual Tax Sale; a tax buyer receives a certificate of purchase and the owner must redeem by paying the certificate amount plus a statutory penalty (35 ILCS 200/21-355). Redemption period is generally 2.5 years for owner-occupied residential (1-5 units); shorter for vacant/commercial. Penalties are 18% per redemption period (residential 1-5 units). Failure to redeem allows the tax buyer to petition for a tax deed.",
+    "regulatory_body": "Illinois Department of Revenue (state oversight/equalization); county Boards of Review and township/county assessors (local); Illinois Property Tax Appeal Board (PTAB) for statewide appeals.",
+    "unique_features": [
+      "Statewide 33 1/3% assessment level, but Cook County uses a classification system (~10% residential / ~25% commercial) reconciled via a state equalization multiplier",
+      "Two-track second-level appeal: PTAB (administrative) or circuit court tax objection complaint",
+      "Payment of the property tax is NOT required before appealing to PTAB (affirmed by the Illinois Supreme Court)",
+      "Quadrennial general reassessment cycle statewide (triennial in Cook County by triad)"
+    ],
+    "common_disputes": [
+      "Overvaluation — assessed value exceeds 33 1/3% of fair market value",
+      "Uniformity/equity — property assessed higher than comparable neighboring properties",
+      "Denial or misapplication of homestead/senior/veteran exemptions and the senior assessment freeze"
+    ],
+    "recent_reform": "2025-2026 reforms: General Homestead Exemption maximum set (up to $10,000 for 2025, with 2026+ indexed to lesser of 5% or CPI); Senior Freeze income limit raised from $65,000 (2025) to $75,000 (2026). Property tax debt/tax-sale reform (2026 legislation) aimed at helping homeowners retain equity, extending Cook County's annual tax-sale schedule."
+  },
+  "PA": {
+    "state": "Pennsylvania",
+    "abbreviation": "PA",
+    "property_tax_statute": {
+      "name": "Consolidated County Assessment Law (Title 53, Chapter 88); appeal procedure at Section 8844",
+      "citation": "53 Pa.C.S. § 8801 et seq. (appeals: 53 Pa.C.S. § 8844)"
+    },
+    "assessment_cycle": "Base-year assessment system: counties assess at a fixed base-year value and are not required to reassess on a set statewide cycle; STEB certifies a new Common Level Ratio annually (effective July 1 through June 30) to relate base-year assessed values to current market values.",
+    "appeal_deadline": "Set by each county; the annual appeal deadline in most counties is August 1 (some run to September 1 or October 1; Allegheny County 2027 deadline is September 1, 2026). Interim/change-of-assessment appeals: generally 40 days from the mailing date of the notice.",
+    "first_level_appeal": "Written appeal to the county Board of Assessment Appeals (in Philadelphia, the Board of Revision of Taxes), which schedules a hearing and issues a decision.",
+    "second_level_appeal": "Appeal to the county Court of Common Pleas (de novo); Allegheny and Philadelphia are subject to distinctive statutory provisions.",
+    "grounds_for_appeal": "The property's fair market value is overstated (over-assessment), and/or the assessment is non-uniform relative to comparable properties / the county's common level ratio; the appellant bears the burden of proving fair market value.",
+    "evidence_accepted": "Credible evidence of fair market value: recent comparable sales, the property's own recent sale price, independent/fee appraisals, income and expense data for income-producing property, and photographs/documentation of condition.",
+    "hearing_format": "Administrative hearing before the county Board of Assessment Appeals where the owner presents market-value evidence and the Board issues a decision; further review is de novo before the Court of Common Pleas.",
+    "assessment_ratio": "Common Level Ratio (CLR) published annually by the State Tax Equalization Board (STEB) for each of the 67 counties. CLR is the median ratio of assessed value to market value from STEB's annual sales-ratio study. When the CLR varies by more than 15% from the county's established predetermined ratio, the board must apply the CLR to the proven market value.",
+    "exemptions": "Homestead/Farmstead Exclusion reduces the taxable assessed value of an owner-occupied primary residence (lowering school district taxes); full real estate tax exemption for veterans honorably discharged and rated 100% permanently service-connected disabled; state-funded Property Tax/Rent Rebate for homeowners age 65+, widows/widowers age 50+, and disabled residents age 18+ with household income up to $45,000 (rebates up to $1,000, file PA-1000 by June 30).",
+    "tax_lien_process": "Delinquent real estate taxes are handled by the county Tax Claim Bureau under the Real Estate Tax Sale Law (1947) via a three-stage process: Upset Sale (minimum bid equals back taxes; sold subject to existing liens), Judicial Sale (sold free and clear of liens after a court petition and confirmation), and Repository (unsold properties held for later sale). Upset sales must be confirmed by the Court of Common Pleas.",
+    "regulatory_body": "County Board of Assessment Appeals / Board of Revision of Taxes (assessment appeals); State Tax Equalization Board (STEB) under the PA Department of Community & Economic Development (Common Level Ratios); county Tax Claim Bureau (tax sales); PA Department of Revenue (Property Tax/Rent Rebate).",
+    "unique_features": [
+      "Base-year assessment system with no mandatory statewide reassessment cycle, so market shifts are corrected mainly through the STEB Common Level Ratio rather than routine reassessment",
+      "Appeal deadlines are set county-by-county (commonly August 1) rather than a single statewide date",
+      "CLR is applied to the proven market value only when it deviates more than 15% from the county's predetermined ratio — a key lever in over-assessment appeals"
+    ],
+    "common_disputes": [
+      "Over-assessment / fair market value disputes, especially where the base-year value no longer reflects current market value",
+      "Non-uniformity claims and correct application of the STEB Common Level Ratio versus the county's predetermined ratio",
+      "Denial or loss of homestead/farmstead, senior, or disabled-veteran exemptions"
+    ],
+    "recent_reform": "For 2026, STEB-published Common Level Ratios and Allegheny County-specific changes were highlighted as creating appeal opportunities (particularly for commercial property) where revised ratios lower the effective assessment; no specific statewide legislative reform to the assessment-appeal statute was verified."
+  },
+  "OH": {
+    "state": "Ohio",
+    "abbreviation": "OH",
+    "property_tax_statute": {
+      "name": "Ohio Revised Code Title 57 (Taxation) — real property valuation, complaints, and appeals (Chapters 5715, 5717, 5721)",
+      "citation": "Ohio Rev. Code §§ 5715.01, 5715.19, 5717.01; Ohio Admin. Code 5703-25-05"
+    },
+    "assessment_cycle": "Six-year cycle: a full reappraisal every 6 years with a triennial update at the 3-year midpoint. Property is valued as of the tax lien date (January 1).",
+    "appeal_deadline": "March 31 of the following tax year to file a valuation complaint (DTE Form 1) with the county Board of Revision — a firm statutory cutoff. To appeal a Board of Revision decision to the Board of Tax Appeals, a notice of appeal must be filed within 30 days after the BOR's decision is mailed (ORC 5717.01).",
+    "first_level_appeal": "County Board of Revision (BOR) — file a DTE Form 1 complaint against valuation. The BOR is composed of the county auditor, county treasurer, and a county commissioner. An informal review with the County Auditor is often available first.",
+    "second_level_appeal": "Ohio Board of Tax Appeals (BTA) under ORC 5717.01, appealed within 30 days of the BOR decision mailing. Further review may be taken to the Court of Appeals / Ohio Supreme Court.",
+    "grounds_for_appeal": "The appraised/true (market) value assigned by the county auditor is incorrect (too high or too low). You cannot challenge the 35% assessment ratio itself — only the underlying true value.",
+    "evidence_accepted": "Recent sale price of the subject property, comparable sales, independent appraisals, income/expense data for income-producing property, and photographs of condition/defects.",
+    "hearing_format": "Administrative hearing before the county Board of Revision where the owner and auditor present evidence; the BOR issues a written decision. BTA appeals are heard de novo.",
+    "assessment_ratio": "35% — the taxable (assessed) value of each parcel is 35 percent of true value in money (ORC § 5715.01; OAC 5703-25-05).",
+    "exemptions": "Homestead Exemption for seniors (65+) and permanently disabled homeowners: exempts the first $26,200 of home value (income-tested; OAGI $38,600 or less for first-time qualifiers in 2024). Enhanced Homestead for disabled veterans (100% service-connected): exempts the first $52,300 of value. Surviving-spouse exemption for spouses of public safety personnel killed in the line of duty.",
+    "tax_lien_process": "Delinquent real property tax collection and tax-lien/foreclosure procedures are governed by ORC Chapter 5721. County treasurers may sell tax liens (tax certificates); owners then have a one-year redemption period. If unredeemed, the certificate holder may file a foreclosure lawsuit; redemption after foreclosure requires the certificate price plus 18% annual interest, attorney's fees, and costs.",
+    "regulatory_body": "County Board of Revision (first level) and the Ohio Board of Tax Appeals (state administrative appeal); county auditors administer valuations. The Ohio Department of Taxation oversees property tax administration statewide.",
+    "unique_features": [
+      "Four-tier appeal path: County Auditor (informal) → Board of Revision → Board of Tax Appeals → Court of Appeals/Ohio Supreme Court",
+      "35% statutory assessment ratio applied uniformly — appeals may only contest true value, not the ratio",
+      "Six-year reappraisal cycle with a triennial (3-year) update, and a hard March 31 DTE Form 1 filing deadline"
+    ],
+    "common_disputes": [
+      "Auditor's market/true value overstated relative to recent arm's-length sale price or independent appraisal",
+      "Failure to reflect property condition, damage, or functional/economic obsolescence",
+      "Income-producing property valued too high on income-approach assumptions (rents, vacancy, cap rate)"
+    ],
+    "recent_reform": "As of 2025-2026, House Bill 493 proposes ending the sale of delinquent tax liens to third parties, and the Ohio Senate has advanced a Homestead Exemption expansion. (Reform proposals — not yet enacted as of 2026-07-22.)"
+  },
+  "GA": {
+    "state": "Georgia",
+    "abbreviation": "GA",
+    "property_tax_statute": {
+      "name": "Georgia Ad Valorem Property Tax Law (assessment ratio) / Appeal of Assessment statute",
+      "citation": "O.C.G.A. § 48-5-7 (40% assessment ratio); O.C.G.A. § 48-5-311 (appeals)"
+    },
+    "assessment_cycle": "Annual. Property is valued as of January 1 each year by the county Board of Tax Assessors; owners receive an Annual Notice of Assessment.",
+    "appeal_deadline": "45 days from the date the Annual Notice of Assessment was mailed (the clock runs from the mail date, not receipt). Written appeal filed with the county Board of Tax Assessors, standard Form PT-311A.",
+    "first_level_appeal": "Written appeal to the county Board of Tax Assessors, which reviews the appeal and notifies the taxpayer of its decision. If the Board makes no change, the appeal is automatically forwarded to the taxpayer's chosen trier of fact.",
+    "second_level_appeal": "Taxpayer elects one of: County Board of Equalization (BOE); a Hearing Officer (certified appraiser, for higher-value/commercial property); or binding Arbitration. From BOE or Hearing Officer, further appeal lies to Superior Court (arbitration decisions are final).",
+    "grounds_for_appeal": "Value (fair market value overstated), uniformity/equalization (assessed inconsistently with comparable properties), taxability, denial of exemption, and breach/denial of covenant (O.C.G.A. § 48-5-311).",
+    "evidence_accepted": "Comparable sales, independent/fee appraisals, evidence of property condition or errors in the assessor's record, and documentation of uniformity with comparable assessments.",
+    "hearing_format": "Administrative hearing before the Board of Equalization (three-member citizen panel), a certified appraiser Hearing Officer, or an arbitrator, depending on the taxpayer's election; de novo review available in Superior Court for BOE/Hearing Officer outcomes.",
+    "assessment_ratio": "40% of fair market value (O.C.G.A. § 48-5-7), unless otherwise specified by law.",
+    "exemptions": "Standard homestead exemption (owner-occupied primary residence as of January 1; commonly $2,000 off assessed value, varies by county). Senior: $4,000 from state and county taxes for age 65+, with many counties adding larger local senior exemptions. Disabled veteran: exemption of the greater of $32,500 or the federal maximum ($121,812 for 2025) for 100% service-connected veterans. HB 581 statewide floating homestead exemption (effective Jan 1, 2025) caps annual taxable-value growth on primary residences to inflation, though most large metro counties opted out.",
+    "tax_lien_process": "Not independently verified in this research pass — Georgia's tax lien/levy, tax sale, and redemption process (O.C.G.A. Title 48) should be confirmed before relying on specifics.",
+    "regulatory_body": "County Board of Tax Assessors (assessment) and County Board of Equalization / Hearing Officer / Arbitration (first-instance appeal); Georgia Department of Revenue (Local Government Services) provides statewide oversight and forms; Superior Court for judicial appeal.",
+    "unique_features": [
+      "40% statewide assessment ratio (property taxed on 40% of fair market value) under O.C.G.A. § 48-5-7",
+      "Taxpayer may choose among triers of fact after the assessors: Board of Equalization, Hearing Officer, or Arbitration",
+      "HB 581 (Amendment 1, ratified Nov 2024; effective Jan 1, 2025) statewide floating homestead exemption tying primary-residence taxable value growth to inflation, with county/school opt-out for 2026-2029"
+    ],
+    "common_disputes": [
+      "Overstated fair market value / inaccurate valuation of the property",
+      "Lack of uniformity relative to comparable properties (equalization disputes)",
+      "Denial or amount of exemptions (homestead, senior, disabled-veteran) and, post-HB 92, loss of the automatic assessed-value freeze during appeals"
+    ],
+    "recent_reform": "HB 92 (effective 2025+ tax years) eliminated the automatic freeze of assessed value merely upon filing an appeal — the freeze now applies only if the taxpayer wins a value reduction. HB 581 (ratified Nov 2024, effective Jan 1, 2025) created a statewide floating homestead exemption capping primary-residence taxable-value increases to inflation, with a phased local opt-out through 2029."
+  },
+  "NC": {
+    "state": "North Carolina",
+    "abbreviation": "NC",
+    "property_tax_statute": {
+      "name": "The Machinery Act (property tax listing, appraisal, and assessment framework)",
+      "citation": "N.C. Gen. Stat. Chapter 105, Subchapter II"
+    },
+    "assessment_cycle": "Octennial (8-year) reappraisal cycle: each county must reappraise all real property at least once every 8th year. Counties of 75,000+ must advance the schedule if the sales-assessment ratio drifts below .85 or above 1.15. Value is set as of January 1.",
+    "appeal_deadline": "County-specific: appeals to the county Board of Equalization and Review must be received or postmarked by the Board's date of adjournment (Boards convene no earlier than the first Monday in April, typically adjourning late April/early May). Informal review is encouraged within 30 days of the notice. Further appeal to the NC Property Tax Commission must be filed within 30 days of the Board's Notice of Decision.",
+    "first_level_appeal": "Informal review by the County Tax Administrator/Assessor's Office, then formal appeal to the County Board of Equalization and Review (BOER), a citizen board (no cost to file, no lawyer required).",
+    "second_level_appeal": "North Carolina Property Tax Commission (PTC) in Raleigh (file Form AV-14 within 30 days of the BOER decision); further appeal to the NC Court of Appeals and Supreme Court on limited grounds.",
+    "grounds_for_appeal": "Taxpayer must demonstrate through competent, material, and substantial evidence that the county's assessed value is arbitrary or illegal and that it substantially differs from the property's true value in money (market value) as of January 1 of the county's last reappraisal year.",
+    "evidence_accepted": "Sale prices of comparable properties that sold during the year before the county's last appraisal year, sales close to January 1, and recent appraisals. Before the Property Tax Commission, evidence is presented as sworn testimony/documents under the NC Rules of Evidence.",
+    "hearing_format": "BOER: hearing before a citizen board. Property Tax Commission: meets monthly in Raleigh, follows the NC Rules of Evidence, decides on the greater weight of the evidence.",
+    "assessment_ratio": "100% of market (true) value as of January 1. The assessor must appraise at 100% of market value; no adjustment percentage is applied in a year in which the median sales-assessment ratio is 90% or greater.",
+    "exemptions": "Elderly/Disabled Homestead Exclusion: excludes the greater of $25,000 or 50% of appraised value of a permanent residence for owners age 65+ or totally and permanently disabled with combined income not exceeding $36,700 (2026); apply before June 1 (Form AV-9). Disabled Veteran Homestead Exclusion: excludes $45,000 of appraised value for 100% permanent total service-connected disabled veterans or their unmarried surviving spouse (no income limit). A Circuit Breaker deferment program is also available.",
+    "tax_lien_process": "Property taxes become a lien; counties may begin public delinquency enforcement after one year of non-payment. Liens are advertised in a local newspaper in March. Collection via in rem foreclosure (docket a judgment against the property, then tax sale) or judicial (mortgage-style) foreclosure.",
+    "regulatory_body": "North Carolina Department of Revenue (NCDOR), Property Tax Division; appeals adjudicated by the North Carolina Property Tax Commission (sitting as the State Board of Equalization and Review) in Raleigh.",
+    "unique_features": [
+      "Octennial (8-year) reappraisal cycle — one of the longest statutory revaluation intervals in the U.S., with accelerated triggers for larger counties when sales ratios drift",
+      "Appeal deadline is tied to each county Board of Equalization and Review's adjournment date rather than a single statewide date",
+      "Property Tax Commission functions as a quasi-judicial trial body bound by the NC Rules of Evidence"
+    ],
+    "common_disputes": [
+      "Assessed value substantially exceeds January 1 market value (overvaluation), proven with comparable sales",
+      "Lack of uniformity / arbitrary or illegal application of the county's schedule of values",
+      "Denial or scope of exemptions/exclusions (elderly/disabled homestead, disabled veteran, circuit breaker)"
+    ],
+    "recent_reform": "A wave of 2025-2026 housing/regulatory-reform bills included levy limits and an affordable-housing exemption in legal commentary; specific enacted-bill citations were not conclusively verified in this pass."
+  },
+  "AZ": {
+    "state": "Arizona",
+    "abbreviation": "AZ",
+    "property_tax_statute": {
+      "name": "Arizona Revised Statutes, Title 42 (Taxation) — property tax valuation, classification and appeals",
+      "citation": "A.R.S. Title 42; A.R.S. § 42-16051 (assessor petition); A.R.S. § 42-15104 (notice of value)"
+    },
+    "assessment_cycle": "Annual. The county assessor mails the Notice of Value (NOV) to the owner of record on or before March 1 (statutory deadline February 28) for the following tax year.",
+    "appeal_deadline": "Administrative petition to the county assessor must be filed within 60 days after the mailing date of the Notice of Value (A.R.S. § 42-16051; USPS postmark is evidence of the filing date). The assessor must rule by August 15.",
+    "first_level_appeal": "Petition for review filed with the County Assessor within 60 days of the NOV mailing date (A.R.S. § 42-16051).",
+    "second_level_appeal": "If the owner disagrees with the assessor's decision, they may petition the County Board of Equalization within 25 days of the assessor's decision (Maricopa/Pima have county BOEs; other counties use the State Board of Equalization), or bypass the board and appeal directly to Arizona Tax Court within 60 days of the assessor's decision.",
+    "grounds_for_appeal": "The property is valued in excess of its full cash value (over-valuation); the valuation is inequitable/not uniform compared with similar properties; error in the legal classification; or the Limited Property Value was calculated incorrectly.",
+    "evidence_accepted": "Owner's stated opinion of value with supporting documentation: comparable sales, recent appraisals, income/expense data for income properties, evidence of classification errors, and information showing valuation exceeds full cash value or is not uniform.",
+    "hearing_format": "Written petition process at the assessor level; if unresolved, a hearing before the County or State Board of Equalization; further review is a de novo proceeding in Arizona Tax Court.",
+    "assessment_ratio": "Assessment ratios are set by legal class and range from about 1% to 16%. Class 3 (owner-occupied primary residence) = 10%; Class 4 (other/rental residential) = 10%; Class 1 (commercial/industrial) = 15.5% for 2026. The ratio is applied to the Full Cash Value and Limited Property Value.",
+    "exemptions": "Arizona has no general dollar homestead exemption; relief is targeted. Senior Valuation Protection ('senior freeze'): age 65+, 2+ years primary residence, 2026 income at or below $47,712 (single)/$59,640 (multiple owners) freezes the Limited Property Value for a renewable 3-year term. Exemption of $4,873 assessed value for qualifying widows/widowers, totally and permanently disabled persons, and disabled veterans (scaled by VA disability percentage). Proposition 130 (2022) restored the disabled-veteran exemption for all disabled veterans who become Arizona residents.",
+    "tax_lien_process": "First-half taxes are due October 1 (delinquent after November 1); second-half due March 1 (delinquent after May 1). Delinquent parcels are offered at the county tax lien sale in February; the winning bidder receives a Certificate of Purchase (a lien, no ownership). The owner has a 3-year redemption period; after 3 years the lienholder may initiate judicial foreclosure.",
+    "regulatory_body": "County Assessor (valuation and first-level appeal); County Board of Equalization and Arizona State Board of Equalization (administrative appeals); Arizona Tax Court (judicial appeal); Arizona Department of Revenue (oversight); County Treasurer (billing and tax lien sales).",
+    "unique_features": [
+      "Two separate values on the NOV: Full Cash Value (market-based) and Limited Property Value (statutorily capped); primary property taxes are levied on the LPV",
+      "LPV is capped so that for real property it typically increases no more than 5% over the prior year's LPV — a hedge against inflationary market-value spikes",
+      "Taxpayer may bypass the Board of Equalization and appeal directly to Arizona Tax Court within 60 days of the assessor's decision"
+    ],
+    "common_disputes": [
+      "Full Cash Value exceeds actual market value (over-valuation), supported by comparable sales",
+      "Incorrect legal classification (e.g., taxed as Class 4 rental instead of Class 3 owner-occupied primary residence), which changes the tax burden",
+      "Denial or misapplication of exemptions/valuation freezes (senior freeze, disabled veteran, widow/widower)"
+    ],
+    "recent_reform": "Proposition 130 (approved November 8, 2022) consolidated Arizona's constitutional property tax exemption provisions and let the legislature set amounts/qualifications for widows/widowers, disabled persons, and disabled veterans — notably restoring the disabled-veteran exemption to all disabled veterans who become Arizona residents. The Class 1 commercial assessment ratio has continued to phase down (15.5% for 2026)."
+  }
+}
