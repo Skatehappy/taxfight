@@ -11,7 +11,7 @@ const APP = {
   colorAccent: "#4a7fd4",
   payhip: "https://payhip.com/b/Sry6P",
   support: "support@buyappsonce.com",
-  price: "$39",
+  price: "$19",
   sessionKey: "tf_form",
 };
 
