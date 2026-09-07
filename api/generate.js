@@ -1,33 +1,42 @@
-// api/generate.js
-// Vercel Edge Function — keeps ANTHROPIC_API_KEY server-side only
-
+// api/generate.js — keeps ANTHROPIC_API_KEY server-side only
 import { MODEL } from './_config.js';
 
-// Node serverless runtime (NOT edge): edge functions cap at ~25s on Hobby and
-// ignore vercel.json maxDuration, which 504'd ~25s Opus letters. Node honors
-// maxDuration, giving the full 60s. Handler is the Web Request->Response style,
-// which Vercel's Node runtime supports.
+// Node serverless runtime (NOT edge). Edge caps at ~25s on Hobby and ignores
+// maxDuration, which 504'd ~25s Opus letters. Node honors maxDuration:60. MUST
+// use the classic (req, res) handler: Vercel's Node runtime writes via res and
+// ignores a returned Response (returning one hangs the function to the timeout).
 export const config = { maxDuration: 60 };
 
-const PRODUCT_LINK = 'Sry6P'; // Replace with Payhip product code after listing created
+const PRODUCT_LINK = 'Sry6P';
 
-export default async function handler(req) {
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Content-Type': 'application/json',
-  };
+function cors(res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Cache-Control', 'no-store');
+}
 
-  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
-  if (req.method !== 'POST') return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers });
+async function readBody(req) {
+  if (req.body !== undefined && req.body !== null) {
+    return typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body;
+  }
+  const chunks = [];
+  for await (const c of req) chunks.push(typeof c === 'string' ? Buffer.from(c) : c);
+  const raw = Buffer.concat(chunks).toString('utf8');
+  return raw ? JSON.parse(raw) : {};
+}
+
+export default async function handler(req, res) {
+  cors(res);
+
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const body = await req.json();
-    const { accessCode, systemPrompt, userPrompt, reviewMode, draftLetter } = body;
+    const { accessCode, systemPrompt, userPrompt, reviewMode, draftLetter } = await readBody(req);
 
     const payhipApiKey = process.env.PAYHIP_API_KEY;
-    if (!payhipApiKey) return new Response(JSON.stringify({ error: 'API not configured' }), { status: 500, headers });
+    if (!payhipApiKey) return res.status(500).json({ error: 'API not configured' });
 
     // Payhip v1 license verification
     const isCheckCall = systemPrompt === 'Reply: VALID';
@@ -38,23 +47,21 @@ export default async function handler(req) {
         `https://payhip.com/api/v1/license/verify?product_link=${PRODUCT_LINK}&license_key=${encodeURIComponent(accessCode.trim())}`,
         { method: 'GET', headers: { 'payhip-api-key': payhipApiKey } }
       );
-
       if (!payhipRes.ok) {
-        return new Response(JSON.stringify({ error: 'Invalid access code' }), { status: 401, headers });
+        return res.status(401).json({ error: 'Invalid access code' });
       }
-
       const payhipData = await payhipRes.json();
       if (!payhipData?.data?.enabled) {
-        return new Response(JSON.stringify({ error: 'Invalid access code' }), { status: 401, headers });
+        return res.status(401).json({ error: 'Invalid access code' });
       }
     }
 
     if (isCheckCall) {
-      return new Response(JSON.stringify({ text: 'VALID' }), { status: 200, headers });
+      return res.status(200).json({ text: 'VALID' });
     }
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) return new Response(JSON.stringify({ error: 'API not configured' }), { status: 500, headers });
+    if (!apiKey) return res.status(500).json({ error: 'API not configured' });
 
     let messages;
     if (reviewMode && draftLetter) {
@@ -84,31 +91,31 @@ export default async function handler(req) {
 
     if (!response.ok) {
       const err = await response.text();
-      return new Response(JSON.stringify({ error: 'AI generation failed', detail: err }), { status: 502, headers });
+      return res.status(502).json({ error: 'AI generation failed', detail: err });
     }
 
     const data = await response.json();
-    // Extract the text block by type, not by position. With adaptive thinking a
-    // model can place a "thinking" block at content[0], so content[0].text is
-    // undefined even on a 200 (proven against claude-opus-5 on 2026-09-07). Fail
-    // loudly on a missing text block — never return undefined — and because this
-    // throws BEFORE the mark-usage call below, the buyer's one-use license is NOT
-    // burned on a parse miss.
+    // Extract the text block by type, not by position (a thinking block can land
+    // at content[0]). Fail loudly on a missing text block — never return undefined
+    // — before the mark-usage call, so the buyer's one-use license is not burned.
     const text = data.content?.find(b => b.type === 'text')?.text;
     if (!text) throw new Error(`No text block in API response (stop_reason: ${data.stop_reason || 'unknown'})`);
 
-    // Mark license as used (non-blocking) — skipped for test keys
+    // Mark license as used. Awaited (background work isn't guaranteed after res on
+    // Node serverless). Skipped for test keys.
     if (!isTestKey) {
-      fetch('https://payhip.com/api/v1/license/usage', {
-        method: 'PUT',
-        headers: { 'payhip-api-key': payhipApiKey, 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `product_link=${PRODUCT_LINK}&license_key=${encodeURIComponent(accessCode.trim())}`,
-      }).catch(() => {});
+      try {
+        await fetch('https://payhip.com/api/v1/license/usage', {
+          method: 'PUT',
+          headers: { 'payhip-api-key': payhipApiKey, 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `product_link=${PRODUCT_LINK}&license_key=${encodeURIComponent(accessCode.trim())}`,
+        });
+      } catch { /* letter already generated; don't fail on a usage-mark hiccup */ }
     }
 
-    return new Response(JSON.stringify({ text }), { status: 200, headers });
+    return res.status(200).json({ text });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500, headers });
+    return res.status(500).json({ error: err.message });
   }
 }
