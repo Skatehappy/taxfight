@@ -9,6 +9,31 @@ export const config = { maxDuration: 60 };
 
 const PRODUCT_LINK = 'Sry6P';
 
+// Fail-closed Payhip license verify. Runs on EVERY request (gate check and
+// generation). Rejects unless HTTP 200 + data.enabled===true + product_link
+// matches this app. Network error / timeout / non-JSON -> 503 (never "invalid").
+async function verifyLicense(licenseKey, productLink, apiKey) {
+  const key = (licenseKey || '').trim();
+  if (!key) return { ok: false, status: 401, error: 'Invalid license key.' };
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const url = `https://payhip.com/api/v1/license/verify?product_link=${encodeURIComponent(productLink)}&license_key=${encodeURIComponent(key)}`;
+    const res = await fetch(url, { headers: { 'payhip-api-key': apiKey }, signal: controller.signal });
+    if (res.status !== 200) return { ok: false, status: 401, error: 'Invalid license key.' };
+    const json = await res.json();
+    const d = json && json.data;
+    if (!d || d.enabled !== true || d.product_link !== productLink) {
+      return { ok: false, status: 401, error: 'Invalid license key.' };
+    }
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, status: 503, error: 'License verification unavailable — please try again shortly.' };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -40,21 +65,9 @@ export default async function handler(req, res) {
 
     // Payhip v1 license verification
     const isCheckCall = systemPrompt === 'Reply: VALID';
-    const TEST_KEYS = (process.env.TEST_KEYS || 'SMOKE-TEST-2026-BAO').split(',').map(k => k.trim().toUpperCase()).filter(Boolean);
-    const isTestKey = TEST_KEYS.includes(String(accessCode || '').trim().toUpperCase());
-    if (!isTestKey) {
-      const payhipRes = await fetch(
-        `https://payhip.com/api/v1/license/verify?product_link=${PRODUCT_LINK}&license_key=${encodeURIComponent(accessCode.trim())}`,
-        { method: 'GET', headers: { 'payhip-api-key': payhipApiKey } }
-      );
-      if (!payhipRes.ok) {
-        return res.status(401).json({ error: 'Invalid access code' });
-      }
-      const payhipData = await payhipRes.json();
-      if (!payhipData?.data?.enabled) {
-        return res.status(401).json({ error: 'Invalid access code' });
-      }
-    }
+
+    const lic = await verifyLicense(accessCode, PRODUCT_LINK, payhipApiKey);
+    if (!lic.ok) return res.status(lic.status).json({ error: lic.error });
 
     if (isCheckCall) {
       return res.status(200).json({ text: 'VALID' });
@@ -102,16 +115,14 @@ export default async function handler(req, res) {
     if (!text) throw new Error(`No text block in API response (stop_reason: ${data.stop_reason || 'unknown'})`);
 
     // Mark license as used. Awaited (background work isn't guaranteed after res on
-    // Node serverless). Skipped for test keys.
-    if (!isTestKey) {
-      try {
-        await fetch('https://payhip.com/api/v1/license/usage', {
-          method: 'PUT',
-          headers: { 'payhip-api-key': payhipApiKey, 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: `product_link=${PRODUCT_LINK}&license_key=${encodeURIComponent(accessCode.trim())}`,
-        });
-      } catch { /* letter already generated; don't fail on a usage-mark hiccup */ }
-    }
+    // Node serverless).
+    try {
+      await fetch('https://payhip.com/api/v1/license/usage', {
+        method: 'PUT',
+        headers: { 'payhip-api-key': payhipApiKey, 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `product_link=${PRODUCT_LINK}&license_key=${encodeURIComponent(accessCode.trim())}`,
+      });
+    } catch { /* letter already generated; don't fail on a usage-mark hiccup */ }
 
     return res.status(200).json({ text });
 
