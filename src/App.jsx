@@ -423,6 +423,9 @@ export default function TaxFight() {
           <p style={{ textAlign: "center", marginTop: "16px", fontSize: "13px", color: C.inkFaint }}>
             Don't have an access code? <a href={APP.payhip} style={{ color: C.accent }}>Get one for {APP.price} →</a>
           </p>
+          <p style={{ textAlign: "center", marginTop: "12px", fontSize: "12px", color: C.inkFaint }}>
+            Your letter tool is at <strong>taxfightletter.com</strong> — bookmark it.
+          </p>
         </div>
 
         {/* Tips */}
