@@ -148,3 +148,49 @@ Scope: the 10 states in scripts/data/states.js (not 50).
   - [recent_reform] https://ballotpedia.org/Arizona_Proposition_130,_Property_Tax_Exemptions_Amendment_(2022) (retrieved 2026-07-22)
     - Prop 130 (2022) restored disabled-veteran exemption for AZ residents
 
+
+## Phase B
+
+### Earning pages 1-5 (CA, PA, NC and TX senior exemption appeals; TX homestead denial) + CA/TX state data
+Sources: CA statutes via FindLaw, because leginfo blocks automated fetching (Secondary). TX via tcss.legis.texas.gov (Official). NC via ncleg.gov (Official). PA via palegis.us (Official), with Perplexity for the PTRR appeal statute (Secondary).
+
+| Citation as it now appears | Status | What it says | Source |
+|---|---|---|---|
+| Cal. Rev. & Tax. Code § 69.5 | CORRECTED (scope) | Base-year transfer for owners over 55 or severely disabled; now governs only transfers before April 1, 2021. | Secondary: https://codes.findlaw.com/ca/revenue-and-taxation-code/rtc-sect-69-5/ |
+| Cal. Rev. & Tax. Code § 69.6 | VERIFIED (added) | Proposition 19 base-year transfers on or after April 1, 2021. The page had said Prop 19 was codified in § 69.5. | Secondary: .../rtc-sect-69-6/ |
+| R&T Code § 20581 et seq. / § 20585 | CORRECTED | The Property Tax Postponement law begins at § 20581. § 20585 sets the income limit ($45,000 from July 1, 2020, CPI-indexed). The "20581-20623" range and the § 20583 postponement cite were replaced. | Secondary: .../rtc-sect-20585/ |
+| § 63.1 / § 63.2 | CORRECTED | § 63.1 covers parent-child exclusions for earlier transfers; § 63.2 covers transfers on or after February 16, 2021. | Secondary: .../rtc-sect-63-2/ |
+| Cal. Rev. & Tax. Code § 1603 | VERIFIED | Application for changed assessment, generally July 2 through September 15 (November 30 in some counties). | Secondary: .../rtc-sect-1603/ |
+| R&T § 1604(c) / § 1604 | VERIFIED | The board must hear the application within two years, or the applicant's opinion of value is entered unless the period is extended. | Secondary: .../rtc-sect-1604/ |
+| R&T Code § 5140 | VERIFIED | Refund action in superior court, after paying the tax and filing a claim for refund. | Secondary: .../rtc-sect-5140/ |
+| § 5141 | CORRECTED (trigger) | Suit within six months after the claim for refund is rejected. The page had said six months after the board's decision. | Secondary: .../rtc-sect-5141/ |
+| § 5097 | CORRECTED | Claim for refund generally within four years after payment. The "or one year after payment, whichever is later" wording was removed. | Secondary: .../rtc-sect-5097/ |
+| R&T Code § 5151 | CORRECTED (wording) | Interest at the greater of 3% or the county pool apportioned rate. | Secondary: .../rtc-sect-5151/ |
+| R&T Code § 4831 / R&T § 4831 | VERIFIED | Correction of roll errors within four years. | Secondary: .../rtc-sect-4831/ |
+| Cal. Rev. & Tax. Code § 401 | VERIFIED | "Every assessor shall assess all property subject to general property taxation at its full value." | Secondary: .../rtc-sect-401/ |
+| 72 P.S. § 4751-1 | VERIFIED | Property Tax/Rent Rebate Program. The rebate of up to $1,000 and the $45,000 income limit come from Act 7 of 2023. | Official: palegis.us Title 72 |
+| 72 P.S. § 4758 | CORRECTED | PTRR appeals go to the Board of Appeals within 90 days. This replaces the 61 Pa. Code chapter seven cite. | Secondary: Perplexity (palegis.us / pacodeandbulletin.gov) |
+| 53 P.S. § 6926.101 | CORRECTED | The Taxpayer Relief Act begins at § 6926.101. The page cited § 6926.301 et seq., which is not the homestead exclusion. | Official: palegis.us Title 53 Ch. 33A PDF |
+| 53 P.S. § 6926.341 | VERIFIED (added) | Homestead and farmstead exclusion; (d) appeal of a denial to the board of assessment appeals. | Official: same |
+| 53 Pa.C.S. § 8844 | VERIFIED | Consolidated County Assessment Law: appeals to the board. | Official: palegis.us 53 Pa.C.S. Ch. 88 |
+| 53 Pa.C.S. § 8854 / 42 Pa.C.S. § 5571(b) / § 5571 | CORRECTED | Appeal to common pleas "in accordance with 42 Pa.C.S. § 5571(b)", which allows 30 days. The "de novo" wording was removed. | Official: palegis.us |
+| Philadelphia Code § 19-1304 | VERIFIED | Senior tax freeze; 2024 limits of $33,500 single and $41,500 married. | Secondary: phila.gov via Perplexity |
+| N.C. Gen. Stat. § 105-277.1 | CORRECTED | Age 65 or older, or disabled, as of January 1; resident; exclusion is the greater of $25,000 or 50%. (b)(1b) defines "owner" to include a life estate holder. The statute has no trust provision, so the trust-qualification claims were removed and (b)(1) was corrected to (b)(1b). | Official: https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-277.1.html |
+| N.C. Gen. Stat. § 105-282.1 / § 105-282.1(a1) | VERIFIED | Late applications may be approved for good cause. | Official: .../GS_105-282.1.html |
+| N.C. Gen. Stat. § 105-290 / § 105-290(e) | CORRECTED (trigger) | Notice of appeal to the Property Tax Commission within 30 days after the board mailed notice of its decision. | Official: .../GS_105-290.html |
+| N.C. Gen. Stat. § 105-345 | VERIFIED | Appeal from the Commission to the Court of Appeals. | Official: .../GS_105-345.html |
+| Texas Tax Code § 11.13 / §§ 11.13(c) | CORRECTED (amount) | (b) general school homestead exemption of $140,000; (c) additional school exemption for age 65 or older or disabled is $60,000, not $10,000. (d) optional local exemptions; (j) qualifying trust; (q) surviving spouse (local exemption). | Official: https://tcss.legis.texas.gov/resources/TX/htm/TX.11.htm |
+| Section 11.26 / § 11.26 / § 11.261 | VERIFIED | School tax ceiling; (h) proportional portability; (i) surviving spouse aged 55 or older keeps the ceiling; § 11.261 local ceiling. | Official: same |
+| § 11.43 | CORRECTED | (c) No annual reapplication, but the chief appraiser may require a new application (c-1). The page cited (h), which covers cancellation. (j) application contents and ID copy; (n) address match; (p) waiver; (k) over-65/disabled application by the first anniversary of qualifying. The "longer lookback" claim was removed. | Official: same |
+| § 11.431 / § 11.431(b) | VERIFIED | Late homestead application up to two years after delinquency; (b) the collector deducts or refunds. | Official: same |
+| § 11.45 / § 11.45(d) | VERIFIED | Notice of denial within five days, stating and fully explaining each reason. | Official: same |
+| § 11.49 | VERIFIED | Heir property. | Official: same |
+| § 25.25 / § 25.25(c) | CORRECTED (scope) | Five-year correction is limited to clerical errors, multiple appraisals, nonexistent property and wrong owner. The page said "exemption errors". | Official: https://tcss.legis.texas.gov/resources/TX/htm/TX.25.htm |
+| Tax Code section thirty-one-point-eleven (refund with interest) | REMOVED | That section covers overpayment refunds and provides no interest. Replaced with § 11.431(b) and § 42.43. | Official: TX.31.htm |
+| § 41.44 / § 41.44(a) | CORRECTED (deadline) | Protest due by May 15 or 30 days after notice is delivered, whichever is later. | Official: TX.41.htm |
+| § 41.41 | VERIFIED | Protest grounds. | Official: same |
+| § 41.45 / § 41.45(b) | CORRECTED (wording) | Appearance in person, by affidavit, or by telephone or videoconference. | Official: same |
+| § 42.21 | VERIFIED | Petition for review within 60 days after receiving notice of the final order. | Official: TX.42.htm |
+| § 42.43 | VERIFIED | Refund with interest after a final judgment lowers the tax. | Official: same |
+| Chapter 41A | CORRECTED (scope) | Binding arbitration covers only value protests under § 41.41(a)(1) or (2), for homesteads or property worth $5 million or less. Deposits run $450 or $500, so the "$450 to $1,550" range was removed. It is not available for exemption denials. | Official: TX.41A.htm |
+| Tex. Tax Code § 32.01 | VERIFIED | The tax lien attaches on January 1. | Official: TX.32.htm |
