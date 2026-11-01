@@ -221,3 +221,22 @@ Sources: CA statutes via FindLaw, because leginfo blocks automated fetching (Sec
 | 35 ILCS 200/14-15 / 35 ILCS 200/14-20 | CORRECTED | § 14-15 applies to counties of 3,000,000 or more (Cook), with certificates of error generally until 3 years after the judgment and order of sale. § 14-20 applies to other counties. The page had reversed them and said "three prior tax years". | Official: .../003502000K14-15.htm ; K14-20.htm |
 | 35 ILCS 200/15-170 / 35 ILCS 200/15-172 / 35 ILCS 200/15-168 / 35 ILCS 200/15-169 | VERIFIED | Senior homestead exemption; Low-Income Senior Assessment Freeze; persons with disabilities; veterans with disabilities. | Official: ilga.gov |
 | 35 ILCS 200/21-355 | VERIFIED | Amount of redemption from a tax sale. | Official: .../003502000K21-355.htm |
+
+### Earning pages 11-12 (FL veteran, FL senior) + FL state data
+All sources are official, from https://www.flsenate.gov/Laws/Statutes/2025/<section>.
+
+| Citation as it now appears | Status | What it says | Source |
+|---|---|---|---|
+| Fla. Stat. § 196.081 / §§ 196.081 / § 196.081(3) | CORRECTED (wording) | Full homestead exemption for an honorably discharged veteran with a service-connected total and permanent disability (VA letter), who is a resident on January 1. Under (3) the surviving spouse keeps it while holding title and residing there, until remarriage or disposal. The "100%" and "died from service-connected causes" wording was replaced with the statute's terms. | Official: flsenate.gov 196.081 |
+| Fla. Stat. § 196.082 | CORRECTED | Discount for veterans age 65 or older who are partially or totally permanently disabled; the disability must be combat-related; honorable discharge; percentage equals the VA rating. | Official: 196.082 |
+| Fla. Stat. § 196.24 | CORRECTED (wording) | $5,000 exemption for an ex-servicemember disabled 10% or more by misfortune or during wartime service; the unremarried surviving spouse also qualifies. | Official: 196.24 |
+| Fla. Stat. § 196.091 | VERIFIED | Exemption for totally disabled veterans who use wheelchairs and receive specially adapted housing assistance. | Official: 196.091 |
+| Fla. Stat. section one-ninety-six-point-one-oh-two (in the veteran statute list) | REMOVED | That section is the exemption for totally and permanently disabled first responders, not veterans; it was replaced in the list with § 196.24. | Secondary: https://codes.findlaw.com/fl/title-xiv-taxation-and-finance/fl-st-sect-196-102/ |
+| Fla. Stat. § 196.193 / § 196.193(5) | CORRECTED (wording) | Written notice of a denial by July 1, stating the specific statutory requirements relied on. | Official: 196.193 |
+| Fla. Stat. § 197.182 | CORRECTED | (1)(e) Refund claim within 4 years after January 1 of the tax year. The section provides no 12% interest; those claims were removed. | Official: 197.182 |
+| Fla. Stat. section one-ninety-four-point-one-nine-two (interest/fees claim) | REMOVED | That section imposes 12% interest on a taxpayer's deficiency, not on refunds, and provides no attorney's fees. | Official: 194.192 |
+| Fla. Stat. § 194.011 / § 194.011(3)(d) | CORRECTED (deadline) | Valuation petitions are due by the 25th day after the TRIM notice is mailed; exemption-denial petitions by the 30th day after the denial notice is mailed. | Official: 194.011 |
+| Fla. Stat. § 194.013 | CORRECTED | Filing fee, if the VAB requires one, of no more than $50 per parcel; none for homestead exemption disapproval appeals. The "$15" figure was removed. | Official: 194.013 |
+| Fla. Stat. § 194.171 | VERIFIED | Circuit court action within 60 days after certification for collection or after the VAB decision; jurisdictional under (6). | Official: 194.171 |
+| Fla. Stat. § 196.075 / Fla. Stat. 196.075 / § 196.075(2)(b) / § 196.075(3) / § 196.075(1)(b) | CORRECTED | Local option, by ordinance: (2)(a) up to $50,000 for age 65 and older with household income of $20,000 or less; (2)(b) full exemption where just value is under $250,000 and the owner has lived there 25 years; (3) the $20,000 limit is CPI-adjusted each January 1; (1)(b) household income is federal AGI. The unverified "$36,614 for 2024" figure was replaced, and the misattributed (4)(a) was corrected to (1)(b). | Official: 196.075 |
+| Fla. Stat. § 193.011 | CORRECTED (wording) | Factors for just valuation under Art. VII, § 4. | Official: 193.011 |
