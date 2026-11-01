@@ -190,7 +190,7 @@ Write in formal legal correspondence style. Structure the letter with clear sect
 
 function buildUserPrompt(formData, mode) {
   const tone = mode === "assertive"
-    ? "Write this in an assertive, forceful tone that makes clear the assessment is clearly incorrect and the board should immediately correct it. Cite any applicable state statutes on equal and uniform assessment."
+    ? "Write this in an assertive, forceful tone that makes clear the assessment is clearly incorrect and the board should immediately correct it. Cite only the verified authorities provided by the system; if none applies, cite no statute."
     : "Write this in a measured, professional tone that presents the evidence clearly and respectfully requests a reassessment based on the data.";
 
   return `Write a ${mode === "assertive" ? "firm and assertive" : "professional and measured"} property tax appeal letter for the following situation:
@@ -262,6 +262,7 @@ export default function TaxFight() {
   const [copied, setCopied]         = useState(false);
   const [error, setError]           = useState("");
   const [showSample, setShowSample] = useState(false);
+  const [disputeSlug, setDisputeSlug] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -270,6 +271,7 @@ export default function TaxFight() {
 
     const stateParam = params.get("state");
     const disputeParam = params.get("dispute");
+    if (disputeParam) setDisputeSlug(disputeParam);
     const slugToStateName = {
       "california": "California", "texas": "Texas", "florida": "Florida",
       "new-york": "New York", "illinois": "Illinois", "pennsylvania": "Pennsylvania",
@@ -336,7 +338,7 @@ export default function TaxFight() {
       const res = await fetch(`${API_BASE}/api/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ accessCode: accessCode.trim(), systemPrompt: sysPrompt, userPrompt }),
+        body: JSON.stringify({ accessCode: accessCode.trim(), systemPrompt: sysPrompt, userPrompt, state: formData.state, letterType: disputeSlug }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Generation failed");
@@ -347,7 +349,7 @@ export default function TaxFight() {
       const res2 = await fetch(`${API_BASE}/api/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ accessCode: accessCode.trim(), systemPrompt: sysPrompt, userPrompt: altPrompt }),
+        body: JSON.stringify({ accessCode: accessCode.trim(), systemPrompt: sysPrompt, userPrompt: altPrompt, state: formData.state, letterType: disputeSlug }),
       });
       const data2 = await res2.json();
       if (res2.ok) setAltLetter(data2.text || "");

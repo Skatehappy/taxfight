@@ -44,5 +44,10 @@ if (missing.length) {
   for (const m of [...missing].sort()) console.error('  ' + m);
   fail(missing.length + ' unlogged citation(s)');
 }
-console.log('GATE GREEN — A1 files ok; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
+// ── A10: letter citation lock — allowlist current + mock tests (no real codes/API) ──
+import { execFileSync } from 'node:child_process';
+for (const [label, args] of [['allowlist stale', ['scripts/build-verified-citations.mjs', '--check']], ['citelint/G4T mock tests failed', ['scripts/test-citelint.mjs']]]) {
+  try { execFileSync(process.execPath, args, { cwd: ROOT, stdio: 'pipe' }); } catch (e) { fail('A10: ' + label + ' ' + (e.stdout || '') + (e.stderr || '')); }
+}
+console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
 process.exit(0);
