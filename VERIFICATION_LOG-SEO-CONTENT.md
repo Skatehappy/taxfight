@@ -194,3 +194,30 @@ Sources: CA statutes via FindLaw, because leginfo blocks automated fetching (Sec
 | § 42.43 | VERIFIED | Refund with interest after a final judgment lowers the tax. | Official: same |
 | Chapter 41A | CORRECTED (scope) | Binding arbitration covers only value protests under § 41.41(a)(1) or (2), for homesteads or property worth $5 million or less. Deposits run $450 or $500, so the "$450 to $1,550" range was removed. It is not available for exemption denials. | Official: TX.41A.htm |
 | Tex. Tax Code § 32.01 | VERIFIED | The tax lien attaches on January 1. | Official: TX.32.htm |
+
+### Earning pages 6-10 (OH over-assessment, GA senior, NC veteran, PA assessment appeal, IL homestead denial) + IL state data
+
+| Citation as it now appears | Status | What it says | Source |
+|---|---|---|---|
+| R.C. 5715.22 | CORRECTED | The county auditor credits or refunds overpayments found on a complaint or appeal. The section provides no interest, so "plus interest" was removed. | Official: https://codes.ohio.gov/ohio-revised-code/section-5715.22 |
+| R.C. § 5717.01 | VERIFIED | Appeal to the Board of Tax Appeals within 30 days after notice of the BOR decision is mailed. | Official: .../section-5717.01 |
+| R.C. § 5717.05 | CORRECTED (wording) | Alternative direct appeal to common pleas, also within 30 days after notice is mailed. | Official: .../section-5717.05 |
+| Berea City School District Board of Education v. Cuyahoga County Board of Revision, 106 Ohio St.3d 269 (2005) | VERIFIED | A recent arm's-length sale is the best evidence of value. | https://www.courtlistener.com/opinion/6894093/berea-city-school-district-board-of-education-v-cuyahoga-county-board-of/ |
+| O.C.G.A. § 48-5-47 | VERIFIED | Age 65 or older: $4,000 state and county homestead exemption when net income (with spouse) does not exceed $10,000, excluding retirement and Social Security income up to the Social Security maximum. | Secondary: https://codes.findlaw.com/ga/title-48-revenue-and-taxation/ga-code-sect-48-5-47/ |
+| § 48-5-47.1 | CORRECTED (wording) | Age 62 or older with household income of $30,000 or less: exemption of the increase in assessed value over the base year (a value freeze). | Secondary: .../ga-code-sect-48-5-47-1/ |
+| § 48-5-52 | CORRECTED | Age 62 or older with net income of $10,000 or less: school tax exemption capped at $10,000 of assessed value. The page said "full exemption". | Secondary: .../ga-code-sect-48-5-52/ |
+| N.C.G.S. § 105-277.1C / N.C. Gen. Stat. § 105-277.1C | CORRECTED | $45,000 exclusion; no other property tax relief can be combined with it. Qualifying owners are honorable-discharge veterans who received 38 U.S.C. § 2101 benefits, are certified with a service-connected, permanent and total disability, or whose death was service-connected; also a surviving spouse who has not remarried. The "100%" wording was changed to the statute's wording. | Official: https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-277.1C.html |
+| 38 U.S.C. § 2101 | VERIFIED | Specially adapted housing assistance, as cross-referenced in § 105-277.1C(b)(1)a. | Official: same |
+| N.C.G.S. § 105-381 | CORRECTED | Covers clerical error, an illegal tax, or a tax levied for an illegal purpose. A refund demand is due within five years after the tax was due or six months after payment, whichever is later. Interest (6%) applies only to a judgment in a refund suit, so "with interest" was removed. | Official: .../GS_105-381.html |
+| N.C.G.S. § 105-322 | VERIFIED | County board of equalization and review. | Official: .../GS_105-322.html |
+| Chapter One-Fifty-B (PTC contested-case procedure claim) | REMOVED | Could not confirm that Property Tax Commission hearings follow that chapter. | — |
+| 53 Pa.C.S. § 8801 et seq. / § 8801 | CORRECTED | Consolidated County Assessment Law. Applies to counties of the second class A and the third through eighth classes (§ 8802). The "8801-8868" range was replaced. | Secondary: palegis.us / law.justia.com via Perplexity |
+| The "Downingtown" CLR sentence | REMOVED | The holding concerns selective reassessment and comparison with comparable properties; it does not say what the page claimed. | Secondary: Perplexity (justia/courtlistener) |
+| 35 ILCS 200/15-175 | CORRECTED | General homestead exemption, up to $10,000 in Cook County, $8,000 in contiguous counties and $6,000 elsewhere (taxable year 2023 and later). (f) Homestead property is property occupied by an owner with a legal or equitable interest as a principal dwelling place. The "(e) land trust" cite was removed; (e) concerns leaseholds. | Official: https://www.ilga.gov/Documents/legislation/ilcs/documents/003502000K15-175.htm |
+| 35 ILCS 200/16-55 | VERIFIED | (d) Board of review complaint within 30 calendar days after publication of the assessment list. | Official: .../003502000K16-55.htm |
+| 35 ILCS 200/16-160 | VERIFIED | PTAB appeal within 30 days after written notice of the board of review's decision. | Official: .../003502000K16-160.htm |
+| 35 ILCS 200/23-5 / 35 ILCS 200/23-10 | VERIFIED | Payment under protest; tax objection complaint within 165 days (Cook) or 75 days (other counties) after the final installment's first penalty date. | Official: .../003502000K23-5.htm ; K23-10.htm |
+| 35 ILCS 200/23-20 | VERIFIED | Refunds after a final PTAB or court order are paid with interest from the date of payment. | Official: .../003502000K23-20.htm |
+| 35 ILCS 200/14-15 / 35 ILCS 200/14-20 | CORRECTED | § 14-15 applies to counties of 3,000,000 or more (Cook), with certificates of error generally until 3 years after the judgment and order of sale. § 14-20 applies to other counties. The page had reversed them and said "three prior tax years". | Official: .../003502000K14-15.htm ; K14-20.htm |
+| 35 ILCS 200/15-170 / 35 ILCS 200/15-172 / 35 ILCS 200/15-168 / 35 ILCS 200/15-169 | VERIFIED | Senior homestead exemption; Low-Income Senior Assessment Freeze; persons with disabilities; veterans with disabilities. | Official: ilga.gov |
+| 35 ILCS 200/21-355 | VERIFIED | Amount of redemption from a tax sale. | Official: .../003502000K21-355.htm |
