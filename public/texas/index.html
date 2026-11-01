@@ -43,6 +43,11 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:900;margin-bo
 .state-link:hover{background:#1a3a5c;color:#fff}
 footer{background:#0f0f0f;color:rgba(255,255,255,0.5);text-align:center;padding:32px 24px;font-size:12px}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+.merged-topics{display:grid;gap:16px;margin-bottom:64px}
+.merged-topic{background:#fff;border:1px solid #dde3ec;border-radius:10px;padding:24px;scroll-margin-top:80px}
+.merged-topic h3{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;margin-bottom:10px}
+.merged-topic p{font-size:15px;color:#3a3a3a;line-height:1.7;margin-bottom:10px}
+.merged-cta{color:#1a3a5c;font-weight:700;text-decoration:none}
 .cta-section{text-align:center;padding:64px 24px;background:#fff;border-radius:14px;margin-bottom:48px}
 .cta-section h2{margin-bottom:16px}
 .cta-section p{color:#6b6b6b;margin-bottom:24px}
@@ -68,17 +73,17 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 
   <h2>Texas Dispute Types</h2>
   <div class="dispute-grid">
-    <a class="dispute-card" href="/texas/property-tax-assessment-appeal">
+    <a class="dispute-card" href="#property-tax-assessment-appeal">
       <div class="dispute-icon">📋</div>
       <div class="dispute-name">Property Tax Assessment Appeal Letter</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/texas/over-assessed-property-value">
+    <a class="dispute-card" href="#over-assessed-property-value">
       <div class="dispute-icon">📈</div>
       <div class="dispute-name">Over-Assessed Property Value Challenge</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/texas/homestead-exemption-denial">
+    <a class="dispute-card" href="#homestead-exemption-denial">
       <div class="dispute-icon">🏡</div>
       <div class="dispute-name">Homestead Exemption Denial Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -93,7 +98,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Veteran Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/texas/disability-tax-exemption-appeal">
+    <a class="dispute-card" href="#disability-tax-exemption-appeal">
       <div class="dispute-icon">♿</div>
       <div class="dispute-name">Disability Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -108,16 +113,56 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Commercial Property Tax Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/texas/property-tax-abatement-request">
+    <a class="dispute-card" href="#property-tax-abatement-request">
       <div class="dispute-icon">📉</div>
       <div class="dispute-name">Property Tax Abatement Request</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/texas/reassessment-after-damage">
+    <a class="dispute-card" href="#reassessment-after-damage">
       <div class="dispute-icon">🌪️</div>
       <div class="dispute-name">Reassessment After Storm or Damage</div>
       <div class="dispute-arrow">→</div>
     </a></div>
+
+  <h2>Texas Dispute Guides</h2>
+  <div class="merged-topics">
+    <section class="merged-topic" id="property-tax-assessment-appeal">
+      <h3>📋 Property Tax Assessment Appeal Letter in Texas</h3>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Protest must be filed by May 15 or the 30th day after the appraisal district delivered the notice of appraised value, whichever is later (Tex. Tax Code § 41.44). If the deadline falls on a weekend or legal holiday, it shifts to the next business day. Late protests may be allowed before the ARB approves the appraisal records upon good cause.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> File a written Notice of Protest (Comptroller Form 50-132) with the local county Appraisal Review Board (ARB). An informal review with appraisal district staff usually occurs first, followed by a formal ARB hearing if unresolved.</p>
+      <p><a class="merged-cta" href="/app?state=texas&amp;dispute=property-tax-assessment-appeal">Generate my Texas property tax assessment appeal letter letter →</a></p>
+    </section>
+    <section class="merged-topic" id="over-assessed-property-value">
+      <h3>📈 Over-Assessed Property Value Challenge in Texas</h3>
+      <p data-field="assessment_ratio"><strong>How your value is assessed:</strong> Texas requires appraisal at 100% of market value as of January 1 (full-value assessment; no fractional statutory ratio). A separate 10% annual cap on the increase in appraised value applies to residence homesteads under Tex. Tax Code § 23.23 (taxable value cannot rise more than 10% per year, plus new improvements).</p>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Comparable sales, sales/market data, independent appraisals, photographs of condition/defects, repair estimates, closing statements for a recent purchase, income and expense statements (income-producing property), equity/uniformity comparison of assessed values, and appraisal-district-provided evidence.</p>
+      <p><a class="merged-cta" href="/app?state=texas&amp;dispute=over-assessed-property-value">Generate my Texas over-assessed property value challenge letter →</a></p>
+    </section>
+    <section class="merged-topic" id="homestead-exemption-denial">
+      <h3>🏡 Homestead Exemption Denial Appeal in Texas</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> General residence homestead: $140,000 school-district exemption (raised from $100,000, effective 2026 via SB 4 / Prop 13). Age 65+ or disabled homeowners: additional $60,000 school exemption (raised from $10,000 via Prop 11), plus a school-tax ceiling (freeze). Disabled veterans: sliding scale from $5,000 (10-29%) up to $12,000 (70%+); 100% service-connected disabled veterans receive a total homestead exemption. Business personal property exemption raised to $125,000 via Prop 9. Most homestead applications due by April 30.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> File a written Notice of Protest (Comptroller Form 50-132) with the local county Appraisal Review Board (ARB). An informal review with appraisal district staff usually occurs first, followed by a formal ARB hearing if unresolved.</p>
+      <p><a class="merged-cta" href="/app?state=texas&amp;dispute=homestead-exemption-denial">Generate my Texas homestead exemption denial appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="disability-tax-exemption-appeal">
+      <h3>♿ Disability Property Tax Exemption Appeal in Texas</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> General residence homestead: $140,000 school-district exemption (raised from $100,000, effective 2026 via SB 4 / Prop 13). Age 65+ or disabled homeowners: additional $60,000 school exemption (raised from $10,000 via Prop 11), plus a school-tax ceiling (freeze). Disabled veterans: sliding scale from $5,000 (10-29%) up to $12,000 (70%+); 100% service-connected disabled veterans receive a total homestead exemption. Business personal property exemption raised to $125,000 via Prop 9. Most homestead applications due by April 30.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> File a written Notice of Protest (Comptroller Form 50-132) with the local county Appraisal Review Board (ARB). An informal review with appraisal district staff usually occurs first, followed by a formal ARB hearing if unresolved.</p>
+      <p><a class="merged-cta" href="/app?state=texas&amp;dispute=disability-tax-exemption-appeal">Generate my Texas disability property tax exemption appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="property-tax-abatement-request">
+      <h3>📉 Property Tax Abatement Request in Texas</h3>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> File a written Notice of Protest (Comptroller Form 50-132) with the local county Appraisal Review Board (ARB). An informal review with appraisal district staff usually occurs first, followed by a formal ARB hearing if unresolved.</p>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> General residence homestead: $140,000 school-district exemption (raised from $100,000, effective 2026 via SB 4 / Prop 13). Age 65+ or disabled homeowners: additional $60,000 school exemption (raised from $10,000 via Prop 11), plus a school-tax ceiling (freeze). Disabled veterans: sliding scale from $5,000 (10-29%) up to $12,000 (70%+); 100% service-connected disabled veterans receive a total homestead exemption. Business personal property exemption raised to $125,000 via Prop 9. Most homestead applications due by April 30.</p>
+      <p><a class="merged-cta" href="/app?state=texas&amp;dispute=property-tax-abatement-request">Generate my Texas property tax abatement request letter →</a></p>
+    </section>
+    <section class="merged-topic" id="reassessment-after-damage">
+      <h3>🌪️ Reassessment After Storm or Damage in Texas</h3>
+      <p data-field="grounds_for_appeal"><strong>Grounds you can raise:</strong> Appraised (market) value too high (over-valuation); unequal appraisal relative to comparable properties; wrongful denial of an exemption or special appraisal; errors in the appraisal records; inclusion of property that should not be taxed; and other adverse actions of the appraisal district or ARB (Tex. Tax Code § 41.41).</p>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Protest must be filed by May 15 or the 30th day after the appraisal district delivered the notice of appraised value, whichever is later (Tex. Tax Code § 41.44). If the deadline falls on a weekend or legal holiday, it shifts to the next business day. Late protests may be allowed before the ARB approves the appraisal records upon good cause.</p>
+      <p><a class="merged-cta" href="/app?state=texas&amp;dispute=reassessment-after-damage">Generate my Texas reassessment after storm or damage letter →</a></p>
+    </section>
+  </div>
 
   <h2>How It Works</h2>
   <div class="steps">

@@ -43,6 +43,11 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:900;margin-bo
 .state-link:hover{background:#1a3a5c;color:#fff}
 footer{background:#0f0f0f;color:rgba(255,255,255,0.5);text-align:center;padding:32px 24px;font-size:12px}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+.merged-topics{display:grid;gap:16px;margin-bottom:64px}
+.merged-topic{background:#fff;border:1px solid #dde3ec;border-radius:10px;padding:24px;scroll-margin-top:80px}
+.merged-topic h3{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;margin-bottom:10px}
+.merged-topic p{font-size:15px;color:#3a3a3a;line-height:1.7;margin-bottom:10px}
+.merged-cta{color:#1a3a5c;font-weight:700;text-decoration:none}
 .cta-section{text-align:center;padding:64px 24px;background:#fff;border-radius:14px;margin-bottom:48px}
 .cta-section h2{margin-bottom:16px}
 .cta-section p{color:#6b6b6b;margin-bottom:24px}
@@ -68,12 +73,12 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 
   <h2>Pennsylvania Dispute Types</h2>
   <div class="dispute-grid">
-    <a class="dispute-card" href="/pennsylvania/property-tax-assessment-appeal">
+    <a class="dispute-card" href="#property-tax-assessment-appeal">
       <div class="dispute-icon">📋</div>
       <div class="dispute-name">Property Tax Assessment Appeal Letter</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/pennsylvania/over-assessed-property-value">
+    <a class="dispute-card" href="#over-assessed-property-value">
       <div class="dispute-icon">📈</div>
       <div class="dispute-name">Over-Assessed Property Value Challenge</div>
       <div class="dispute-arrow">→</div>
@@ -108,16 +113,44 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Commercial Property Tax Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/pennsylvania/property-tax-abatement-request">
+    <a class="dispute-card" href="#property-tax-abatement-request">
       <div class="dispute-icon">📉</div>
       <div class="dispute-name">Property Tax Abatement Request</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/pennsylvania/reassessment-after-damage">
+    <a class="dispute-card" href="#reassessment-after-damage">
       <div class="dispute-icon">🌪️</div>
       <div class="dispute-name">Reassessment After Storm or Damage</div>
       <div class="dispute-arrow">→</div>
     </a></div>
+
+  <h2>Pennsylvania Dispute Guides</h2>
+  <div class="merged-topics">
+    <section class="merged-topic" id="property-tax-assessment-appeal">
+      <h3>📋 Property Tax Assessment Appeal Letter in Pennsylvania</h3>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Set by each county; the annual appeal deadline in most counties is August 1 (some run to September 1 or October 1; Allegheny County 2027 deadline is September 1, 2026). Interim/change-of-assessment appeals: generally 40 days from the mailing date of the notice.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Written appeal to the county Board of Assessment Appeals (in Philadelphia, the Board of Revision of Taxes), which schedules a hearing and issues a decision.</p>
+      <p><a class="merged-cta" href="/app?state=pennsylvania&amp;dispute=property-tax-assessment-appeal">Generate my Pennsylvania property tax assessment appeal letter letter →</a></p>
+    </section>
+    <section class="merged-topic" id="over-assessed-property-value">
+      <h3>📈 Over-Assessed Property Value Challenge in Pennsylvania</h3>
+      <p data-field="assessment_ratio"><strong>How your value is assessed:</strong> Common Level Ratio (CLR) published annually by the State Tax Equalization Board (STEB) for each of the 67 counties. CLR is the median ratio of assessed value to market value from STEB&#039;s annual sales-ratio study. When the CLR varies by more than 15% from the county&#039;s established predetermined ratio, the board must apply the CLR to the proven market value.</p>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Credible evidence of fair market value: recent comparable sales, the property&#039;s own recent sale price, independent/fee appraisals, income and expense data for income-producing property, and photographs/documentation of condition.</p>
+      <p><a class="merged-cta" href="/app?state=pennsylvania&amp;dispute=over-assessed-property-value">Generate my Pennsylvania over-assessed property value challenge letter →</a></p>
+    </section>
+    <section class="merged-topic" id="property-tax-abatement-request">
+      <h3>📉 Property Tax Abatement Request in Pennsylvania</h3>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Written appeal to the county Board of Assessment Appeals (in Philadelphia, the Board of Revision of Taxes), which schedules a hearing and issues a decision.</p>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Homestead/Farmstead Exclusion reduces the taxable assessed value of an owner-occupied primary residence (lowering school district taxes); full real estate tax exemption for veterans honorably discharged and rated 100% permanently service-connected disabled; state-funded Property Tax/Rent Rebate for homeowners age 65+, widows/widowers age 50+, and disabled residents age 18+ with household income up to $45,000 (rebates up to $1,000, file PA-1000 by June 30).</p>
+      <p><a class="merged-cta" href="/app?state=pennsylvania&amp;dispute=property-tax-abatement-request">Generate my Pennsylvania property tax abatement request letter →</a></p>
+    </section>
+    <section class="merged-topic" id="reassessment-after-damage">
+      <h3>🌪️ Reassessment After Storm or Damage in Pennsylvania</h3>
+      <p data-field="grounds_for_appeal"><strong>Grounds you can raise:</strong> The property&#039;s fair market value is overstated (over-assessment), and/or the assessment is non-uniform relative to comparable properties / the county&#039;s common level ratio; the appellant bears the burden of proving fair market value.</p>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Set by each county; the annual appeal deadline in most counties is August 1 (some run to September 1 or October 1; Allegheny County 2027 deadline is September 1, 2026). Interim/change-of-assessment appeals: generally 40 days from the mailing date of the notice.</p>
+      <p><a class="merged-cta" href="/app?state=pennsylvania&amp;dispute=reassessment-after-damage">Generate my Pennsylvania reassessment after storm or damage letter →</a></p>
+    </section>
+  </div>
 
   <h2>How It Works</h2>
   <div class="steps">

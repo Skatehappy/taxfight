@@ -43,6 +43,11 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:900;margin-bo
 .state-link:hover{background:#1a3a5c;color:#fff}
 footer{background:#0f0f0f;color:rgba(255,255,255,0.5);text-align:center;padding:32px 24px;font-size:12px}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+.merged-topics{display:grid;gap:16px;margin-bottom:64px}
+.merged-topic{background:#fff;border:1px solid #dde3ec;border-radius:10px;padding:24px;scroll-margin-top:80px}
+.merged-topic h3{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;margin-bottom:10px}
+.merged-topic p{font-size:15px;color:#3a3a3a;line-height:1.7;margin-bottom:10px}
+.merged-cta{color:#1a3a5c;font-weight:700;text-decoration:none}
 .cta-section{text-align:center;padding:64px 24px;background:#fff;border-radius:14px;margin-bottom:48px}
 .cta-section h2{margin-bottom:16px}
 .cta-section p{color:#6b6b6b;margin-bottom:24px}
@@ -68,7 +73,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 
   <h2>Florida Dispute Types</h2>
   <div class="dispute-grid">
-    <a class="dispute-card" href="/florida/property-tax-assessment-appeal">
+    <a class="dispute-card" href="#property-tax-assessment-appeal">
       <div class="dispute-icon">📋</div>
       <div class="dispute-name">Property Tax Assessment Appeal Letter</div>
       <div class="dispute-arrow">→</div>
@@ -83,7 +88,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Homestead Exemption Denial Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/florida/senior-tax-exemption-appeal">
+    <a class="dispute-card" href="#senior-tax-exemption-appeal">
       <div class="dispute-icon">👴</div>
       <div class="dispute-name">Senior Citizen Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -98,17 +103,17 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Disability Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/florida/agricultural-use-valuation-appeal">
+    <a class="dispute-card" href="#agricultural-use-valuation-appeal">
       <div class="dispute-icon">🌾</div>
       <div class="dispute-name">Agricultural Use Valuation Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/florida/commercial-property-tax-appeal">
+    <a class="dispute-card" href="#commercial-property-tax-appeal">
       <div class="dispute-icon">🏢</div>
       <div class="dispute-name">Commercial Property Tax Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/florida/property-tax-abatement-request">
+    <a class="dispute-card" href="#property-tax-abatement-request">
       <div class="dispute-icon">📉</div>
       <div class="dispute-name">Property Tax Abatement Request</div>
       <div class="dispute-arrow">→</div>
@@ -118,6 +123,40 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Reassessment After Storm or Damage</div>
       <div class="dispute-arrow">→</div>
     </a></div>
+
+  <h2>Florida Dispute Guides</h2>
+  <div class="merged-topics">
+    <section class="merged-topic" id="property-tax-assessment-appeal">
+      <h3>📋 Property Tax Assessment Appeal Letter in Florida</h3>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Petition to the Value Adjustment Board (VAB) must be RECEIVED (not merely postmarked) no later than 25 days after the property appraiser mails the TRIM notice. The exact deadline date is printed on each parcel&#039;s TRIM notice (typically September). Late petitions accepted only on a written showing of good cause.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Informal review with the county Property Appraiser&#039;s office (optional) and/or a formal petition to the county Value Adjustment Board (VAB) under Fla. Stat. § 194.011. Petitions are heard by a special magistrate who issues a recommended decision that the VAB adopts.</p>
+      <p><a class="merged-cta" href="/app?state=florida&amp;dispute=property-tax-assessment-appeal">Generate my Florida property tax assessment appeal letter letter →</a></p>
+    </section>
+    <section class="merged-topic" id="senior-tax-exemption-appeal">
+      <h3>👴 Senior Citizen Property Tax Exemption Appeal in Florida</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Standard $25,000 homestead exemption (all taxes) plus an additional exemption up to $25,000 on assessed value above $50,000 for non-school taxes (indexed to inflation by Amendment 5 of 2024 — $26,411 for 2026); senior (65+) additional exemption (income-limited); $5,000 exemption for veterans with 10%+ service-connected disability; total exemption for veterans with total &amp; permanent service-connected disability; widow/widower and blind/disability exemptions. Homestead filing deadline is March 1.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Informal review with the county Property Appraiser&#039;s office (optional) and/or a formal petition to the county Value Adjustment Board (VAB) under Fla. Stat. § 194.011. Petitions are heard by a special magistrate who issues a recommended decision that the VAB adopts.</p>
+      <p><a class="merged-cta" href="/app?state=florida&amp;dispute=senior-tax-exemption-appeal">Generate my Florida senior citizen property tax exemption appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="agricultural-use-valuation-appeal">
+      <h3>🌾 Agricultural Use Valuation Appeal in Florida</h3>
+      <p data-field="grounds_for_appeal"><strong>Grounds you can raise:</strong> Just/market value exceeds actual fair market value; assessment is not uniform/equitable versus comparable properties; denial or removal of an exemption or classification (homestead, agricultural); denial of a Save Our Homes portability transfer; or a change in ownership/qualifying improvement determination.</p>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Petition to the Value Adjustment Board (VAB) must be RECEIVED (not merely postmarked) no later than 25 days after the property appraiser mails the TRIM notice. The exact deadline date is printed on each parcel&#039;s TRIM notice (typically September). Late petitions accepted only on a written showing of good cause.</p>
+      <p><a class="merged-cta" href="/app?state=florida&amp;dispute=agricultural-use-valuation-appeal">Generate my Florida agricultural use valuation appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="commercial-property-tax-appeal">
+      <h3>🏢 Commercial Property Tax Appeal in Florida</h3>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Comparable sales, independent fee appraisals, income/expense statements for income-producing property, photographs documenting condition/damage, cost or repair estimates, closing statements, and documentation of market value or exemption eligibility. The property appraiser must exchange evidence with the petitioner before the hearing on request.</p>
+      <p data-field="second_level_appeal"><strong>Next-level appeal:</strong> Judicial review by filing suit in the circuit court of the county (de novo) under Fla. Stat. § 194.171. Deadline: no action may be brought after 60 days from the date the assessment is certified for collection, or 60 days from the VAB decision.</p>
+      <p><a class="merged-cta" href="/app?state=florida&amp;dispute=commercial-property-tax-appeal">Generate my Florida commercial property tax appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="property-tax-abatement-request">
+      <h3>📉 Property Tax Abatement Request in Florida</h3>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Informal review with the county Property Appraiser&#039;s office (optional) and/or a formal petition to the county Value Adjustment Board (VAB) under Fla. Stat. § 194.011. Petitions are heard by a special magistrate who issues a recommended decision that the VAB adopts.</p>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Standard $25,000 homestead exemption (all taxes) plus an additional exemption up to $25,000 on assessed value above $50,000 for non-school taxes (indexed to inflation by Amendment 5 of 2024 — $26,411 for 2026); senior (65+) additional exemption (income-limited); $5,000 exemption for veterans with 10%+ service-connected disability; total exemption for veterans with total &amp; permanent service-connected disability; widow/widower and blind/disability exemptions. Homestead filing deadline is March 1.</p>
+      <p><a class="merged-cta" href="/app?state=florida&amp;dispute=property-tax-abatement-request">Generate my Florida property tax abatement request letter →</a></p>
+    </section>
+  </div>
 
   <h2>How It Works</h2>
   <div class="steps">

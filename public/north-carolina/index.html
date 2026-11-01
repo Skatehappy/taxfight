@@ -43,6 +43,11 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:900;margin-bo
 .state-link:hover{background:#1a3a5c;color:#fff}
 footer{background:#0f0f0f;color:rgba(255,255,255,0.5);text-align:center;padding:32px 24px;font-size:12px}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+.merged-topics{display:grid;gap:16px;margin-bottom:64px}
+.merged-topic{background:#fff;border:1px solid #dde3ec;border-radius:10px;padding:24px;scroll-margin-top:80px}
+.merged-topic h3{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;margin-bottom:10px}
+.merged-topic p{font-size:15px;color:#3a3a3a;line-height:1.7;margin-bottom:10px}
+.merged-cta{color:#1a3a5c;font-weight:700;text-decoration:none}
 .cta-section{text-align:center;padding:64px 24px;background:#fff;border-radius:14px;margin-bottom:48px}
 .cta-section h2{margin-bottom:16px}
 .cta-section p{color:#6b6b6b;margin-bottom:24px}
@@ -68,22 +73,22 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 
   <h2>North Carolina Dispute Types</h2>
   <div class="dispute-grid">
-    <a class="dispute-card" href="/north-carolina/property-tax-assessment-appeal">
+    <a class="dispute-card" href="#property-tax-assessment-appeal">
       <div class="dispute-icon">📋</div>
       <div class="dispute-name">Property Tax Assessment Appeal Letter</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/north-carolina/over-assessed-property-value">
+    <a class="dispute-card" href="#over-assessed-property-value">
       <div class="dispute-icon">📈</div>
       <div class="dispute-name">Over-Assessed Property Value Challenge</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/north-carolina/homestead-exemption-denial">
+    <a class="dispute-card" href="#homestead-exemption-denial">
       <div class="dispute-icon">🏡</div>
       <div class="dispute-name">Homestead Exemption Denial Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/north-carolina/senior-tax-exemption-appeal">
+    <a class="dispute-card" href="#senior-tax-exemption-appeal">
       <div class="dispute-icon">👴</div>
       <div class="dispute-name">Senior Citizen Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -93,7 +98,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Veteran Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/north-carolina/disability-tax-exemption-appeal">
+    <a class="dispute-card" href="#disability-tax-exemption-appeal">
       <div class="dispute-icon">♿</div>
       <div class="dispute-name">Disability Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -103,12 +108,12 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Agricultural Use Valuation Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/north-carolina/commercial-property-tax-appeal">
+    <a class="dispute-card" href="#commercial-property-tax-appeal">
       <div class="dispute-icon">🏢</div>
       <div class="dispute-name">Commercial Property Tax Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/north-carolina/property-tax-abatement-request">
+    <a class="dispute-card" href="#property-tax-abatement-request">
       <div class="dispute-icon">📉</div>
       <div class="dispute-name">Property Tax Abatement Request</div>
       <div class="dispute-arrow">→</div>
@@ -118,6 +123,52 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Reassessment After Storm or Damage</div>
       <div class="dispute-arrow">→</div>
     </a></div>
+
+  <h2>North Carolina Dispute Guides</h2>
+  <div class="merged-topics">
+    <section class="merged-topic" id="property-tax-assessment-appeal">
+      <h3>📋 Property Tax Assessment Appeal Letter in North Carolina</h3>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> County-specific: appeals to the county Board of Equalization and Review must be received or postmarked by the Board&#039;s date of adjournment (Boards convene no earlier than the first Monday in April, typically adjourning late April/early May). Informal review is encouraged within 30 days of the notice. Further appeal to the NC Property Tax Commission must be filed within 30 days of the Board&#039;s Notice of Decision.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Informal review by the County Tax Administrator/Assessor&#039;s Office, then formal appeal to the County Board of Equalization and Review (BOER), a citizen board (no cost to file, no lawyer required).</p>
+      <p><a class="merged-cta" href="/app?state=north-carolina&amp;dispute=property-tax-assessment-appeal">Generate my North Carolina property tax assessment appeal letter letter →</a></p>
+    </section>
+    <section class="merged-topic" id="over-assessed-property-value">
+      <h3>📈 Over-Assessed Property Value Challenge in North Carolina</h3>
+      <p data-field="assessment_ratio"><strong>How your value is assessed:</strong> 100% of market (true) value as of January 1. The assessor must appraise at 100% of market value; no adjustment percentage is applied in a year in which the median sales-assessment ratio is 90% or greater.</p>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Sale prices of comparable properties that sold during the year before the county&#039;s last appraisal year, sales close to January 1, and recent appraisals. Before the Property Tax Commission, evidence is presented as sworn testimony/documents under the NC Rules of Evidence.</p>
+      <p><a class="merged-cta" href="/app?state=north-carolina&amp;dispute=over-assessed-property-value">Generate my North Carolina over-assessed property value challenge letter →</a></p>
+    </section>
+    <section class="merged-topic" id="homestead-exemption-denial">
+      <h3>🏡 Homestead Exemption Denial Appeal in North Carolina</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Elderly/Disabled Homestead Exclusion: excludes the greater of $25,000 or 50% of appraised value of a permanent residence for owners age 65+ or totally and permanently disabled with combined income not exceeding $36,700 (2026); apply before June 1 (Form AV-9). Disabled Veteran Homestead Exclusion: excludes $45,000 of appraised value for 100% permanent total service-connected disabled veterans or their unmarried surviving spouse (no income limit). A Circuit Breaker deferment program is also available.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Informal review by the County Tax Administrator/Assessor&#039;s Office, then formal appeal to the County Board of Equalization and Review (BOER), a citizen board (no cost to file, no lawyer required).</p>
+      <p><a class="merged-cta" href="/app?state=north-carolina&amp;dispute=homestead-exemption-denial">Generate my North Carolina homestead exemption denial appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="senior-tax-exemption-appeal">
+      <h3>👴 Senior Citizen Property Tax Exemption Appeal in North Carolina</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Elderly/Disabled Homestead Exclusion: excludes the greater of $25,000 or 50% of appraised value of a permanent residence for owners age 65+ or totally and permanently disabled with combined income not exceeding $36,700 (2026); apply before June 1 (Form AV-9). Disabled Veteran Homestead Exclusion: excludes $45,000 of appraised value for 100% permanent total service-connected disabled veterans or their unmarried surviving spouse (no income limit). A Circuit Breaker deferment program is also available.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Informal review by the County Tax Administrator/Assessor&#039;s Office, then formal appeal to the County Board of Equalization and Review (BOER), a citizen board (no cost to file, no lawyer required).</p>
+      <p><a class="merged-cta" href="/app?state=north-carolina&amp;dispute=senior-tax-exemption-appeal">Generate my North Carolina senior citizen property tax exemption appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="disability-tax-exemption-appeal">
+      <h3>♿ Disability Property Tax Exemption Appeal in North Carolina</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Elderly/Disabled Homestead Exclusion: excludes the greater of $25,000 or 50% of appraised value of a permanent residence for owners age 65+ or totally and permanently disabled with combined income not exceeding $36,700 (2026); apply before June 1 (Form AV-9). Disabled Veteran Homestead Exclusion: excludes $45,000 of appraised value for 100% permanent total service-connected disabled veterans or their unmarried surviving spouse (no income limit). A Circuit Breaker deferment program is also available.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Informal review by the County Tax Administrator/Assessor&#039;s Office, then formal appeal to the County Board of Equalization and Review (BOER), a citizen board (no cost to file, no lawyer required).</p>
+      <p><a class="merged-cta" href="/app?state=north-carolina&amp;dispute=disability-tax-exemption-appeal">Generate my North Carolina disability property tax exemption appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="commercial-property-tax-appeal">
+      <h3>🏢 Commercial Property Tax Appeal in North Carolina</h3>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Sale prices of comparable properties that sold during the year before the county&#039;s last appraisal year, sales close to January 1, and recent appraisals. Before the Property Tax Commission, evidence is presented as sworn testimony/documents under the NC Rules of Evidence.</p>
+      <p data-field="second_level_appeal"><strong>Next-level appeal:</strong> North Carolina Property Tax Commission (PTC) in Raleigh (file Form AV-14 within 30 days of the BOER decision); further appeal to the NC Court of Appeals and Supreme Court on limited grounds.</p>
+      <p><a class="merged-cta" href="/app?state=north-carolina&amp;dispute=commercial-property-tax-appeal">Generate my North Carolina commercial property tax appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="property-tax-abatement-request">
+      <h3>📉 Property Tax Abatement Request in North Carolina</h3>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Informal review by the County Tax Administrator/Assessor&#039;s Office, then formal appeal to the County Board of Equalization and Review (BOER), a citizen board (no cost to file, no lawyer required).</p>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Elderly/Disabled Homestead Exclusion: excludes the greater of $25,000 or 50% of appraised value of a permanent residence for owners age 65+ or totally and permanently disabled with combined income not exceeding $36,700 (2026); apply before June 1 (Form AV-9). Disabled Veteran Homestead Exclusion: excludes $45,000 of appraised value for 100% permanent total service-connected disabled veterans or their unmarried surviving spouse (no income limit). A Circuit Breaker deferment program is also available.</p>
+      <p><a class="merged-cta" href="/app?state=north-carolina&amp;dispute=property-tax-abatement-request">Generate my North Carolina property tax abatement request letter →</a></p>
+    </section>
+  </div>
 
   <h2>How It Works</h2>
   <div class="steps">

@@ -43,6 +43,11 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:900;margin-bo
 .state-link:hover{background:#1a3a5c;color:#fff}
 footer{background:#0f0f0f;color:rgba(255,255,255,0.5);text-align:center;padding:32px 24px;font-size:12px}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+.merged-topics{display:grid;gap:16px;margin-bottom:64px}
+.merged-topic{background:#fff;border:1px solid #dde3ec;border-radius:10px;padding:24px;scroll-margin-top:80px}
+.merged-topic h3{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;margin-bottom:10px}
+.merged-topic p{font-size:15px;color:#3a3a3a;line-height:1.7;margin-bottom:10px}
+.merged-cta{color:#1a3a5c;font-weight:700;text-decoration:none}
 .cta-section{text-align:center;padding:64px 24px;background:#fff;border-radius:14px;margin-bottom:48px}
 .cta-section h2{margin-bottom:16px}
 .cta-section p{color:#6b6b6b;margin-bottom:24px}
@@ -73,7 +78,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Property Tax Assessment Appeal Letter</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/california/over-assessed-property-value">
+    <a class="dispute-card" href="#over-assessed-property-value">
       <div class="dispute-icon">📈</div>
       <div class="dispute-name">Over-Assessed Property Value Challenge</div>
       <div class="dispute-arrow">→</div>
@@ -93,7 +98,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Veteran Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/california/disability-tax-exemption-appeal">
+    <a class="dispute-card" href="#disability-tax-exemption-appeal">
       <div class="dispute-icon">♿</div>
       <div class="dispute-name">Disability Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -113,11 +118,33 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Property Tax Abatement Request</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/california/reassessment-after-damage">
+    <a class="dispute-card" href="#reassessment-after-damage">
       <div class="dispute-icon">🌪️</div>
       <div class="dispute-name">Reassessment After Storm or Damage</div>
       <div class="dispute-arrow">→</div>
     </a></div>
+
+  <h2>California Dispute Guides</h2>
+  <div class="merged-topics">
+    <section class="merged-topic" id="over-assessed-property-value">
+      <h3>📈 Over-Assessed Property Value Challenge in California</h3>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Comparable sales, appraisals, income/expense data (income approach), cost data, and evidence of fair market value as of the valuation date; the § 110(b) rebuttable presumption is that full cash value equals actual purchase price in an open-market transaction.</p>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Regular assessment appeals filing period runs July 2 through either September 15 or November 30 depending on the county. As of 2025, 11 counties (incl. Alameda, San Francisco, Santa Clara, Ventura) use September 15; the other 47 counties use November 30. Supplemental and escape assessments must be appealed within 60 days of the notice/tax bill mailing date. No extensions.</p>
+      <p><a class="merged-cta" href="/app?state=california&amp;dispute=over-assessed-property-value">Generate my California over-assessed property value challenge letter →</a></p>
+    </section>
+    <section class="merged-topic" id="disability-tax-exemption-appeal">
+      <h3>♿ Disability Property Tax Exemption Appeal in California</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Homeowners&#039; Exemption: $7,000 reduction in assessed value of an owner-occupied principal residence. Veterans&#039; Exemption: up to $4,000. Disabled Veterans&#039; Exemption: roughly $161,083 basic / $241,627 low-income for 2026 (inflation-adjusted). Property Tax Postponement (age 62+, blind, or disabled) and Prop 19 base-year-value transfers for homeowners 55+, severely disabled, or disaster victims. Prop 13 caps assessed-value growth at 2%/yr.</p>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Regular assessment appeals filing period runs July 2 through either September 15 or November 30 depending on the county. As of 2025, 11 counties (incl. Alameda, San Francisco, Santa Clara, Ventura) use September 15; the other 47 counties use November 30. Supplemental and escape assessments must be appealed within 60 days of the notice/tax bill mailing date. No extensions.</p>
+      <p><a class="merged-cta" href="/app?state=california&amp;dispute=disability-tax-exemption-appeal">Generate my California disability property tax exemption appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="reassessment-after-damage">
+      <h3>🌪️ Reassessment After Storm or Damage in California</h3>
+      <p data-field="grounds_for_appeal"><strong>Grounds you can raise:</strong> Assessor&#039;s full cash value (fair market value) exceeds actual market value; incorrect base-year value; decline-in-value (Prop 8) below the factored Prop 13 base value; improper change-in-ownership or new-construction reassessment; supplemental or escape assessment disputes.</p>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Regular assessment appeals filing period runs July 2 through either September 15 or November 30 depending on the county. As of 2025, 11 counties (incl. Alameda, San Francisco, Santa Clara, Ventura) use September 15; the other 47 counties use November 30. Supplemental and escape assessments must be appealed within 60 days of the notice/tax bill mailing date. No extensions.</p>
+      <p><a class="merged-cta" href="/app?state=california&amp;dispute=reassessment-after-damage">Generate my California reassessment after storm or damage letter →</a></p>
+    </section>
+  </div>
 
   <h2>How It Works</h2>
   <div class="steps">

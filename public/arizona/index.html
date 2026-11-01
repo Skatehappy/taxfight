@@ -43,6 +43,11 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:900;margin-bo
 .state-link:hover{background:#1a3a5c;color:#fff}
 footer{background:#0f0f0f;color:rgba(255,255,255,0.5);text-align:center;padding:32px 24px;font-size:12px}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+.merged-topics{display:grid;gap:16px;margin-bottom:64px}
+.merged-topic{background:#fff;border:1px solid #dde3ec;border-radius:10px;padding:24px;scroll-margin-top:80px}
+.merged-topic h3{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;margin-bottom:10px}
+.merged-topic p{font-size:15px;color:#3a3a3a;line-height:1.7;margin-bottom:10px}
+.merged-cta{color:#1a3a5c;font-weight:700;text-decoration:none}
 .cta-section{text-align:center;padding:64px 24px;background:#fff;border-radius:14px;margin-bottom:48px}
 .cta-section h2{margin-bottom:16px}
 .cta-section p{color:#6b6b6b;margin-bottom:24px}
@@ -73,7 +78,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Property Tax Assessment Appeal Letter</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/arizona/over-assessed-property-value">
+    <a class="dispute-card" href="#over-assessed-property-value">
       <div class="dispute-icon">📈</div>
       <div class="dispute-name">Over-Assessed Property Value Challenge</div>
       <div class="dispute-arrow">→</div>
@@ -93,7 +98,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Veteran Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/arizona/disability-tax-exemption-appeal">
+    <a class="dispute-card" href="#disability-tax-exemption-appeal">
       <div class="dispute-icon">♿</div>
       <div class="dispute-name">Disability Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -113,11 +118,33 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Property Tax Abatement Request</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/arizona/reassessment-after-damage">
+    <a class="dispute-card" href="#reassessment-after-damage">
       <div class="dispute-icon">🌪️</div>
       <div class="dispute-name">Reassessment After Storm or Damage</div>
       <div class="dispute-arrow">→</div>
     </a></div>
+
+  <h2>Arizona Dispute Guides</h2>
+  <div class="merged-topics">
+    <section class="merged-topic" id="over-assessed-property-value">
+      <h3>📈 Over-Assessed Property Value Challenge in Arizona</h3>
+      <p data-field="assessment_ratio"><strong>How your value is assessed:</strong> Assessment ratios are set by legal class and range from about 1% to 16%. Class 3 (owner-occupied primary residence) = 10%; Class 4 (other/rental residential) = 10%; Class 1 (commercial/industrial) = 15.5% for 2026. The ratio is applied to the Full Cash Value and Limited Property Value.</p>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Owner&#039;s stated opinion of value with supporting documentation: comparable sales, recent appraisals, income/expense data for income properties, evidence of classification errors, and information showing valuation exceeds full cash value or is not uniform.</p>
+      <p><a class="merged-cta" href="/app?state=arizona&amp;dispute=over-assessed-property-value">Generate my Arizona over-assessed property value challenge letter →</a></p>
+    </section>
+    <section class="merged-topic" id="disability-tax-exemption-appeal">
+      <h3>♿ Disability Property Tax Exemption Appeal in Arizona</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> Arizona has no general dollar homestead exemption; relief is targeted. Senior Valuation Protection (&#039;senior freeze&#039;): age 65+, 2+ years primary residence, 2026 income at or below $47,712 (single)/$59,640 (multiple owners) freezes the Limited Property Value for a renewable 3-year term. Exemption of $4,873 assessed value for qualifying widows/widowers, totally and permanently disabled persons, and disabled veterans (scaled by VA disability percentage). Proposition 130 (2022) restored the disabled-veteran exemption for all disabled veterans who become Arizona residents.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> Petition for review filed with the County Assessor within 60 days of the NOV mailing date (A.R.S. § 42-16051).</p>
+      <p><a class="merged-cta" href="/app?state=arizona&amp;dispute=disability-tax-exemption-appeal">Generate my Arizona disability property tax exemption appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="reassessment-after-damage">
+      <h3>🌪️ Reassessment After Storm or Damage in Arizona</h3>
+      <p data-field="grounds_for_appeal"><strong>Grounds you can raise:</strong> The property is valued in excess of its full cash value (over-valuation); the valuation is inequitable/not uniform compared with similar properties; error in the legal classification; or the Limited Property Value was calculated incorrectly.</p>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Administrative petition to the county assessor must be filed within 60 days after the mailing date of the Notice of Value (A.R.S. § 42-16051; USPS postmark is evidence of the filing date). The assessor must rule by August 15.</p>
+      <p><a class="merged-cta" href="/app?state=arizona&amp;dispute=reassessment-after-damage">Generate my Arizona reassessment after storm or damage letter →</a></p>
+    </section>
+  </div>
 
   <h2>How It Works</h2>
   <div class="steps">

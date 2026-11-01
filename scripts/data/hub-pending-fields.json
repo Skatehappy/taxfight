@@ -1,0 +1,13 @@
+{
+  "CA": [
+    "assessment_ratio",
+    "first_level_appeal"
+  ],
+  "FL": [
+    "assessment_ratio"
+  ],
+  "NY": [
+    "exemptions",
+    "first_level_appeal"
+  ]
+}

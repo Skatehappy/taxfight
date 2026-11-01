@@ -43,6 +43,11 @@ h2{font-family:'Fraunces',Georgia,serif;font-size:32px;font-weight:900;margin-bo
 .state-link:hover{background:#1a3a5c;color:#fff}
 footer{background:#0f0f0f;color:rgba(255,255,255,0.5);text-align:center;padding:32px 24px;font-size:12px}
 footer a{color:rgba(255,255,255,0.7);text-decoration:none}
+.merged-topics{display:grid;gap:16px;margin-bottom:64px}
+.merged-topic{background:#fff;border:1px solid #dde3ec;border-radius:10px;padding:24px;scroll-margin-top:80px}
+.merged-topic h3{font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;margin-bottom:10px}
+.merged-topic p{font-size:15px;color:#3a3a3a;line-height:1.7;margin-bottom:10px}
+.merged-cta{color:#1a3a5c;font-weight:700;text-decoration:none}
 .cta-section{text-align:center;padding:64px 24px;background:#fff;border-radius:14px;margin-bottom:48px}
 .cta-section h2{margin-bottom:16px}
 .cta-section p{color:#6b6b6b;margin-bottom:24px}
@@ -68,22 +73,22 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
 
   <h2>Illinois Dispute Types</h2>
   <div class="dispute-grid">
-    <a class="dispute-card" href="/illinois/property-tax-assessment-appeal">
+    <a class="dispute-card" href="#property-tax-assessment-appeal">
       <div class="dispute-icon">📋</div>
       <div class="dispute-name">Property Tax Assessment Appeal Letter</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/illinois/over-assessed-property-value">
+    <a class="dispute-card" href="#over-assessed-property-value">
       <div class="dispute-icon">📈</div>
       <div class="dispute-name">Over-Assessed Property Value Challenge</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/illinois/homestead-exemption-denial">
+    <a class="dispute-card" href="#homestead-exemption-denial">
       <div class="dispute-icon">🏡</div>
       <div class="dispute-name">Homestead Exemption Denial Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/illinois/senior-tax-exemption-appeal">
+    <a class="dispute-card" href="#senior-tax-exemption-appeal">
       <div class="dispute-icon">👴</div>
       <div class="dispute-name">Senior Citizen Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -93,7 +98,7 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Veteran Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/illinois/disability-tax-exemption-appeal">
+    <a class="dispute-card" href="#disability-tax-exemption-appeal">
       <div class="dispute-icon">♿</div>
       <div class="dispute-name">Disability Property Tax Exemption Appeal</div>
       <div class="dispute-arrow">→</div>
@@ -103,12 +108,12 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Agricultural Use Valuation Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/illinois/commercial-property-tax-appeal">
+    <a class="dispute-card" href="#commercial-property-tax-appeal">
       <div class="dispute-icon">🏢</div>
       <div class="dispute-name">Commercial Property Tax Appeal</div>
       <div class="dispute-arrow">→</div>
     </a>
-    <a class="dispute-card" href="/illinois/property-tax-abatement-request">
+    <a class="dispute-card" href="#property-tax-abatement-request">
       <div class="dispute-icon">📉</div>
       <div class="dispute-name">Property Tax Abatement Request</div>
       <div class="dispute-arrow">→</div>
@@ -118,6 +123,52 @@ footer a{color:rgba(255,255,255,0.7);text-decoration:none}
       <div class="dispute-name">Reassessment After Storm or Damage</div>
       <div class="dispute-arrow">→</div>
     </a></div>
+
+  <h2>Illinois Dispute Guides</h2>
+  <div class="merged-topics">
+    <section class="merged-topic" id="property-tax-assessment-appeal">
+      <h3>📋 Property Tax Assessment Appeal Letter in Illinois</h3>
+      <p data-field="appeal_deadline"><strong>Appeal deadline:</strong> Board of Review: within 30 days of publication of the township assessment list (deadlines vary by county/township). Property Tax Appeal Board (PTAB): petition must be postmarked within 30 days of the Board of Review&#039;s final written decision; faxed/emailed appeals not accepted.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> County Board of Review (BOR) — a quasi-judicial body providing an informal venue to resolve assessed-value disputes (some counties allow an informal review with the township/county assessor first). In Cook County, an initial appeal may be filed with the Cook County Assessor before the Board of Review.</p>
+      <p><a class="merged-cta" href="/app?state=illinois&amp;dispute=property-tax-assessment-appeal">Generate my Illinois property tax assessment appeal letter letter →</a></p>
+    </section>
+    <section class="merged-topic" id="over-assessed-property-value">
+      <h3>📈 Over-Assessed Property Value Challenge in Illinois</h3>
+      <p data-field="assessment_ratio"><strong>How your value is assessed:</strong> 33 1/3% (one-third) of fair market value statewide (the Illinois Department of Revenue targets a 33.3% level of assessment). Cook County uses classification: approximately 10% for residential and 25% for commercial/industrial, reconciled via a state equalization multiplier.</p>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Comparable sales, comparable assessments (equity/uniformity grids), recent independent appraisals, a recent arm&#039;s-length purchase price, and documentation of property condition or income/expense data. PTAB weighs comparables by similarity in age, design, size, and features.</p>
+      <p><a class="merged-cta" href="/app?state=illinois&amp;dispute=over-assessed-property-value">Generate my Illinois over-assessed property value challenge letter →</a></p>
+    </section>
+    <section class="merged-topic" id="homestead-exemption-denial">
+      <h3>🏡 Homestead Exemption Denial Appeal in Illinois</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> General Homestead Exemption (up to $10,000 EAV in Cook County / $6,000 in other counties for 2026); Senior Citizens Homestead Exemption ($5,000, age 65+); Senior Citizens Assessment Freeze (income limit raised to $75,000 for tax year 2026); Returning Veterans&#039; Homestead Exemption ($5,000 for two years); Disabled Veterans&#039; Standard Homestead Exemption ($2,500 for 30-49% disability, $5,000 for 50-69%, total exemption for 70%+); plus Home Improvement and Persons with Disabilities exemptions.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> County Board of Review (BOR) — a quasi-judicial body providing an informal venue to resolve assessed-value disputes (some counties allow an informal review with the township/county assessor first). In Cook County, an initial appeal may be filed with the Cook County Assessor before the Board of Review.</p>
+      <p><a class="merged-cta" href="/app?state=illinois&amp;dispute=homestead-exemption-denial">Generate my Illinois homestead exemption denial appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="senior-tax-exemption-appeal">
+      <h3>👴 Senior Citizen Property Tax Exemption Appeal in Illinois</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> General Homestead Exemption (up to $10,000 EAV in Cook County / $6,000 in other counties for 2026); Senior Citizens Homestead Exemption ($5,000, age 65+); Senior Citizens Assessment Freeze (income limit raised to $75,000 for tax year 2026); Returning Veterans&#039; Homestead Exemption ($5,000 for two years); Disabled Veterans&#039; Standard Homestead Exemption ($2,500 for 30-49% disability, $5,000 for 50-69%, total exemption for 70%+); plus Home Improvement and Persons with Disabilities exemptions.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> County Board of Review (BOR) — a quasi-judicial body providing an informal venue to resolve assessed-value disputes (some counties allow an informal review with the township/county assessor first). In Cook County, an initial appeal may be filed with the Cook County Assessor before the Board of Review.</p>
+      <p><a class="merged-cta" href="/app?state=illinois&amp;dispute=senior-tax-exemption-appeal">Generate my Illinois senior citizen property tax exemption appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="disability-tax-exemption-appeal">
+      <h3>♿ Disability Property Tax Exemption Appeal in Illinois</h3>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> General Homestead Exemption (up to $10,000 EAV in Cook County / $6,000 in other counties for 2026); Senior Citizens Homestead Exemption ($5,000, age 65+); Senior Citizens Assessment Freeze (income limit raised to $75,000 for tax year 2026); Returning Veterans&#039; Homestead Exemption ($5,000 for two years); Disabled Veterans&#039; Standard Homestead Exemption ($2,500 for 30-49% disability, $5,000 for 50-69%, total exemption for 70%+); plus Home Improvement and Persons with Disabilities exemptions.</p>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> County Board of Review (BOR) — a quasi-judicial body providing an informal venue to resolve assessed-value disputes (some counties allow an informal review with the township/county assessor first). In Cook County, an initial appeal may be filed with the Cook County Assessor before the Board of Review.</p>
+      <p><a class="merged-cta" href="/app?state=illinois&amp;dispute=disability-tax-exemption-appeal">Generate my Illinois disability property tax exemption appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="commercial-property-tax-appeal">
+      <h3>🏢 Commercial Property Tax Appeal in Illinois</h3>
+      <p data-field="evidence_accepted"><strong>Evidence that works:</strong> Comparable sales, comparable assessments (equity/uniformity grids), recent independent appraisals, a recent arm&#039;s-length purchase price, and documentation of property condition or income/expense data. PTAB weighs comparables by similarity in age, design, size, and features.</p>
+      <p data-field="second_level_appeal"><strong>Next-level appeal:</strong> Illinois Property Tax Appeal Board (PTAB) — a five-member statewide quasi-judicial body; alternatively, taxpayers may seek judicial review by filing a tax objection complaint in the circuit court. PTAB decisions are reviewable by the Appellate Court under the Administrative Review Law.</p>
+      <p><a class="merged-cta" href="/app?state=illinois&amp;dispute=commercial-property-tax-appeal">Generate my Illinois commercial property tax appeal letter →</a></p>
+    </section>
+    <section class="merged-topic" id="property-tax-abatement-request">
+      <h3>📉 Property Tax Abatement Request in Illinois</h3>
+      <p data-field="first_level_appeal"><strong>First-level appeal:</strong> County Board of Review (BOR) — a quasi-judicial body providing an informal venue to resolve assessed-value disputes (some counties allow an informal review with the township/county assessor first). In Cook County, an initial appeal may be filed with the Cook County Assessor before the Board of Review.</p>
+      <p data-field="exemptions"><strong>Exemptions to claim:</strong> General Homestead Exemption (up to $10,000 EAV in Cook County / $6,000 in other counties for 2026); Senior Citizens Homestead Exemption ($5,000, age 65+); Senior Citizens Assessment Freeze (income limit raised to $75,000 for tax year 2026); Returning Veterans&#039; Homestead Exemption ($5,000 for two years); Disabled Veterans&#039; Standard Homestead Exemption ($2,500 for 30-49% disability, $5,000 for 50-69%, total exemption for 70%+); plus Home Improvement and Persons with Disabilities exemptions.</p>
+      <p><a class="merged-cta" href="/app?state=illinois&amp;dispute=property-tax-abatement-request">Generate my Illinois property tax abatement request letter →</a></p>
+    </section>
+  </div>
 
   <h2>How It Works</h2>
   <div class="steps">

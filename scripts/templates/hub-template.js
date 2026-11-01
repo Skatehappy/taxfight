@@ -1,3 +1,4 @@
+import { comboHref } from '../data/merged.js';
 import { APP_CONFIG } from '../data/config.js';
 
 // STEP 2 hub: a single page linking EVERY state hub and EVERY state×dispute deep
@@ -7,7 +8,7 @@ import { APP_CONFIG } from '../data/config.js';
 export function renderHub(states, disputes) {
   const sections = states.map(state => {
     const links = disputes.map(d =>
-      `      <li><a href="/${state.slug}/${d.slug}">${escapeHtml(state.name)} ${escapeHtml(d.name)}</a></li>`
+      `      <li><a href="${comboHref(state.slug, d.slug)}">${escapeHtml(state.name)} ${escapeHtml(d.name)}</a></li>`
     ).join('\n');
     return `  <section class="hub-state">
     <h2><a class="hub-state-link" href="/${state.slug}">${escapeHtml(state.name)} Property Tax Appeal Letters</a></h2>
