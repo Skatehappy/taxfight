@@ -75,7 +75,8 @@ fs.writeFileSync(path.join(hubDir, 'index.html'), renderHub(STATES, DISPUTES));
 // nudge) + the new hub URL.
 // Sitemap lists indexable URLs only (merged combos 301 to their hub). lastmod is the
 // file's last git commit date; a file changed since HEAD gets today's date.
-const TODAY = new Date().toISOString().slice(0, 10);
+const _d = new Date(); // LOCAL date (not UTC): a late-evening build must not stamp tomorrow's date
+const TODAY = [_d.getFullYear(), String(_d.getMonth() + 1).padStart(2, '0'), String(_d.getDate()).padStart(2, '0')].join('-');
 function lastmod(file) {
   try {
     if (execFileSync('git', ['status', '--porcelain', '--', file], { encoding: 'utf8' }).trim()) return TODAY;

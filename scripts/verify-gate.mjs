@@ -51,5 +51,13 @@ for (const [label, args] of [['allowlist stale', ['scripts/build-verified-citati
 }
 try { execFileSync(process.execPath, ['scripts/test-auth-gate.mjs'], { cwd: ROOT, stdio: 'pipe' }); } catch (e) { fail('A11: ' + (e.stdout || '') + (e.stderr || '')); }
 try { execFileSync(process.execPath, ['scripts/test-lock-coverage.mjs'], { cwd: ROOT, stdio: 'pipe' }); } catch (e) { fail('A12: ' + (e.stdout || '') + (e.stderr || '')); }
-console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A11 no-Anthropic-without-license (+G4T checklist) ok; A12 lock coverage (checklist + templates) ok; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
+// A13: retrofit tests - Payhip mock, check-call, UI button wiring (Playwright; SKIPs loudly if no browser/playwright, fatal with UI_TEST_REQUIRED=1)
+let uiNote = '';
+for (const [label, file] of [['A13 payhip-mock', 'scripts/payhip-mock.test.js'], ['A13 isCheckCall', 'scripts/isCheckCall.test.js'], ['A13 ui-wiring', 'scripts/ui-wiring.test.mjs']]) {
+  try {
+    const out = execFileSync(process.execPath, [file], { cwd: ROOT, stdio: 'pipe', timeout: 170000 }).toString();
+    if (/SKIP/.test(out)) uiNote = ' [' + out.trim().split(String.fromCharCode(10)).pop().trim() + ']';
+  } catch (e) { fail(label + ': ' + (e.stdout || '') + (e.stderr || '') + (e.message || '')); }
+}
+console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A11 no-Anthropic-without-license (+G4T checklist) ok; A12 lock coverage (checklist + templates) ok; A13 payhip-mock + isCheckCall + ui-wiring ok' + uiNote + '; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
 process.exit(0);
