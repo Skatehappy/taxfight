@@ -10,6 +10,7 @@
     "generate:content": "node scripts/generate-content.js",
     "generate:pages": "node scripts/build-pages.js && node scripts/build-verified-citations.mjs",
     "test:citelint": "node scripts/test-citelint.mjs",
+    "test:lockcoverage": "node scripts/test-lock-coverage.mjs",
     "generate:all": "npm run generate:content && npm run generate:pages"
   },
   "dependencies": {

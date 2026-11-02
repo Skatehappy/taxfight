@@ -1,9 +1,9 @@
 // api/generate.js — keeps ANTHROPIC_API_KEY server-side only
-import fs from 'node:fs';
-import crypto from 'node:crypto';
 import { MODEL } from './_config.js';
 import { citationBlock, lintLetter } from './_citelint.js';
 import { verifyLicense } from './_license.js';
+import { isG4TCode, g4tTake } from './_g4t.js';
+import { verifiedFor, slugOf } from './_verified.js';
 
 // Node serverless runtime (NOT edge). Edge caps at ~25s on Hobby and ignores
 // maxDuration, which 504'd ~25s Opus letters. Node honors maxDuration:60. MUST
@@ -12,41 +12,6 @@ import { verifyLicense } from './_license.js';
 export const config = { maxDuration: 60 };
 
 const PRODUCT_LINK = 'Sry6P';
-
-// Verified-citation allowlist built from VERIFICATION_LOG* by scripts/build-verified-citations.mjs.
-let VERIFIED = {};
-try { VERIFIED = JSON.parse(fs.readFileSync(new URL('./_verified-citations.json', import.meta.url), 'utf8')); } catch { /* none: letters then cite nothing */ }
-const slugOf = v => String(v || '').trim().toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
-function verifiedFor(state, letterType) {
-  const e = VERIFIED[slugOf(state)];
-  if (!e) return { keys: [], entry: { display: [] } };
-  const t = slugOf(letterType);
-  const ordered = [...e.cites].sort((a, b) => (b.t.includes(t) ? 1 : 0) - (a.t.includes(t) ? 1 : 0));
-  return { keys: e.cites.map(c => c.k), entry: { display: ordered.map(c => c.d) } };
-}
-
-// G4T- Gate 4 test code. Inert unless G4_TEST_CODE_SECRET is set in Vercel env (no default).
-// Code form: G4T-<secret>. Skips Payhip verify and the usage mark; max 10 generations per UTC day.
-// The counter lives in module memory, so it is best-effort: it resets on a cold start and is not
-// shared between serverless instances. Rotate/unset the secret to shut the path off.
-const G4T_DAILY_CAP = 10;
-const g4t = { day: '', n: 0 };
-function isG4TCode(code) {
-  const secret = process.env.G4_TEST_CODE_SECRET;
-  const c = (code || '').trim();
-  if (!secret || !c.toUpperCase().startsWith('G4T-')) return false;
-  // the app uppercases typed codes, so compare case-insensitively
-  const a = Buffer.from(c.slice(4).toUpperCase()), b = Buffer.from(secret.toUpperCase());
-  return a.length === b.length && crypto.timingSafeEqual(a, b);
-}
-function g4tTake() {
-  const day = new Date().toISOString().slice(0, 10);
-  if (g4t.day !== day) { g4t.day = day; g4t.n = 0; }
-  if (g4t.n >= G4T_DAILY_CAP) return false;
-  g4t.n++;
-  console.log(JSON.stringify({ event: 'g4t_use', day, n: g4t.n, cap: G4T_DAILY_CAP }));
-  return true;
-}
 
 async function callClaude(apiKey, system, messages) {
   const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -104,7 +69,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ text: 'VALID' });
     }
 
-    if (testCode && !g4tTake()) return res.status(429).json({ error: 'Test code daily limit reached.' });
+    if (testCode && !g4tTake('generate')) return res.status(429).json({ error: 'Test code daily limit reached.' });
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) return res.status(500).json({ error: 'API not configured' });

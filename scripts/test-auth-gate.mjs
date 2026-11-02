@@ -1,4 +1,4 @@
-// A11: no path to api.anthropic.com without a passed Payhip (or G4T, generate only) check.
+// A11: no path to api.anthropic.com without a passed Payhip (or env-gated G4T, generate + checklist) check.
 // Static scan + behavioral test with stubbed fetch. No real codes, no network.
 import fs from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -21,7 +21,7 @@ for (const dir of ['api', 'src', 'scripts', 'public']) {
 for (const f of fs.readdirSync(path.join(ROOT, 'api')).filter(n => n.endsWith('.js'))) {
   const t = fs.readFileSync(path.join(ROOT, 'api', f), 'utf8');
   const call = t.search(/fetch\(\s*['"`]https:\/\/api\.anthropic\.com/);
-  const inFn = t.search(/function callClaude/);
+  const inFn = t.search(/function (?:callClaude|ask)\(/);
   if (call < 0) continue;
   if (f === '_license.js') continue;
   const v = t.indexOf('verifyLicense(');
@@ -66,8 +66,9 @@ async function callGen(code, extra = {}) {
   return res.code;
 }
 async function callChk(code) {
-  const r = await chk(new Request('http://x/api/checklist', { method: 'POST', body: JSON.stringify({ accessCode: code, address: 'a', state: 'AZ' }) }));
-  return r.status;
+  const res = nodeRes();
+  await chk({ method: 'POST', body: { accessCode: code, address: 'a', state: 'AZ' } }, res);
+  return res.code;
 }
 for (const [name, code, p] of scenarios) {
   payhip = p;
@@ -95,5 +96,20 @@ if (anthropicCalls || usage) fail(`access check ran model (${anthropicCalls}) or
 anthropicCalls = 0; await callChk('REAL-CODE');
 if (anthropicCalls !== 1) fail('control: valid code did not reach Anthropic on checklist (harness broken)');
 
+// G4T on checklist: inert unless G4_TEST_CODE_SECRET is set; wrong secret never reaches Anthropic; right secret (set only here) reaches it once, skips Payhip
+payhip = () => { throw new Error('payhip must not be called for a G4T code'); };
+delete process.env.G4_TEST_CODE_SECRET;
+anthropicCalls = 0; { const s = await callChk('G4T-SECRETVALUE0000'); if (anthropicCalls || s !== 401 && s !== 503) fail('checklist: G4T with secret unset not inert (' + s + ')'); }
+process.env.G4_TEST_CODE_SECRET = 'MOCKSECRET-FOR-TEST-ONLY';
+payhip = () => new Response('{}', { status: 404 });
+anthropicCalls = 0; { const s = await callChk('G4T-WRONG'); if (anthropicCalls || s !== 401) fail('checklist: wrong G4T secret not rejected (' + s + ')'); }
+payhip = () => { throw new Error('payhip must not be called for a G4T code'); };
+anthropicCalls = 0; { const s = await callChk('G4T-MOCKSECRET-FOR-TEST-ONLY'); if (s !== 200 || anthropicCalls !== 1) fail('checklist: correct G4T secret did not reach Anthropic exactly once (' + s + ', ' + anthropicCalls + ')'); }
+// the G4T cap applies to the checklist too (10/day)
+anthropicCalls = 0; let last = 200; for (let i = 0; i < 11; i++) last = await callChk('G4T-MOCKSECRET-FOR-TEST-ONLY');
+if (last !== 429) fail('checklist: G4T daily cap not enforced (' + last + ')');
+delete process.env.G4_TEST_CODE_SECRET;
+payhip = () => new Response(JSON.stringify({ data: { enabled: true, product_link: PL } }), { status: 200 });
+
 if (bad.length) { console.error('A11 FAIL:\n  ' + bad.join('\n  ')); process.exit(1); }
-console.log('A11 ok: ' + scenarios.length * 2 + ' deny scenarios + fail-closed + check-call + control');
+console.log('A11 ok: ' + scenarios.length * 2 + ' deny scenarios + fail-closed + check-call + control + G4T(generate/checklist)');

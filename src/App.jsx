@@ -358,7 +358,7 @@ export default function TaxFight() {
       const res3 = await fetch(`${API_BASE}/api/checklist`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formData, appType: "property-tax-appeal" }),
+        body: JSON.stringify({ accessCode: accessCode.trim(), address: formData.address, state: formData.state, appealType: "property-tax-appeal", letterExcerpt: (data.text || "").substring(0, 200) }),
       });
       const data3 = await res3.json();
       if (res3.ok) setChecklist(data3.checklist || []);
