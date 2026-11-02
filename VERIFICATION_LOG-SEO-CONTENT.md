@@ -498,3 +498,12 @@ Sources: N.Y. Real Property Tax Law, Agriculture and Markets Law and CPLR via Fi
 | NYC Admin. Code § 11-208.1 | VERIFIED | Owners of income-producing property must file annual real property income and expense statements; if a required statement is not timely filed, the Tax Commission must deny a hearing on the assessment objection. | Secondary: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-7581 |
 | RPTL Article 7, Title 1-A | VERIFIED | Small claims assessment review (sections 730 to 739). | Secondary: https://codes.findlaw.com/ny/real-property-tax-law/rpt-sect-730.html |
 | RPTL section five hundred ninety / section nineteen fifty-five | REMOVED (misattributed or not found) | The first defines oil and gas terms; the second could not be found. Pages now cite sections 302 and 550. | Secondary: https://codes.findlaw.com/ny/real-property-tax-law/ |
+
+### Close-out 2026-11-01 (Arizona held sentences)
+Sources: azleg.gov (Official). The nonexistent A.R.S. section forty-two-fifteen-four-oh-five (404 on azleg.gov) was REMOVED; the destroyed-property page now rests on the real section below. Also removed from the three unrendered Arizona sources: the August ruling date, the Class 1 ratio, the attorney-fee claim, the Constitution article claim, tax court fee ranges, the five hundred thousand small claims limit, income caps for disability, and the December 31 notice deadline.
+
+| Citation as it now appears | Status | What it says | Source |
+|---|---|---|---|
+| A.R.S. § 42-15157 | VERIFIED (added) | Property destroyed after the assessor closes the rolls: owner notice of claim or assessor notice of proposed correction; valuation prorated from lien date to destruction; treasurer prorates taxes; classification may be kept up to five years after destruction by verifiable accident. | Official: https://azleg.gov/ars/42/15157.htm |
+| A.R.S. section twelve-three-forty-eight | REMOVED | Fee-shifting against the state or a county exists, but conditions were not verified; claim dropped from the Arizona pages. | Official: https://www.azleg.gov/ars/12/00348.htm |
+| A.R.S. sections forty-two-sixteen-one-oh-one to one-oh-eight | REMOVED | sixteen-one-oh-one is a definition of county board; the twenty-five day appeal is 42-16056, already logged. | Official: azleg.gov |
