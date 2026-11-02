@@ -75,10 +75,16 @@ export default async function handler(req, res) {
       return res.status(429).json({ error: 'Test code daily limit reached.' });
     }
 
+    const over = (v, n) => typeof v === 'string' && v.length > n;
+    if (over(address, 500) || over(state, 100) || over(appealType, 200) || over(letterExcerpt, 5000)) {
+      return res.status(400).json({ error: 'Your input is too long.' });
+    }
+
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) return res.status(500).json({ error: 'API not configured' });
 
-    const { keys, entry } = verifiedFor(state, 'property-tax-appeal');
+    const { keys, subs, nums, entry } = verifiedFor(state, 'property-tax-appeal');
+    const lockOpts = { subs, nums, input: [address, appealType, letterExcerpt].filter(Boolean).join('\n') };
     const system = 'You write property tax appeal submission checklists.' + citationBlock(entry);
     const prompt = `Generate a practical property tax appeal submission checklist as a JSON array of strings. Be specific to the state and situation. Include items like: completed appeal form, this cover letter (copies), comparable sales printouts, photos of condition issues, assessor field card copy, filing fee amount/method, deadline date reminder, certified mail receipt, etc. Do not cite any statute, rule or case unless it is in the verified authorities list. Return ONLY a valid JSON array, no other text.
 
@@ -90,7 +96,7 @@ Letter excerpt: ${letterExcerpt?.substring(0, 200) || ''}`;
     let checklist = await ask(apiKey, system, prompt);
     if (checklist) {
       // Citation lock: any unverified statute/case -> regenerate once, else strip it from the items.
-      const bad = list => list.flatMap(i => findUnverified(i, keys));
+      const bad = list => list.flatMap(i => findUnverified(i, keys, lockOpts));
       const first = bad(checklist);
       if (first.length) {
         let action = 'stripped';
@@ -98,7 +104,7 @@ Letter excerpt: ${letterExcerpt?.substring(0, 200) || ''}`;
           const again = await ask(apiKey, system + `\nYour previous checklist cited authorities that are NOT verified: ${first.map(f => f.sample).join('; ')}. Rewrite it without citing them or any other authority outside the list.`, prompt);
           if (again) { checklist = again; if (!bad(again).length) action = 'regenerated'; }
         } catch { /* fall through to strip */ }
-        if (action !== 'regenerated') checklist = checklist.map(i => stripUnverified(i, keys)).filter(i => i.trim());
+        if (action !== 'regenerated') checklist = checklist.map(i => stripUnverified(i, keys, lockOpts)).filter(i => i.trim());
         console.log(JSON.stringify({ event: 'citelint', endpoint: 'checklist', action, flagged: first.map(f => f.key), state: slugOf(state) || null }));
       }
     }

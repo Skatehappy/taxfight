@@ -7,7 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import { holdBack } from './data/pending.js';
 import { STATES } from './data/states.js';
-import { citations } from '../api/_citelint.js';
+import { citations, subsections, figures } from '../api/_citelint.js';
 import { isMerged } from './data/merged.js';
 
 const GEN = path.join('scripts', 'data', 'generated');
@@ -33,11 +33,17 @@ function widen(text, sample) {
 const out = {};
 for (const st of STATES) {
   const cites = new Map(); // key -> { k, d, t:Set }
+  const subs = new Map(); // key -> Set of verified subsection chains
+  const nums = new Set(); // verified $ / % / day figures for this state
   const take = (value, topic) => {
-    for (const text of leaves(value)) for (const [k, sample] of citations(text)) {
+    for (const text of leaves(value)) {
+      for (const c of subsections(text)) { if (!subs.has(c.key)) subs.set(c.key, new Set()); subs.get(c.key).add(c.chain); }
+      for (const f of figures(text)) nums.add(f);
+      for (const [k, sample] of citations(text)) {
       const e = cites.get(k) || { k, d: widen(text, sample), t: new Set() };
       if (topic) e.t.add(topic);
       cites.set(k, e);
+      }
     }
   };
   take(holdBack(st.slug, SD[st.abbr]), null);
@@ -46,7 +52,7 @@ for (const st of STATES) {
     if (isMerged(st.slug, topic)) continue;
     take(holdBack(`${st.slug}/${topic}`, JSON.parse(fs.readFileSync(path.join(GEN, st.slug, f), 'utf8'))), topic);
   }
-  out[st.slug] = { cites: [...cites.values()].map(e => ({ k: e.k, d: e.d, t: [...e.t].sort() })).sort((a, b) => a.k.localeCompare(b.k)) };
+  out[st.slug] = { cites: [...cites.values()].map(e => ({ k: e.k, d: e.d, t: [...e.t].sort(), s: [...(subs.get(e.k) || [])].sort() })).sort((a, b) => a.k.localeCompare(b.k)), nums: [...nums].sort() };
 }
 const target = path.join('api', '_verified-citations.json');
 if (process.argv.includes('--check')) {

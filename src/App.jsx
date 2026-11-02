@@ -15,6 +15,18 @@ const APP = {
   sessionKey: "tf_form",
 };
 
+// Error taxonomy. transient: nothing was consumed, retry free; invalid: fix the input or code and retry,
+// the code is intact; consumed/unknown: contact support.
+export function describeError(status, serverMsg) {
+  if (status === 0 || status === 429 || status === 502 || status === 503 || status === 504)
+    return { kind: "transient", message: "Temporary problem - this did not use up your access code. Please try again in a moment." };
+  if (status === 400 || status === 413)
+    return { kind: "invalid-input", message: (serverMsg || "Some of your input is too long or invalid.") + " Please fix it and try again - your access code is unchanged." };
+  if (status === 401 || status === 403)
+    return { kind: "invalid-code", message: "That access code was not accepted. Check it for typos and try again. If it is correct, contact " + APP.support + "." };
+  return { kind: "other", message: (serverMsg || "Something went wrong.") + " If this keeps happening, contact " + APP.support + "." };
+}
+
 const FORM_STEPS = ["Intro", "Property", "Assessment", "Evidence", "Board", "Generate", "Letter"];
 
 const stepFields = {
@@ -153,8 +165,12 @@ function Tooltip({ text }) {
   );
 }
 
+const MAX_TEXT = 200, MAX_TEXTAREA = 2000; // input caps (server enforces a total size limit too)
+
 function FormField({ field, value, onChange }) {
   const [focused, setFocused] = useState(false);
+  const cap = field.type === "textarea" ? MAX_TEXTAREA : MAX_TEXT;
+  const len = (value || "").length;
   return (
     <div style={{ marginBottom: "4px" }}>
       <label style={{ display: "block", marginBottom: "6px", fontSize: "13px", color: C.inkMuted, letterSpacing: "0.02em" }}>
@@ -167,9 +183,12 @@ function FormField({ field, value, onChange }) {
           {field.options.map(o => <option key={o} value={o}>{o}</option>)}
         </select>
       ) : field.type === "textarea" ? (
-        <textarea value={value || ""} onChange={e => onChange(e.target.value)} placeholder={field.placeholder} rows={field.rows || 4} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} style={{ ...inputStyle(focused), resize: "vertical", lineHeight: "1.7", minHeight: `${(field.rows || 4) * 28}px` }} />
+        <textarea value={value || ""} onChange={e => onChange(e.target.value)} maxLength={MAX_TEXTAREA} placeholder={field.placeholder} rows={field.rows || 4} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} style={{ ...inputStyle(focused), resize: "vertical", lineHeight: "1.7", minHeight: `${(field.rows || 4) * 28}px` }} />
       ) : (
-        <input type="text" value={value || ""} onChange={e => onChange(e.target.value)} placeholder={field.placeholder} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} style={inputStyle(focused)} />
+        <input type="text" value={value || ""} onChange={e => onChange(e.target.value)} maxLength={MAX_TEXT} placeholder={field.placeholder} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} style={inputStyle(focused)} />
+      )}
+      {field.type !== "select" && (
+        <div data-testid="char-counter" style={{ textAlign: "right", fontSize: "11px", marginTop: "3px", color: len >= cap ? C.errorText : C.inkFaint }}>{len} / {cap}{len >= cap ? " - limit reached" : ""}</div>
       )}
     </div>
   );
@@ -247,7 +266,7 @@ Return ONLY the letter text, no commentary.`;
 export default function TaxFight() {
   const [step, setStep]           = useState(0);
   const [formData, setFormData]   = useState(() => {
-    try { return JSON.parse(sessionStorage.getItem(APP.sessionKey) || "{}"); }
+    try { return JSON.parse(localStorage.getItem(APP.sessionKey) || sessionStorage.getItem(APP.sessionKey) || "{}"); }
     catch { return {}; }
   });
   const [accessCode, setAccessCode] = useState("");
@@ -301,7 +320,8 @@ export default function TaxFight() {
   }, []);
 
   useEffect(() => {
-    try { sessionStorage.setItem(APP.sessionKey, JSON.stringify(formData)); }
+    // Draft persistence: the form (never the access code) survives reloads and tab closes.
+    try { localStorage.setItem(APP.sessionKey, JSON.stringify(formData)); }
     catch {}
   }, [formData]);
 
@@ -321,10 +341,10 @@ export default function TaxFight() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ accessCode: accessCode.trim(), systemPrompt: "Reply: VALID", userPrompt: "VALIDATE" }),
       });
-      const data = await res.json();
-      if (!res.ok) { setCodeError(data.error || "Invalid access code."); }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { setCodeError(describeError(res.status, data.error).message); }
       else { setCodeValid(true); setStep(1); }
-    } catch { setCodeError("Connection error. Please try again."); }
+    } catch { setCodeError(describeError(0).message); }
     setLoading(false);
   }
 
@@ -340,8 +360,8 @@ export default function TaxFight() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ accessCode: accessCode.trim(), systemPrompt: sysPrompt, userPrompt, state: formData.state, letterType: disputeSlug }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Generation failed");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(describeError(res.status, data.error).message);
       setLetter(data.text || "");
 
       setLoadingMsg("Generating assertive version…");
@@ -364,7 +384,7 @@ export default function TaxFight() {
       if (res3.ok) setChecklist(data3.checklist || []);
 
       setStep(FORM_STEPS.indexOf("Letter"));
-    } catch (e) { setError(e.message || "Generation failed. Please try again."); }
+    } catch (e) { setError(e instanceof TypeError ? describeError(0).message : (e.message || describeError(500).message)); }
     setLoading(false); setLoadingMsg("");
   }
 

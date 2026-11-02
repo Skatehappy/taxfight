@@ -9,8 +9,8 @@ export const slugOf = v => String(v || '').trim().toLowerCase().replace(/[^a-z]+
 
 export function verifiedFor(state, letterType) {
   const e = VERIFIED[slugOf(state)];
-  if (!e) return { keys: [], entry: { display: [] } };
+  if (!e) return { keys: [], subs: {}, nums: [], entry: { display: [] } };
   const t = slugOf(letterType);
   const ordered = [...e.cites].sort((a, b) => (b.t.includes(t) ? 1 : 0) - (a.t.includes(t) ? 1 : 0));
-  return { keys: e.cites.map(c => c.k), entry: { display: ordered.map(c => c.d) } };
+  return { keys: e.cites.map(c => c.k), subs: Object.fromEntries(e.cites.map(c => [c.k, c.s || []])), nums: e.nums || [], entry: { display: ordered.map(c => c.d) } };
 }

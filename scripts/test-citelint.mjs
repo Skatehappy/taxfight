@@ -74,3 +74,33 @@ assert.equal(lines.filter(l => l.includes('g4t_use')).length, 10, 'each use logg
 
 console.log = origLog;
 console.log('citelint + G4T mock tests: PASS');
+
+// ── S4/S7 upgrade: full-citation (subsection) lock + numeric-claims check ──
+{
+  const lines2 = []; const lg = console.log; console.log = (...a) => lines2.push(a.join(' '));
+  const VER = JSON.parse((await import('node:fs')).readFileSync(new URL('../api/_verified-citations.json', import.meta.url), 'utf8'));
+  const ga = VER.georgia, txs = VER.texas;
+  const gaChain = ga.cites.find(c => c.k === 'S:48-5-311').s.find(s => s.startsWith('(g)(4)'));
+  assert.ok(gaChain, 'build must record verified subsection chains');
+  const { findUnverified: fu, stripUnverified: su } = await import('../api/_citelint.js');
+  const keys = txs.cites.map(c => c.k), subs = Object.fromEntries(txs.cites.map(c => [c.k, c.s || []])), nums = txs.nums;
+  const opts = { subs, nums, input: 'My assessed value is $285,000 and the comparable sold for $240,000.' };
+  // verified section, UNverified subsection -> flagged (section-only matching would have passed it)
+  assert.ok(fu('Protest under Tex. Tax Code § 41.44(z)(9).', keys, opts).length, 'unverified subsection must be flagged');
+  // bare verified section -> fine; less specific than verified -> fine
+  assert.equal(fu('Protest rights arise under Tex. Tax Code § 41.44.', keys, opts).length, 0);
+  // numbers: contradicting legal figure flagged; user-supplied figure and verified figure pass
+  assert.ok(fu('The additional over-65 exemption is $10,001.', keys, opts).length, 'unverified dollar figure flagged');
+  assert.equal(fu('My assessed value of $285,000 is above the $240,000 comparable sale.', keys, opts).length, 0, 'user figures allowed');
+  assert.equal(fu('The over-65 school exemption is $60,000.', keys, opts).length, 0, 'verified figure allowed');
+  assert.ok(fu('You must file within 777 days of the notice.', keys, opts).length, 'unverified day count flagged');
+  assert.ok(fu('Interest accrues at 99.5% per year.', keys, opts).length, 'unverified percent flagged');
+  const stripped = su('Dear Board,\nThe over-65 exemption is $10,001 under Tex. Tax Code § 41.44(z). Please reduce my value.\nSincerely', keys, opts);
+  assert.ok(!/10,001|\(z\)/.test(stripped) && stripped.includes('Dear Board') && stripped.includes('Please reduce'), 'strip result: ' + stripped);
+  // end-to-end through the handler: contradicting figure -> regenerated once without it
+  stub(n => n === 1 ? 'Dear Board,\nThe additional exemption is $10,001 per statute. Please reduce my value.' : 'Dear Board,\nPlease reduce my value.');
+  const r2 = await call(base);
+  assert.equal(r2.status, 200); assert.ok(!r2.json.text.includes('10,001')); assert.equal(anth.length, 2, 'numeric contradiction triggers one regeneration');
+  console.log = lg;
+  console.log('subsection lock + numeric-claims mock tests: PASS');
+}

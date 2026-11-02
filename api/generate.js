@@ -69,6 +69,12 @@ export default async function handler(req, res) {
       return res.status(200).json({ text: 'VALID' });
     }
 
+    // Input caps (invalid input -> 400; the license is not consumed by a rejected request).
+    const over = (v, n) => typeof v === 'string' && v.length > n;
+    if (over(systemPrompt, 12000) || over(userPrompt, 40000) || over(draftLetter, 20000)) {
+      return res.status(400).json({ error: 'Your input is too long.' });
+    }
+
     if (testCode && !g4tTake('generate')) return res.status(429).json({ error: 'Test code daily limit reached.' });
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -86,14 +92,17 @@ export default async function handler(req, res) {
 
     // Citation lock: the model may cite only verified authorities for this state (server-side),
     // and the output is linted for anything else (regenerate once, then strip the sentence).
-    const { keys, entry } = verifiedFor(state, letterType);
+    const { keys, subs, nums, entry } = verifiedFor(state, letterType);
+    // full-citation lock (subsections) + numeric-claims check against verified state figures; figures the user typed are allowed
+    const lockOpts = { subs, nums, input: [systemPrompt, userPrompt, draftLetter].filter(Boolean).join('\n') };
     const system = (systemPrompt || '') + citationBlock(entry);
     let text = await callClaude(apiKey, system, messages);
     const lint = await lintLetter(
       text, keys,
       samples => callClaude(apiKey, system + `
-Your previous draft cited authorities that are NOT verified: ${samples.join('; ')}. Rewrite the letter without citing them or any other authority outside the list.`, messages),
-      o => console.log(JSON.stringify({ ...o, state: slugOf(state) || null, letterType: slugOf(letterType) || null }))
+Your previous draft used citations, subsections or figures (dollar amounts, percentages, day counts) that are NOT verified: ${samples.join('; ')}. Rewrite the letter without them: cite only the listed authorities exactly as written (no added subsection letters) and state no legal dollar, percentage or deadline figure that is not in the list or supplied by the user.`, messages),
+      o => console.log(JSON.stringify({ ...o, state: slugOf(state) || null, letterType: slugOf(letterType) || null })),
+      lockOpts
     );
     text = lint.text;
     if (!text) throw new Error('Letter was empty after citation lint');

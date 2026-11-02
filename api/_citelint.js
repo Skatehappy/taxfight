@@ -47,20 +47,69 @@ export function sentences(s, numEnds = false) {
 }
 
 
-const ANTI_FAB = (list) => `\n\nCITATION RULE (server-enforced): Cite ONLY the verified authorities listed below, exactly as written. Do not cite any other statute, regulation, rule, ordinance or court case, and do not invent section numbers. If none of them fits a point, make the point without a citation.\nVERIFIED AUTHORITIES:\n${list.map(x => '- ' + x).join('\n') || '- (none - cite no statutes or cases)'}`;
+const ANTI_FAB = (list) => `\n\nCITATION RULE (server-enforced): Cite ONLY the verified authorities listed below, exactly as written. Do not cite any other statute, regulation, rule, ordinance or court case, and do not invent section numbers. Do not add subsection letters or numbers that are not shown, and do not state any dollar amount, percentage or number of days for a legal rule unless it appears in the verified authorities or in the user's own information. If none of them fits a point, make the point without a citation.\nVERIFIED AUTHORITIES:\n${list.map(x => '- ' + x).join('\n') || '- (none - cite no statutes or cases)'}`;
 
 export function citationBlock(entry) { return ANTI_FAB(entry?.display || []); }
 
-// Citations in text whose canonical key is not in the allowed set.
-export function findUnverified(text, allowed) {
-  const ok = new Set(allowed || []);
-  return [...citations(text)].filter(([k]) => !ok.has(k)).map(([k, s]) => ({ key: k, sample: s }));
+// ---- subsection-level matching (full citation incl. subsection) ----
+// "§ 48-5-311(g)(4)(B)(ii)" -> key S:48-5-311, chain "(g)(4)(b)(ii)". A cited chain is verified only when it is a
+// prefix of a chain that appears in verified material for that section (citing LESS specifically is fine;
+// citing a subsection nobody verified is not, even when the bare section is verified).
+export function subsections(text) {
+  const out = []; // { key, chain, sample }
+  for (const m of text.matchAll(/(?:§§?|\bSection)\s*(\d[\w.\-–:/]*)((?:\s?\([A-Za-z0-9.]{1,5}\))+)/g)) {
+    const key = 'S:' + core(m[1]);
+    if (key.length > 3) out.push({ key, chain: m[2].replace(/\s+/g, '').toLowerCase(), sample: m[0] });
+  }
+  return out;
+}
+export function chainOk(chain, verifiedChains) {
+  return (verifiedChains || []).some(v => v.startsWith(chain));
 }
 
-// Drops every sentence that carries an unverified citation (line by line, so headers survive).
-export function stripUnverified(text, allowed) {
+// ---- numeric claims: dollar / percent / day figures ----
+const FIG_CONTEXT = /\b(deadline|within|days?|fees?|interest|penalt\w*|exempt\w*|ceiling|cap|capped|limit|refund|statut\w*|appeal|files?|filed|due|freeze|frozen|rate)\b/i;
+export function figures(text) {
+  const out = new Set();
+  for (const m of text.matchAll(/\$\s?(\d[\d,]*(?:\.\d+)?)(?:\s?(million|thousand)\b|k\b)?/gi)) {
+    let n = Number(m[1].replace(/,/g, ''));
+    const u = (m[2] || '').toLowerCase();
+    if (u === 'million') n *= 1e6; else if (u === 'thousand' || /k$/i.test(m[0])) n *= 1e3;
+    out.add('$' + n);
+  }
+  for (const m of text.matchAll(/(\d+(?:\.\d+)?)\s?(?:%|percent\b)/gi)) out.add(m[1] + '%');
+  for (const m of text.matchAll(/\b(\d+)[\s-]+(?:calendar[\s-]+|business[\s-]+)?days?\b/gi)) out.add(m[1] + 'd');
+  return out;
+}
+// Figures that sit in a legal-context sentence but are neither in the state's verified material nor supplied by the user.
+export function unverifiedFigures(text, verifiedNums, inputText = '') {
+  const known = new Set([...(verifiedNums || []), ...figures(inputText)]);
+  const bad = [];
+  for (const line of text.split(/\r?\n/)) for (const s of sentences(line, true)) {
+    if (!FIG_CONTEXT.test(s)) continue;
+    for (const f of figures(s)) if (!known.has(f)) bad.push({ key: 'N:' + f, sample: f });
+  }
+  return bad;
+}
+
+// opts: { subs: {key:[chains]}, nums: [figures], input: string }  (all optional; absent = that check is skipped)
+function badInText(s, ok, opts) {
+  const bad = [...citations(s)].filter(([k]) => !ok.has(k)).map(([k, x]) => ({ key: k, sample: x }));
+  if (opts.subs) for (const c of subsections(s)) if (ok.has(c.key) && !chainOk(c.chain, opts.subs[c.key])) bad.push({ key: c.key + c.chain, sample: c.sample });
+  if (opts.nums) bad.push(...unverifiedFigures(s, opts.nums, opts.input));
+  return bad;
+}
+
+// Citations / figures in text that are not verified.
+export function findUnverified(text, allowed, opts = {}) {
   const ok = new Set(allowed || []);
-  const bad = s => [...citations(s)].some(([k]) => !ok.has(k));
+  return badInText(text, ok, opts);
+}
+
+// Drops every sentence that carries an unverified citation or figure (line by line, so headers survive).
+export function stripUnverified(text, allowed, opts = {}) {
+  const ok = new Set(allowed || []);
+  const bad = s => badInText(s, ok, opts).length > 0;
   return text.split('\n').map(line => {
     if (!bad(line)) return line;
     return sentences(line, true).filter(x => !bad(x)).join('').replace(/[ \t]+$/, '');
@@ -69,8 +118,8 @@ export function stripUnverified(text, allowed) {
 
 // Post-generation lint. regen(samples) -> Promise<string>. Regenerates once, then strips.
 // log receives counts and citation strings only - never letter text.
-export async function lintLetter(text, allowed, regen, log = () => {}) {
-  const first = findUnverified(text, allowed);
+export async function lintLetter(text, allowed, regen, log = () => {}, opts = {}) {
+  const first = findUnverified(text, allowed, opts);
   if (!first.length) return { text, action: 'clean', flagged: [] };
   const keys = first.map(f => f.key);
   let out = text, action = 'stripped';
@@ -79,11 +128,11 @@ export async function lintLetter(text, allowed, regen, log = () => {}) {
       const again = await regen(first.map(f => f.sample));
       if (again) {
         out = again;
-        if (!findUnverified(again, allowed).length) action = 'regenerated';
+        if (!findUnverified(again, allowed, opts).length) action = 'regenerated';
       }
     } catch { /* fall through to strip */ }
   }
-  if (action !== 'regenerated') out = stripUnverified(out, allowed);
+  if (action !== 'regenerated') out = stripUnverified(out, allowed, opts);
   log({ event: 'citelint', action, flagged: keys });
   return { text: out, action, flagged: keys };
 }
