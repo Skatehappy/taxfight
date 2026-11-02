@@ -11,7 +11,9 @@
     "generate:pages": "node scripts/build-pages.js && node scripts/build-verified-citations.mjs",
     "test:citelint": "node scripts/test-citelint.mjs",
     "test:lockcoverage": "node scripts/test-lock-coverage.mjs",
-    "generate:all": "npm run generate:content && npm run generate:pages"
+    "generate:all": "npm run generate:content && npm run generate:pages",
+    "test:verifiedon": "node scripts/test-verified-on.mjs && node scripts/check-verified-on.mjs",
+    "stamp:verifiedon": "node scripts/stamp-verified-on.mjs"
   },
   "dependencies": {
     "react": "^18.2.0",

@@ -1,4 +1,5 @@
 // Three-Gate v7 — Gate 2 (execution-based verify) for letter apps.
+// A14: verified_on freshness (see scripts/check-verified-on.mjs).
 // A1: required files present + package.json valid JSON.
 // A9: citation-log parity — every statutory citation in src/App.jsx,
 //     public/landing.html, landing.html, api/checklist.js must have a matching
@@ -51,6 +52,12 @@ for (const [label, args] of [['allowlist stale', ['scripts/build-verified-citati
 }
 try { execFileSync(process.execPath, ['scripts/test-auth-gate.mjs'], { cwd: ROOT, stdio: 'pipe' }); } catch (e) { fail('A11: ' + (e.stdout || '') + (e.stderr || '')); }
 try { execFileSync(process.execPath, ['scripts/test-lock-coverage.mjs'], { cwd: ROOT, stdio: 'pipe' }); } catch (e) { fail('A12: ' + (e.stdout || '') + (e.stderr || '')); }
+// A14: verified_on freshness - every SEO-log entry dated; rendered/generator citations+figures backed by an entry <= 12 months old (warn > 10)
+let a14Note = '';
+for (const f of ['scripts/test-verified-on.mjs', 'scripts/check-verified-on.mjs']) {
+  try { const o = execFileSync(process.execPath, [f], { cwd: ROOT, stdio: 'pipe' }); if (f.includes('check-')) a14Note = o.toString().trim(); }
+  catch (e) { fail('A14: ' + (e.stdout || '') + (e.stderr || '')); }
+}
 // A13: retrofit tests - Payhip mock, check-call, UI button wiring (Playwright; SKIPs loudly if no browser/playwright, fatal with UI_TEST_REQUIRED=1)
 let uiNote = '';
 for (const [label, file] of [['A13 payhip-mock', 'scripts/payhip-mock.test.js'], ['A13 isCheckCall', 'scripts/isCheckCall.test.js'], ['A13 ui-wiring', 'scripts/ui-wiring.test.mjs']]) {
@@ -59,5 +66,5 @@ for (const [label, file] of [['A13 payhip-mock', 'scripts/payhip-mock.test.js'],
     if (/SKIP/.test(out)) uiNote = ' [' + out.trim().split(String.fromCharCode(10)).pop().trim() + ']';
   } catch (e) { fail(label + ': ' + (e.stdout || '') + (e.stderr || '') + (e.message || '')); }
 }
-console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A11 no-Anthropic-without-license (+G4T checklist) ok; A12 lock coverage (checklist + templates) ok; A13 payhip-mock + isCheckCall + ui-wiring ok' + uiNote + '; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
+console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A11 no-Anthropic-without-license (+G4T checklist) ok; A12 lock coverage (checklist + templates) ok; A13 payhip-mock + isCheckCall + ui-wiring ok; ' + a14Note + '' + uiNote + '; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
 process.exit(0);

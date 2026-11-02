@@ -8,7 +8,7 @@ const LOG = ['VERIFICATION_LOG.md', 'VERIFICATION_LOG-SEO-CONTENT.md']
   .filter(f => fs.existsSync(f)).map(f => fs.readFileSync(f, 'utf8')).join('\n');
 
 import { citations, sentences } from '../../api/_citelint.js';
-function inLog(key, logText) {
+export function inLog(key, logText) {
   const [t, v] = [key.split(':')[0], key.slice(key.indexOf(':') + 1)];
   if (t === 'C') return new RegExp('\\b' + v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(logText);
   const needle = v.replace(/^PA/, '').replace(/^FED/, '').replace(/ILCS/, ' ILCS ').split('-').filter(Boolean)[0] && v;
@@ -48,3 +48,9 @@ function strip(value) {
 
 // key kept for call-site readability; the rule is the same for every page
 export function holdBack(key, value) { return value ? strip(value) : value; }
+
+// Does a citation key (from api/_citelint.js citations()) appear in the given log text? (used by the A14 verified_on gate)
+export function keyInText(key, text) {
+  const m = key.match(/^S:(\d+)ILCS(\d+)$/);
+  return m ? new RegExp('\\b' + m[1] + '\\s*ILCS\\s*' + m[2] + '\\b').test(text) : inLog(key, text);
+}
