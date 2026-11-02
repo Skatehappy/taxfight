@@ -1,5 +1,6 @@
 // api/checklist.js
 import { MODEL } from './_config.js';
+import { verifyLicense } from './_license.js';
 
 export const config = { runtime: 'edge' };
 
@@ -19,16 +20,11 @@ export default async function handler(req) {
   try {
     const { accessCode, address, state, appealType, letterExcerpt } = await req.json();
 
+    // Fail closed: no Anthropic call without a passed Payhip verification.
     const payhipApiKey = process.env.PAYHIP_API_KEY;
-    const TEST_KEYS = (process.env.TEST_KEYS || 'SMOKE-TEST-2026-BAO').split(',').map(k => k.trim().toUpperCase()).filter(Boolean);
-    const isTestKey = TEST_KEYS.includes(String(accessCode || '').trim().toUpperCase());
-    if (!isTestKey) {
-      const payhipRes = await fetch(
-        `https://payhip.com/api/v1/license/verify?product_link=${PRODUCT_LINK}&license_key=${encodeURIComponent(accessCode.trim())}`,
-        { method: 'GET', headers: { 'payhip-api-key': payhipApiKey } }
-      );
-      if (!payhipRes.ok) return new Response(JSON.stringify({ error: 'Invalid access code' }), { status: 401, headers });
-    }
+    if (!payhipApiKey) return new Response(JSON.stringify({ error: 'API not configured' }), { status: 500, headers });
+    const lic = await verifyLicense(accessCode, PRODUCT_LINK, payhipApiKey);
+    if (!lic.ok) return new Response(JSON.stringify({ error: lic.error }), { status: lic.status, headers });
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     const response = await fetch('https://api.anthropic.com/v1/messages', {

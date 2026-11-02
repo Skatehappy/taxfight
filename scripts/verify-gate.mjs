@@ -49,5 +49,6 @@ import { execFileSync } from 'node:child_process';
 for (const [label, args] of [['allowlist stale', ['scripts/build-verified-citations.mjs', '--check']], ['citelint/G4T mock tests failed', ['scripts/test-citelint.mjs']]]) {
   try { execFileSync(process.execPath, args, { cwd: ROOT, stdio: 'pipe' }); } catch (e) { fail('A10: ' + label + ' ' + (e.stdout || '') + (e.stderr || '')); }
 }
-console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
+try { execFileSync(process.execPath, ['scripts/test-auth-gate.mjs'], { cwd: ROOT, stdio: 'pipe' }); } catch (e) { fail('A11: ' + (e.stdout || '') + (e.stderr || '')); }
+console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A11 no-Anthropic-without-license ok; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
 process.exit(0);
