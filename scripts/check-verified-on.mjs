@@ -26,16 +26,22 @@ export function check({ logMd, legacyMd = '', lock = {}, pages = [], now }) {
     for (const c of v.cites || []) addCite(c.k, 'generator lock ' + st);
     for (const n of v.nums || []) { const l = 'figure ' + st + ' ' + n; targets.set(l, { label: l + ' (generator lock)', fig: n }); }
   }
-  for (const p of pages) for (const [k] of citations(p.text)) addCite(k, p.file);
-  const norm = new Map(dated.map(e => [e, e.text.replace(/,/g, '')]));
+  for (const p of pages) {
+    for (const [k] of citations(p.text)) addCite(k, p.file);
+    for (const f of figures(p.text)) { const l = 'figure ' + f; if (!targets.has(l)) targets.set(l, { label: l + ' (' + p.file + ')', fig: f }); }
+  }
+  const figSets = new Map(dated.map(e => [e, figures(e.text)]));
   const out = [];
   for (const t of targets.values()) {
     let ds;
     if (t.key) ds = dated.filter(e => keyInText(t.key, e.text)).map(e => e.date);
-    else { const re = figRe(t.fig); ds = dated.filter(e => re.test(norm.get(e))).map(e => e.date); }
+    else ds = dated.filter(e => figSets.get(e).has(t.fig)).map(e => e.date);
     out.push({ label: t.label, dates: ds });
   }
-  return { ...evaluate(entries, out, now), entries, nTargets: out.length };
+  const ev = evaluate(entries, out, now);
+  // STRICT: a citation or figure with no dated log entry is a hard failure (never skipped).
+  for (const u of ev.unmapped) ev.fail.push('UNMAPPED (no dated log entry): ' + u);
+  return { ...ev, entries, nTargets: out.length };
 }
 
 export function load(root = ROOT) {
@@ -51,6 +57,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const nowS = (i > 0 && process.argv[i + 1]) || process.env.CHECK_NOW || new Date().toISOString().slice(0, 10);
   const r = check({ ...load(), now: new Date(nowS + 'T00:00:00Z') });
   if (r.warn.length) { console.warn('A14 WARN (non-fatal) - verified_on older than 10 months (' + r.warn.length + '):'); r.warn.forEach(w => console.warn('  ' + w)); }
-  if (r.fail.length) { console.error('A14 FAIL (' + r.fail.length + '):'); r.fail.slice(0, 60).forEach(w => console.error('  ' + w)); process.exit(1); }
+  if (r.fail.length) { console.error('A14 FAIL (' + r.fail.length + '):'); r.fail.slice(0, Number(process.env.A14_MAX || 60)).forEach(w => console.error('  ' + w)); process.exit(1); }
   console.log(`A14 ok: ${r.entries.length} log entries all carry verified_on; ${r.nTargets} rendered/generator citations+figures checked (${r.unmapped.length} not mapped to an entry), ${r.warn.length} warnings`);
 }

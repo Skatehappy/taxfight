@@ -58,6 +58,11 @@ for (const f of ['scripts/test-verified-on.mjs', 'scripts/check-verified-on.mjs'
   try { const o = execFileSync(process.execPath, [f], { cwd: ROOT, stdio: 'pipe' }); if (f.includes('check-')) a14Note = o.toString().trim(); }
   catch (e) { fail('A14: ' + (e.stdout || '') + (e.stderr || '')); }
 }
+// A15: no unlogged citation in ANY scripts/data source file (merged/unrendered included) + mock tests
+for (const f of ['scripts/test-source-citations.mjs', 'scripts/check-source-citations.mjs']) {
+  try { const o = execFileSync(process.execPath, [f], { cwd: ROOT, stdio: 'pipe' }); if (f.includes('check-')) a14Note += ' ' + o.toString().trim(); }
+  catch (e) { fail('A15: ' + (e.stdout || '') + (e.stderr || '')); }
+}
 // A13: retrofit tests - Payhip mock, check-call, UI button wiring (Playwright; SKIPs loudly if no browser/playwright, fatal with UI_TEST_REQUIRED=1)
 let uiNote = '';
 for (const [label, file] of [['A13 payhip-mock', 'scripts/payhip-mock.test.js'], ['A13 isCheckCall', 'scripts/isCheckCall.test.js'], ['A13 ui-wiring', 'scripts/ui-wiring.test.mjs']]) {
