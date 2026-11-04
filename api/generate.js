@@ -6,6 +6,7 @@ import { isG4TCode, g4tTake } from './_g4t.js';
 import { verifiedFor, slugOf } from './_verified.js';
 import { callComplete, remaining } from './_complete.js';
 import { stripMarkdown } from './_markdown.js';
+import { OWNER_VOICE_RULE, findVoiceViolation } from './_voicelint.js';
 
 // Node serverless runtime (NOT edge). Edge caps at ~25s on Hobby and ignores
 // maxDuration, which 504'd ~25s Opus letters. Node honors maxDuration:60. MUST
@@ -93,7 +94,7 @@ export default async function handler(req, res) {
     if (reviewMode && draftLetter) {
       messages = [{
         role: 'user',
-        content: `Review and improve this property tax appeal letter. Fix: (1) replace vague language with specific numbers, (2) ensure every ground for appeal is explicitly addressed, (3) remove emotional language — replace with factual evidence, (4) ensure comparable sales are clearly presented, (5) keep only citations that appear in the verified authorities list and delete any other statute or case citation, (6) tighten redundancy. Return ONLY the improved letter, no commentary:\n\n${draftLetter}`
+        content: `Review and improve this property tax appeal letter. Fix: (1) replace vague language with specific numbers, (2) ensure every ground for appeal is explicitly addressed, (3) remove emotional language — replace with factual evidence, (4) ensure comparable sales are clearly presented, (5) keep only citations that appear in the verified authorities list and delete any other statute or case citation, (6) tighten redundancy. The letter stays written and signed by the property owner in their own name ([Your Name]); never describe the writer as an attorney, counsel, law firm, tax representative or agent. Return ONLY the improved letter, no commentary:\n\n${draftLetter}`
       }];
     } else {
       messages = [{ role: 'user', content: userPrompt }];
@@ -104,7 +105,7 @@ export default async function handler(req, res) {
     const { keys, subs, nums, entry } = verifiedFor(state, letterType);
     // full-citation lock (subsections) + numeric-claims check against verified state figures; figures the user typed are allowed
     const lockOpts = { subs, nums, input: [systemPrompt, userPrompt, draftLetter].filter(Boolean).join('\n') };
-    const system = (systemPrompt || '') + citationBlock(entry) + PLAIN_TEXT_RULE;
+    const system = (systemPrompt || '') + citationBlock(entry) + PLAIN_TEXT_RULE + OWNER_VOICE_RULE;
     const deadline = t0 + BUDGET.MODEL_DEADLINE_MS;
     let text = stripMarkdown(await callClaude(apiKey, system, messages, deadline));
     const lint = await lintLetter(
@@ -117,6 +118,24 @@ Your previous draft used citations, subsections or figures (dollar amounts, perc
     );
     text = lint.text;
     if (!text) throw new Error('Letter was empty after citation lint');
+
+    // Owner-voice lint: the letter is written and signed by the owner. A banned attorney/counsel phrase -> one regeneration
+    // (if the time budget allows), else HTTP 502 BEFORE the usage mark; the offending text is never returned.
+    let hit = findVoiceViolation(text);
+    if (hit) {
+      let again = null;
+      if (remaining(deadline) >= BUDGET.MIN_REDO_MS) {
+        const redo = await callClaude(apiKey, system + `
+Your previous draft contained the phrase "${hit}", which is not allowed. The letter is written and signed by the property owner in their own name ([Your Name]). Rewrite it without that phrase or any attorney, counsel, law-firm or representative self-description.`, messages, deadline);
+        again = (await lintLetter(stripMarkdown(redo), keys, async () => null, () => {}, lockOpts)).text;
+      }
+      if (!again || findVoiceViolation(again)) {
+        const e = new Error('The letter could not be written in the correct voice. Please try again; your access code has not been used.');
+        e.status = 502; e.detail = 'voice-lint:' + (again ? findVoiceViolation(again) : hit);
+        throw e;
+      }
+      text = again;
+    }
 
     // Mark license as used. Awaited (background work isn't guaranteed after res on
     // Node serverless). Test codes (G4T-) are never marked.

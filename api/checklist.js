@@ -7,6 +7,7 @@ import { verifiedFor, slugOf } from './_verified.js';
 import { citationBlock, findUnverified, stripUnverified } from './_citelint.js';
 import { callComplete, remaining } from './_complete.js';
 import { stripMarkdown } from './_markdown.js';
+import { OWNER_VOICE_RULE, findVoiceViolation } from './_voicelint.js';
 import { typeInfo, fallbackFor } from './_checklist-fallbacks.js';
 
 // Node serverless runtime, classic (req, res) handler (needs node:fs for the allowlist).
@@ -82,7 +83,7 @@ export default async function handler(req, res) {
     const type = disputeType || appealType;
     const { keys, subs, nums, entry } = verifiedFor(state, type);
     const lockOpts = { subs, nums, input: [address, appealType, letterExcerpt].filter(Boolean).join('\n') };
-    const system = 'You write practical submission checklists for property owners filing property tax disputes.' + citationBlock(entry);
+    const system = 'You write practical submission checklists for property owners filing property tax disputes.' + citationBlock(entry) + OWNER_VOICE_RULE;
     const prompt = `Generate a practical submission checklist for a property owner filing ${typeInfo(type).focus}, as a JSON array of 8 to 10 strings. Every item is one plain action step of at most 25 words and fits this situation only. Always include sending the filing by certified mail with return receipt, or filing in person and getting a stamped copy, and keeping a copy. Do not cite any statute, rule or case unless it is in the verified authorities list. Write plain text only (no markdown). Return ONLY a valid JSON array, no other text.
 
 Property: ${address}
@@ -116,6 +117,19 @@ Letter excerpt: ${letterExcerpt?.substring(0, 200) || ''}`;
         console.log(JSON.stringify({ event: 'citelint', endpoint: 'checklist', action, flagged: first.map(f => f.key), state: slugOf(state) || null }));
       }
       checklist = checklist.slice(0, 15);
+    }
+    // Owner-voice lint on every item: one regeneration naming the phrase (budget permitting), else the safe per-type fallback.
+    if (Array.isArray(checklist)) {
+      const voiceHit = list => list.map(findVoiceViolation).find(Boolean) || null;
+      const h = voiceHit(checklist);
+      if (h) {
+        let again = { list: null };
+        try { if (remaining(deadline) >= BUDGET.MIN_REDO_MS) again = await ask(apiKey, system + `
+Your previous checklist contained the phrase "${h}", which is not allowed. Rewrite it as plain action steps for the property owner, with no attorney, counsel or representative self-description.`, prompt, deadline); } catch { /* fall back */ }
+        checklist = again.list && !voiceHit(again.list) ? again.list.slice(0, 15) : null;
+        diag.voice = checklist ? 'regenerated' : 'fallback';
+        console.log(JSON.stringify({ event: 'voicelint', endpoint: 'checklist', action: diag.voice }));
+      }
     }
     diag.survivors = Array.isArray(checklist) ? checklist.length : -1;
     if (!Array.isArray(checklist) || checklist.length < 3) { diag.usedFallback = true; checklist = fallbackFor(type); }
