@@ -4,6 +4,7 @@ import { citationBlock, lintLetter } from './_citelint.js';
 import { verifyLicense } from './_license.js';
 import { isG4TCode, g4tTake } from './_g4t.js';
 import { verifiedFor, slugOf } from './_verified.js';
+import { callComplete } from './_complete.js';
 
 // Node serverless runtime (NOT edge). Edge caps at ~25s on Hobby and ignores
 // maxDuration, which 504'd ~25s Opus letters. Node honors maxDuration:60. MUST
@@ -12,19 +13,17 @@ import { verifiedFor, slugOf } from './_verified.js';
 export const config = { maxDuration: 60 };
 
 const PRODUCT_LINK = 'Sry6P';
+const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 
+// stop_reason "max_tokens" = truncated: retried once with a higher limit, never linted or returned as a letter.
+// Any failure throws with status 502 BEFORE the license usage mark, so the code is not burned.
+const TOKEN_LIMITS = [3000, 6000];
 async function callClaude(apiKey, system, messages) {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({ model: MODEL, max_tokens: 3000, thinking: { type: 'disabled' }, system: system || undefined, messages }),
-  });
-  if (!response.ok) { const e = new Error('AI generation failed'); e.status = 502; e.detail = await response.text(); throw e; }
-  const data = await response.json();
-  // Extract the text block by type, not by position (a thinking block can land at content[0]).
-  const text = data.content?.find(b => b.type === 'text')?.text;
-  if (!text) throw new Error(`No text block in API response (stop_reason: ${data.stop_reason || 'unknown'})`);
-  return text;
+  const r = await callComplete(ANTHROPIC_URL, apiKey, max => ({ model: MODEL, max_tokens: max, thinking: { type: 'disabled' }, system: system || undefined, messages }), TOKEN_LIMITS);
+  if (r.ok) return r.text;
+  const e = new Error(r.truncated ? 'The letter was cut off before it finished. Please try again; your access code has not been used.' : 'AI generation failed');
+  e.status = 502; e.detail = r.truncated ? 'truncated' : r.err;
+  throw e;
 }
 
 function cors(res) {

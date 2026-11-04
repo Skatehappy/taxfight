@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "test": "node --test scripts/checklist-maxtokens.test.js && node scripts/test-citelint.mjs && node scripts/test-lock-coverage.mjs && node scripts/test-auth-gate.mjs && node scripts/payhip-mock.test.js && node scripts/isCheckCall.test.js && node scripts/test-verified-on.mjs && node scripts/test-source-citations.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "generate:content": "node scripts/generate-content.js",

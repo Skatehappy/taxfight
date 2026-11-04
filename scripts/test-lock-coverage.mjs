@@ -33,20 +33,20 @@ async function call(body) {
 process.env.PAYHIP_API_KEY = 'x'; process.env.ANTHROPIC_API_KEY = 'y';
 const lines = []; const origLog = console.log; console.log = (...a) => lines.push(a.join(' '));
 
-stub(n => n === 1 ? [`File your protest under ${FAKE}`, `Protest deadline per ${REAL}`, 'Photos'] : [`Protest deadline per ${REAL}`, 'Photos']);
+stub(n => n === 1 ? [`File your protest under ${FAKE}`, `Protest deadline per ${REAL}`, 'Photos'] : [`Protest deadline per ${REAL}`, 'Photos', 'Certified mail receipt']);
 let r = await call({});
 assert.equal(r.status, 200); assert.equal(anth.length, 2, 'should regenerate once');
 assert.ok(anth[0].system.includes('VERIFIED AUTHORITIES') && anth[0].system.includes('41.44'), 'prompt lacks verified list');
 assert.ok(!JSON.stringify(r.json).includes('99.999') && JSON.stringify(r.json).includes('41.44'), 'regen result wrong');
 
-stub(() => [`Cite ${FAKECASE} at hearing`, `Per ${FAKE}, file early. Bring photos.`, `Deadline per ${REAL}`]);
+stub(() => [`Cite ${FAKECASE} at hearing`, `Per ${FAKE}, file early. Bring photos.`, `Deadline per ${REAL}`, 'Photos', 'Certified mail receipt']);
 r = await call({});
 const out = JSON.stringify(r.json);
 assert.equal(anth.length, 2);
 assert.ok(!/Imaginary|99\.999/.test(out) && out.includes('41.44') && out.includes('Bring photos'), 'strip wrong: ' + out);
 
-stub(() => ['Photos', 'Certified mail receipt']);
-r = await call({}); assert.equal(anth.length, 1, 'clean checklist must be a single call'); assert.equal(r.json.checklist.length, 2);
+stub(() => ['Photos', 'Certified mail receipt', 'Keep a copy']);  // 3+ items: fewer than 3 survivors now means the per-type fallback
+r = await call({}); assert.equal(anth.length, 1, 'clean checklist must be a single call'); assert.equal(r.json.checklist.length, 3);
 
 stub(() => [`Deadline per ${REAL}`]);
 r = await call({ state: undefined }); assert.ok(!JSON.stringify(r.json).includes('41.44'), 'unknown state: every citation must be removed');

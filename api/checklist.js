@@ -5,38 +5,27 @@ import { verifyLicense } from './_license.js';
 import { isG4TCode, g4tTake } from './_g4t.js';
 import { verifiedFor, slugOf } from './_verified.js';
 import { citationBlock, findUnverified, stripUnverified } from './_citelint.js';
+import { callComplete } from './_complete.js';
+import { typeInfo, fallbackFor } from './_checklist-fallbacks.js';
 
 // Node serverless runtime, classic (req, res) handler (needs node:fs for the allowlist).
 export const config = { maxDuration: 30 };
 
 const PRODUCT_LINK = 'Sry6P';
+const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 
-const FALLBACK = [
-  'Completed appeal / protest form from your county assessor or appeals board',
-  'This appeal letter — 3 copies minimum (keep one for your records)',
-  'Printed comparable sales data with addresses, sale prices, and dates',
-  'Photos of any condition issues or property defects cited in your letter',
-  'Copy of your current assessment notice (the document you are appealing)',
-  'Copy of assessor\'s property record card (request from assessor\'s office)',
-  'Filing fee — confirm amount and payment method with your appeals board',
-  'Send by certified mail with return receipt or file in person and get a stamped copy',
-  'Note your appeal deadline and confirm your filing is before that date',
-];
-
+// stop_reason "max_tokens" means the reply was cut off: callComplete retries once with the higher limit and never
+// returns partial text. { list: null } on ANY model failure (HTTP error, truncation, no text, unparseable reply),
+// so the caller serves the per-type fallback.
+const LIMITS = [2000, 4000];
 async function ask(apiKey, system, content) {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
-    body: JSON.stringify({ model: MODEL, max_tokens: 900, thinking: { type: 'disabled' }, system, messages: [{ role: 'user', content }] }),
-  });
-  // Fail loudly on an API error instead of silently returning an empty checklist.
-  if (!response.ok) { const e = new Error('Checklist generation failed'); e.status = 502; e.detail = await response.text(); throw e; }
-  const data = await response.json();
-  const text = data.content?.find(b => b.type === 'text')?.text || '[]';
+  const r = await callComplete(ANTHROPIC_URL, apiKey, max => ({ model: MODEL, max_tokens: max, thinking: { type: 'disabled' }, system, messages: [{ role: 'user', content }] }), LIMITS);
+  if (!r.ok) return { list: null, r };
   try {
-    const arr = JSON.parse(text.replace(/```json|```/g, '').trim());
-    return Array.isArray(arr) ? arr.filter(x => typeof x === 'string' && x.trim()) : null;
-  } catch { return null; }
+    const arr = JSON.parse(r.text.replace(/```json|```/g, '').trim());
+    if (!Array.isArray(arr)) return { list: null, r, parseFailed: true };
+    return { list: arr.filter(x => typeof x === 'string' && x.trim()), r };
+  } catch { return { list: null, r, parseFailed: true }; }
 }
 
 function cors(res) {
@@ -62,7 +51,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { accessCode, address, state, appealType, letterExcerpt } = await readBody(req);
+    const { accessCode, address, state, appealType, disputeType, letterExcerpt } = await readBody(req);
 
     // Fail closed: no Anthropic call without a passed Payhip verification (or an enabled G4T test code).
     const testCode = isG4TCode(accessCode);
@@ -76,41 +65,56 @@ export default async function handler(req, res) {
     }
 
     const over = (v, n) => typeof v === 'string' && v.length > n;
-    if (over(address, 500) || over(state, 100) || over(appealType, 200) || over(letterExcerpt, 5000)) {
+    if (over(address, 500) || over(state, 100) || over(appealType, 200) || over(disputeType, 200) || over(letterExcerpt, 5000)) {
       return res.status(400).json({ error: 'Your input is too long.' });
     }
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) return res.status(500).json({ error: 'API not configured' });
 
-    const { keys, subs, nums, entry } = verifiedFor(state, 'property-tax-appeal');
+    // The dispute slug (disputeType) picks the per-type focus and fallback; older clients send only appealType.
+    const type = disputeType || appealType;
+    const { keys, subs, nums, entry } = verifiedFor(state, type);
     const lockOpts = { subs, nums, input: [address, appealType, letterExcerpt].filter(Boolean).join('\n') };
-    const system = 'You write property tax appeal submission checklists.' + citationBlock(entry);
-    const prompt = `Generate a practical property tax appeal submission checklist as a JSON array of strings. Be specific to the state and situation. Include items like: completed appeal form, this cover letter (copies), comparable sales printouts, photos of condition issues, assessor field card copy, filing fee amount/method, deadline date reminder, certified mail receipt, etc. Do not cite any statute, rule or case unless it is in the verified authorities list. Return ONLY a valid JSON array, no other text.
+    const system = 'You write practical submission checklists for property owners filing property tax disputes.' + citationBlock(entry);
+    const prompt = `Generate a practical submission checklist for a property owner filing ${typeInfo(type).focus}, as a JSON array of 8 to 10 strings. Every item is one plain action step of at most 25 words and fits this situation only. Always include sending the filing by certified mail with return receipt, or filing in person and getting a stamped copy, and keeping a copy. Do not cite any statute, rule or case unless it is in the verified authorities list. Return ONLY a valid JSON array, no other text.
 
 Property: ${address}
 State: ${state}
-Appeal type: ${appealType || 'property tax assessment appeal'}
+Dispute: ${type || 'property tax assessment dispute'}
 Letter excerpt: ${letterExcerpt?.substring(0, 200) || ''}`;
 
-    let checklist = await ask(apiKey, system, prompt);
+    // Any model failure (HTTP error, truncation, unparseable reply, too few survivors) -> HTTP 200 with this type's own fallback.
+    const diag = {};
+    const got = await ask(apiKey, system, prompt);
+    let checklist = got.list;
+    diag.attempts = got.r.attempts; diag.stop = got.r.stop; diag.status = got.r.status;
+    if (!got.r.ok) {
+      diag.failed = got.r.truncated ? 'truncated' : 'model-error';
+      console.log(JSON.stringify({ event: 'checklist_model_fail', reason: diag.failed, status: got.r.status || null }));
+    } else if (got.parseFailed) diag.parseFailed = true;
+
     if (checklist) {
-      // Citation lock: any unverified statute/case -> regenerate once, else strip it from the items.
+      // Citation + figure lock: any unverified statute/case/figure -> regenerate once, else strip it from the items.
       const bad = list => list.flatMap(i => findUnverified(i, keys, lockOpts));
       const first = bad(checklist);
       if (first.length) {
         let action = 'stripped';
         try {
           const again = await ask(apiKey, system + `\nYour previous checklist cited authorities that are NOT verified: ${first.map(f => f.sample).join('; ')}. Rewrite it without citing them or any other authority outside the list.`, prompt);
-          if (again) { checklist = again; if (!bad(again).length) action = 'regenerated'; }
+          if (again.list) { checklist = again.list; if (!bad(again.list).length) action = 'regenerated'; }
         } catch { /* fall through to strip */ }
         if (action !== 'regenerated') checklist = checklist.map(i => stripUnverified(i, keys, lockOpts)).filter(i => i.trim());
+        diag.lock = action; diag.flagged = first.map(f => f.key);
         console.log(JSON.stringify({ event: 'citelint', endpoint: 'checklist', action, flagged: first.map(f => f.key), state: slugOf(state) || null }));
       }
+      checklist = checklist.slice(0, 15);
     }
-    if (!checklist || !checklist.length) checklist = FALLBACK;
+    diag.survivors = Array.isArray(checklist) ? checklist.length : -1;
+    if (!Array.isArray(checklist) || checklist.length < 3) { diag.usedFallback = true; checklist = fallbackFor(type); }
 
-    return res.status(200).json({ checklist });
+    // _diag only for the Gate 4 test code, never for real buyers.
+    return res.status(200).json(testCode ? { checklist, _diag: diag } : { checklist });
 
   } catch (err) {
     if (err.status === 502) return res.status(502).json({ error: err.message, detail: err.detail });
