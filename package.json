@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "node --test scripts/checklist-maxtokens.test.js scripts/time-budget.test.js && node scripts/test-markdown-figures.mjs && node scripts/test-citelint.mjs && node scripts/test-lock-coverage.mjs && node scripts/test-auth-gate.mjs && node scripts/payhip-mock.test.js && node --test scripts/voicelint.test.js && node scripts/isCheckCall.test.js && node scripts/test-verified-on.mjs && node scripts/test-source-citations.mjs && node scripts/ui-wiring.test.mjs",
+    "test": "node --test scripts/checklist-maxtokens.test.js scripts/time-budget.test.js && node scripts/test-markdown-figures.mjs && node scripts/test-citelint.mjs && node scripts/test-lock-coverage.mjs && node scripts/test-auth-gate.mjs && node scripts/payhip-mock.test.js && node --test scripts/voicelint.test.js && node scripts/isCheckCall.test.js && node scripts/test-verified-on.mjs && node scripts/test-source-citations.mjs && node scripts/ui-wiring.test.mjs && node scripts/test-claims.mjs && node scripts/check-claims.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "generate:content": "node scripts/generate-content.js",

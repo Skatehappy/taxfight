@@ -63,6 +63,10 @@ for (const f of ['scripts/test-source-citations.mjs', 'scripts/check-source-cita
   try { const o = execFileSync(process.execPath, [f], { cwd: ROOT, stdio: 'pipe' }); if (f.includes('check-')) a14Note += ' ' + o.toString().trim(); }
   catch (e) { fail('A15: ' + (e.stdout || '') + (e.stderr || '')); }
 }
+// A20: marketing-claims gate - no attorney/lawyer-quality claims or non-disclaimer 'legal advice' in pages, templates, data, src
+for (const f of ['scripts/test-claims.mjs', 'scripts/check-claims.mjs']) {
+  try { execFileSync(process.execPath, [f], { cwd: ROOT, stdio: 'pipe' }); } catch (e) { fail('A20: ' + (e.stdout || '') + (e.stderr || '')); }
+}
 // A13: retrofit tests - Payhip mock, check-call, UI button wiring (Playwright; SKIPs loudly if no browser/playwright, fatal with UI_TEST_REQUIRED=1)
 let uiNote = '';
 for (const [label, file] of [['A17 checklist/generate truncation + per-type fallbacks', 'scripts/checklist-maxtokens.test.js'], ['A18 per-request time budget', 'scripts/time-budget.test.js'], ['A19 markdown strip + spelled-out figure lint', 'scripts/test-markdown-figures.mjs'], ['A13 payhip-mock', 'scripts/payhip-mock.test.js'], ['A13 isCheckCall', 'scripts/isCheckCall.test.js'], ['A13 ui-wiring', 'scripts/ui-wiring.test.mjs']]) {
@@ -71,5 +75,5 @@ for (const [label, file] of [['A17 checklist/generate truncation + per-type fall
     if (/SKIP/.test(out)) uiNote = ' [' + out.trim().split(String.fromCharCode(10)).pop().trim() + ']';
   } catch (e) { fail(label + ': ' + (e.stdout || '') + (e.stderr || '') + (e.message || '')); }
 }
-console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A11 no-Anthropic-without-license (+G4T checklist) ok; A12 lock coverage (checklist + templates) ok; A13 payhip-mock + isCheckCall + ui-wiring ok; A17 truncation/per-type fallback tests ok; A18 time budgets ok; A19 markdown/spelled figures ok; ' + a14Note + '' + uiNote + '; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
+console.log('GATE GREEN — A1 files ok; A10 citation lock ok; A11 no-Anthropic-without-license (+G4T checklist) ok; A12 lock coverage (checklist + templates) ok; A13 payhip-mock + isCheckCall + ui-wiring ok; A17 truncation/per-type fallback tests ok; A18 time budgets ok; A19 markdown/spelled figures ok; A20 marketing claims clean; ' + a14Note + '' + uiNote + '; A9 citation-log parity: all ' + tokens.size + ' citations logged.');
 process.exit(0);

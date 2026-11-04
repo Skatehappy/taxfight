@@ -444,6 +444,9 @@ export default function TaxFight() {
           <p style={{ fontSize: "14px", color: C.inkMuted, marginBottom: "20px", lineHeight: "1.6" }}>
             Your access code was emailed after purchase. Enter it below to generate your property tax appeal letter.
           </p>
+          <p style={{ fontSize: "12px", color: C.inkFaint, marginBottom: "16px", lineHeight: "1.5" }}>
+            TaxFight drafts a letter for you to review, sign and send yourself. It is not a law firm and does not give legal advice.
+          </p>
           <input
             type="text" value={accessCode} onChange={e => setAccessCode(e.target.value.toUpperCase())}
             placeholder="e.g. ABCD-1234-EFGH-5678"

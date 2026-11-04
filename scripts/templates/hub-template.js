@@ -26,7 +26,7 @@ ${links}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>All Property Tax Appeal Letters by State — ${states.length} States, ${disputes.length} Dispute Types | ${APP_CONFIG.name}</title>
-<meta name="description" content="Browse every state-specific property tax appeal letter ${APP_CONFIG.name} offers — ${totalPages} guides across ${states.length} states and ${disputes.length} dispute types. AI-generated, attorney-quality, $${APP_CONFIG.price} flat.">
+<meta name="description" content="Browse every state-specific property tax appeal letter ${APP_CONFIG.name} offers — ${totalPages} guides across ${states.length} states and ${disputes.length} dispute types. AI-generated, well-organized, $${APP_CONFIG.price} flat.">
 <link rel="canonical" href="https://${APP_CONFIG.domain}/letters">
 <meta property="og:title" content="All Property Tax Appeal Letters by State | ${APP_CONFIG.name}">
 <meta property="og:description" content="Every state-specific property tax appeal letter, organized by state and dispute type.">
