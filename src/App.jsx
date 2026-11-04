@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { stripMarkdown } from "../api/_markdown.js";
 
 const API_BASE = "";
 
@@ -204,7 +205,9 @@ function buildSystemPrompt() {
 
 Your letters are professional, factual, and persuasive. They cite specific comparable sales, identify assessment inequities, highlight factual errors, and make a clear, data-supported argument for a lower assessed value. You never mention the property owner's financial situation, ability to pay, or complaints about tax rates — only market value evidence and assessment accuracy.
 
-Write in formal legal correspondence style. Structure the letter with clear section headers. Be specific with numbers. Address the board's evaluation criteria directly when provided.`;
+Write in formal legal correspondence style. Structure the letter with clear section headers. Be specific with numbers. Address the board's evaluation criteria directly when provided.
+
+Write plain text only. Do not use markdown of any kind: no # headings, no ** or __ bold, no * or _ italics, no backticks, no tables or | characters. Put each section title on its own line and use "-" for any list.`;
 }
 
 function buildUserPrompt(formData, mode) {
@@ -259,7 +262,7 @@ Write a complete, formal appeal letter of 500-700 words. Include:
 5. Conclusion with specific requested assessed value and next steps
 6. Professional closing
 
-Return ONLY the letter text, no commentary.`;
+Return ONLY the letter text as plain text (no markdown symbols), no commentary.`;
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
@@ -279,6 +282,7 @@ export default function TaxFight() {
   const [activeTab, setActiveTab]   = useState("standard");
   const [checklist, setChecklist]   = useState([]);
   const [copied, setCopied]         = useState(false);
+  const [pdfError, setPdfError]       = useState("");
   const [error, setError]           = useState("");
   const [showSample, setShowSample] = useState(false);
   const [disputeSlug, setDisputeSlug] = useState("");
@@ -362,7 +366,7 @@ export default function TaxFight() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(describeError(res.status, data.error).message);
-      setLetter(data.text || "");
+      setLetter(stripMarkdown(data.text || ""));
 
       setLoadingMsg("Generating assertive version…");
       const altPrompt = buildUserPrompt(formData, "assertive");
@@ -372,7 +376,7 @@ export default function TaxFight() {
         body: JSON.stringify({ accessCode: accessCode.trim(), systemPrompt: sysPrompt, userPrompt: altPrompt, state: formData.state, letterType: disputeSlug }),
       });
       const data2 = await res2.json();
-      if (res2.ok) setAltLetter(data2.text || "");
+      if (res2.ok) setAltLetter(stripMarkdown(data2.text || ""));
 
       setLoadingMsg("Building submission checklist…");
       const res3 = await fetch(`${API_BASE}/api/checklist`, {
@@ -381,7 +385,7 @@ export default function TaxFight() {
         body: JSON.stringify({ accessCode: accessCode.trim(), address: formData.address, state: formData.state, appealType: "property-tax-appeal", disputeType: disputeSlug, letterExcerpt: (data.text || "").substring(0, 200) }),
       });
       const data3 = await res3.json();
-      if (res3.ok) setChecklist(data3.checklist || []);
+      if (res3.ok) setChecklist((data3.checklist || []).map(stripMarkdown).filter(Boolean));
 
       setStep(FORM_STEPS.indexOf("Letter"));
     } catch (e) { setError(e instanceof TypeError ? describeError(0).message : (e.message || describeError(500).message)); }
@@ -390,13 +394,18 @@ export default function TaxFight() {
 
   function downloadPDF() {
     const text = activeTab === "standard" ? letter : altLetter;
-    if (!text || typeof window.jsPDF === "undefined") return;
-    const doc = new window.jsPDF({ unit: "in", format: "letter" });
+    if (!text) return;
+    // jsPDF 2.5.1 UMD exposes window.jspdf.jsPDF (older builds: window.jsPDF)
+    const JsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+    if (!JsPDF) { setPdfError("The PDF tool could not load (check your internet connection and reload), so the PDF was not created. Use Copy Text instead."); return; }
+    setPdfError("");
+    try {
+    const doc = new JsPDF({ unit: "in", format: "letter" });
     const margin = 1, width = 6.5, lineHeight = 0.22, fontSize = 11;
     doc.setFont("Times", "normal");
     doc.setFontSize(fontSize);
     let y = margin;
-    text.split("\n").forEach(line => {
+    stripMarkdown(text).split("\n").forEach(line => {
       const wrapped = doc.splitTextToSize(line || " ", width);
       wrapped.forEach(wl => {
         if (y > 10) { doc.addPage(); y = margin; }
@@ -405,10 +414,11 @@ export default function TaxFight() {
       });
     });
     doc.save(`TaxFight-Appeal-${activeTab}.pdf`);
+    } catch (e) { setPdfError("The PDF could not be created. Use Copy Text instead."); }
   }
 
   function copyText() {
-    const text = activeTab === "standard" ? letter : altLetter;
+    const text = stripMarkdown(activeTab === "standard" ? letter : altLetter);
     navigator.clipboard.writeText(text).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); });
   }
 
@@ -510,7 +520,7 @@ export default function TaxFight() {
 
           {/* Letter display */}
           <div style={{ ...cardStyle, fontFamily: "Georgia, serif", fontSize: "14px", lineHeight: "1.9", whiteSpace: "pre-wrap", color: C.inkLight, maxHeight: "480px", overflowY: "auto", marginBottom: "16px" }}>
-            {displayLetter}
+            {stripMarkdown(displayLetter)}
           </div>
 
           {/* Actions */}
@@ -521,6 +531,8 @@ export default function TaxFight() {
             </button>
             <button onClick={() => { setStep(1); setLetter(""); setAltLetter(""); }} style={{ ...btnStyle(false), border: `1px solid ${C.border}` }}>← Edit Responses</button>
           </div>
+
+          {pdfError && <div role="alert" style={{ background: C.errorBg, border: `1px solid ${C.errorBorder}`, color: C.errorText, borderRadius: "8px", padding: "14px", fontSize: "14px", marginBottom: "20px" }}>{pdfError}</div>}
 
           {/* Checklist */}
           {checklist.length > 0 && (

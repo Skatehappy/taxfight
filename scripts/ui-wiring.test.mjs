@@ -57,9 +57,10 @@ page.on('console', m => { if (m.type() === 'error') problems.push('console: ' + 
 page.on('pageerror', e => problems.push('pageerror: ' + e.message));
 page.on('response', r => { if (r.url().startsWith(ORIGIN) && r.status() >= 400 && !r.url().includes('/api/')) problems.push('own-origin ' + r.status() + ': ' + r.url()); });
 
-// external assets: stub fonts and jsPDF (records PDF export), never hit the network
+// external assets: stub fonts; serve the REAL jsPDF 2.5.1 UMD (vendored copy of the CDN build) so a real PDF is produced; never hit the network
 await page.route(/fonts\.(googleapis|gstatic)\.com/, r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
-await page.route(/cdnjs\.cloudflare\.com.*jspdf/, r => r.fulfill({ status: 200, contentType: 'text/javascript', body: 'window.jsPDF=function(){this.setFont=function(){};this.setFontSize=function(){};this.splitTextToSize=function(t){return [t];};this.addPage=function(){};this.text=function(){};this.save=function(n){window.__pdf=n;};};' }));
+const JSPDF_SRC = fs.readFileSync(path.join(ROOT, 'scripts/vendor/jspdf.umd.min.js'), 'utf8');
+await page.route(/cdnjs\.cloudflare\.com.*jspdf/, r => r.fulfill({ status: 200, contentType: 'text/javascript', body: JSPDF_SRC }));
 
 // API mocks. `mode` controls what /api/generate answers.
 let mode = 'ok'; const apiCalls = [];
@@ -74,7 +75,7 @@ await page.route('**/api/**', async route => {
   }
   if (mode === 'gen-503') return send(503, { error: 'x' });
   if (mode === 'gen-400') return send(400, { error: 'Your input is too long.' });
-  return send(200, { text: 'Dear Board,\nI appeal the assessment of my property.\nSincerely, Owner' });
+  return send(200, { text: 'Dear Board,\n\n## Grounds\nI appeal the **assessment** of my property.  *Please* review.\n\n| Item | Value |\n|---|---|\n| Assessed | $250,000 |\n\nSincerely, Owner' });
 });
 
 const clicked = new Set(), seen = new Set();
@@ -150,7 +151,23 @@ assert.ok(apiCalls.some(c => c.url.endsWith('/api/checklist') && c.body.accessCo
 // 5. letter step: tabs, PDF, copy, checklist, edit
 await noteButtons();
 await click(page.getByRole('button', { name: /Assertive/ }), 'assertive'); await click(page.getByRole('button', { name: /Standard/ }), 'standard');
-await click(page.getByRole('button', { name: /Download PDF/ }), 'download pdf'); assert.ok(await page.evaluate(() => window.__pdf), 'PDF export must call save()');
+// no markdown symbols anywhere in the displayed letter
+const shown = await page.locator('div:has-text("Dear Board")').last().innerText();
+assert.ok(/I appeal the assessment of my property/.test(shown) && shown.includes('Value: $250,000'), 'cleaned text is displayed: ' + shown);
+assert.ok(!/\*\*|##|\|---/.test(shown), 'raw markdown visible in the UI: ' + shown);
+// PDF: when jsPDF is missing the user sees an error (never a silent no-op) ...
+await page.evaluate(() => { window.__jspdf = window.jspdf; delete window.jspdf; delete window.jsPDF; });
+await click(page.getByRole('button', { name: /Download PDF/ }), 'download pdf');
+await page.getByRole('alert').filter({ hasText: /PDF tool could not load/ }).waitFor();
+// ... and with the real library (window.jspdf.jsPDF, the 2.5.1 UMD shape) a real, non-empty PDF file is downloaded
+await page.evaluate(() => { window.jspdf = window.__jspdf; });
+const [dl] = await Promise.all([page.waitForEvent('download'), click(page.getByRole('button', { name: /Download PDF/ }), 'download pdf')]);
+assert.equal(dl.suggestedFilename(), 'TaxFight-Appeal-standard.pdf');
+const pdfBytes = fs.readFileSync(await dl.path());
+assert.ok(pdfBytes.length > 1000 && pdfBytes.subarray(0, 5).toString() === '%PDF-', 'a real PDF must be downloaded, got ' + pdfBytes.length + ' bytes');
+const pdfText = pdfBytes.toString('latin1');
+assert.ok(pdfText.includes('I appeal the assessment of my property') && pdfText.includes('Value: $250,000'), 'PDF must contain the letter text');
+assert.ok(!pdfText.includes('**') && !pdfText.includes('## ') && !pdfText.includes('| Item'), 'raw markdown inside the PDF');
 await click(page.getByRole('button', { name: /Copy Text/ }), 'copy text'); await page.getByText('Copied!').waitFor();
 assert.match(await page.evaluate(() => navigator.clipboard.readText()), /I appeal the assessment/);
 assert.ok(await page.getByText('Completed appeal form').isVisible(), 'checklist must render');
