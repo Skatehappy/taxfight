@@ -5,7 +5,8 @@ import { verifyLicense } from './_license.js';
 import { isG4TCode, g4tTake } from './_g4t.js';
 import { verifiedFor, slugOf } from './_verified.js';
 import { citationBlock, findUnverified, stripUnverified } from './_citelint.js';
-import { callComplete } from './_complete.js';
+import { callComplete, remaining } from './_complete.js';
+import { stripMarkdown } from './_markdown.js';
 import { typeInfo, fallbackFor } from './_checklist-fallbacks.js';
 
 // Node serverless runtime, classic (req, res) handler (needs node:fs for the allowlist).
@@ -18,13 +19,17 @@ const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 // returns partial text. { list: null } on ANY model failure (HTTP error, truncation, no text, unparseable reply),
 // so the caller serves the per-type fallback.
 const LIMITS = [2000, 4000];
-async function ask(apiKey, system, content) {
-  const r = await callComplete(ANTHROPIC_URL, apiKey, max => ({ model: MODEL, max_tokens: max, thinking: { type: 'disabled' }, system, messages: [{ role: 'user', content }] }), LIMITS);
+// TIME BUDGET (maxDuration 30s): all model work (first call, truncation retry, lint regeneration) must finish within
+// MODEL_BUDGET_MS of the handler start (license verify <= 8s counts inside that clock). A retry / regeneration only
+// starts with MIN_REDO_MS left; otherwise unverified items are stripped / the per-type fallback is served (HTTP 200).
+export const BUDGET = { MODEL_BUDGET_MS: 20000, MIN_REDO_MS: 8000 };
+async function ask(apiKey, system, content, deadline) {
+  const r = await callComplete(ANTHROPIC_URL, apiKey, max => ({ model: MODEL, max_tokens: max, thinking: { type: 'disabled' }, system, messages: [{ role: 'user', content }] }), LIMITS, { deadline, minRetryMs: BUDGET.MIN_REDO_MS });
   if (!r.ok) return { list: null, r };
   try {
     const arr = JSON.parse(r.text.replace(/```json|```/g, '').trim());
     if (!Array.isArray(arr)) return { list: null, r, parseFailed: true };
-    return { list: arr.filter(x => typeof x === 'string' && x.trim()), r };
+    return { list: arr.filter(x => typeof x === 'string' && x.trim()).map(stripMarkdown).filter(Boolean), r };
   } catch { return { list: null, r, parseFailed: true }; }
 }
 
@@ -46,6 +51,7 @@ async function readBody(req) {
 }
 
 export default async function handler(req, res) {
+  const t0 = Date.now();
   cors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
@@ -77,7 +83,7 @@ export default async function handler(req, res) {
     const { keys, subs, nums, entry } = verifiedFor(state, type);
     const lockOpts = { subs, nums, input: [address, appealType, letterExcerpt].filter(Boolean).join('\n') };
     const system = 'You write practical submission checklists for property owners filing property tax disputes.' + citationBlock(entry);
-    const prompt = `Generate a practical submission checklist for a property owner filing ${typeInfo(type).focus}, as a JSON array of 8 to 10 strings. Every item is one plain action step of at most 25 words and fits this situation only. Always include sending the filing by certified mail with return receipt, or filing in person and getting a stamped copy, and keeping a copy. Do not cite any statute, rule or case unless it is in the verified authorities list. Return ONLY a valid JSON array, no other text.
+    const prompt = `Generate a practical submission checklist for a property owner filing ${typeInfo(type).focus}, as a JSON array of 8 to 10 strings. Every item is one plain action step of at most 25 words and fits this situation only. Always include sending the filing by certified mail with return receipt, or filing in person and getting a stamped copy, and keeping a copy. Do not cite any statute, rule or case unless it is in the verified authorities list. Write plain text only (no markdown). Return ONLY a valid JSON array, no other text.
 
 Property: ${address}
 State: ${state}
@@ -86,11 +92,12 @@ Letter excerpt: ${letterExcerpt?.substring(0, 200) || ''}`;
 
     // Any model failure (HTTP error, truncation, unparseable reply, too few survivors) -> HTTP 200 with this type's own fallback.
     const diag = {};
-    const got = await ask(apiKey, system, prompt);
+    const deadline = t0 + BUDGET.MODEL_BUDGET_MS;
+    const got = await ask(apiKey, system, prompt, deadline);
     let checklist = got.list;
     diag.attempts = got.r.attempts; diag.stop = got.r.stop; diag.status = got.r.status;
     if (!got.r.ok) {
-      diag.failed = got.r.truncated ? 'truncated' : 'model-error';
+      diag.failed = got.r.timeout ? 'timeout' : got.r.truncated ? 'truncated' : 'model-error';
       console.log(JSON.stringify({ event: 'checklist_model_fail', reason: diag.failed, status: got.r.status || null }));
     } else if (got.parseFailed) diag.parseFailed = true;
 
@@ -101,7 +108,7 @@ Letter excerpt: ${letterExcerpt?.substring(0, 200) || ''}`;
       if (first.length) {
         let action = 'stripped';
         try {
-          const again = await ask(apiKey, system + `\nYour previous checklist cited authorities that are NOT verified: ${first.map(f => f.sample).join('; ')}. Rewrite it without citing them or any other authority outside the list.`, prompt);
+          const again = remaining(deadline) < BUDGET.MIN_REDO_MS ? { list: null } : await ask(apiKey, system + `\nYour previous checklist cited authorities that are NOT verified: ${first.map(f => f.sample).join('; ')}. Rewrite it without citing them or any other authority outside the list.`, prompt, deadline);
           if (again.list) { checklist = again.list; if (!bad(again.list).length) action = 'regenerated'; }
         } catch { /* fall through to strip */ }
         if (action !== 'regenerated') checklist = checklist.map(i => stripUnverified(i, keys, lockOpts)).filter(i => i.trim());

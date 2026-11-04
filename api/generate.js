@@ -4,7 +4,8 @@ import { citationBlock, lintLetter } from './_citelint.js';
 import { verifyLicense } from './_license.js';
 import { isG4TCode, g4tTake } from './_g4t.js';
 import { verifiedFor, slugOf } from './_verified.js';
-import { callComplete } from './_complete.js';
+import { callComplete, remaining } from './_complete.js';
+import { stripMarkdown } from './_markdown.js';
 
 // Node serverless runtime (NOT edge). Edge caps at ~25s on Hobby and ignores
 // maxDuration, which 504'd ~25s Opus letters. Node honors maxDuration:60. MUST
@@ -18,13 +19,21 @@ const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 // stop_reason "max_tokens" = truncated: retried once with a higher limit, never linted or returned as a letter.
 // Any failure throws with status 502 BEFORE the license usage mark, so the code is not burned.
 const TOKEN_LIMITS = [3000, 6000];
-async function callClaude(apiKey, system, messages) {
-  const r = await callComplete(ANTHROPIC_URL, apiKey, max => ({ model: MODEL, max_tokens: max, thinking: { type: 'disabled' }, system: system || undefined, messages }), TOKEN_LIMITS);
+// TIME BUDGET (Vercel Hobby: maxDuration 60s). Every request makes ONE letter per call; all model work (draft,
+// truncation retry, lint regeneration) must finish before MODEL_DEADLINE_MS after the handler starts, which leaves room
+// for license verify (<= 8s, inside the same clock) and the usage mark (<= USAGE_MARK_MS) => worst case ~50s.
+// The truncation retry and the lint regeneration each need MIN_REDO_MS left (a full letter takes ~25s); otherwise the
+// retry is skipped (502, code not used) and the regeneration is skipped (unverified sentences are stripped instead).
+export const BUDGET = { MODEL_DEADLINE_MS: 46000, MIN_REDO_MS: 25000, USAGE_MARK_MS: 3500 };
+async function callClaude(apiKey, system, messages, deadline) {
+  const r = await callComplete(ANTHROPIC_URL, apiKey, max => ({ model: MODEL, max_tokens: max, thinking: { type: 'disabled' }, system: system || undefined, messages }), TOKEN_LIMITS, { deadline, minRetryMs: BUDGET.MIN_REDO_MS });
   if (r.ok) return r.text;
-  const e = new Error(r.truncated ? 'The letter was cut off before it finished. Please try again; your access code has not been used.' : 'AI generation failed');
-  e.status = 502; e.detail = r.truncated ? 'truncated' : r.err;
+  const e = new Error(r.timeout ? 'The letter took too long to generate. Please try again; your access code has not been used.' : r.truncated ? 'The letter was cut off before it finished. Please try again; your access code has not been used.' : 'AI generation failed');
+  e.status = 502; e.detail = r.timeout ? 'timeout' : r.truncated ? 'truncated' : r.err;
   throw e;
 }
+
+const PLAIN_TEXT_RULE = '\n\nFORMAT RULE: Write plain text only. Do not use markdown of any kind: no # headings, no ** or __ bold, no * or _ italics, no backticks, no tables or | characters. Use short section titles on their own line and "-" for any list.';
 
 function cors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -44,6 +53,7 @@ async function readBody(req) {
 }
 
 export default async function handler(req, res) {
+  const t0 = Date.now();
   cors(res);
 
   if (req.method === 'OPTIONS') return res.status(204).end();
@@ -94,12 +104,14 @@ export default async function handler(req, res) {
     const { keys, subs, nums, entry } = verifiedFor(state, letterType);
     // full-citation lock (subsections) + numeric-claims check against verified state figures; figures the user typed are allowed
     const lockOpts = { subs, nums, input: [systemPrompt, userPrompt, draftLetter].filter(Boolean).join('\n') };
-    const system = (systemPrompt || '') + citationBlock(entry);
-    let text = await callClaude(apiKey, system, messages);
+    const system = (systemPrompt || '') + citationBlock(entry) + PLAIN_TEXT_RULE;
+    const deadline = t0 + BUDGET.MODEL_DEADLINE_MS;
+    let text = stripMarkdown(await callClaude(apiKey, system, messages, deadline));
     const lint = await lintLetter(
       text, keys,
-      samples => callClaude(apiKey, system + `
-Your previous draft used citations, subsections or figures (dollar amounts, percentages, day counts) that are NOT verified: ${samples.join('; ')}. Rewrite the letter without them: cite only the listed authorities exactly as written (no added subsection letters) and state no legal dollar, percentage or deadline figure that is not in the list or supplied by the user.`, messages),
+      // no time for a full second letter -> null: lintLetter strips the unverified sentences instead
+      samples => remaining(deadline) < BUDGET.MIN_REDO_MS ? null : callClaude(apiKey, system + `
+Your previous draft used citations, subsections or figures (dollar amounts, percentages, day counts) that are NOT verified: ${samples.join('; ')}. Rewrite the letter without them: cite only the listed authorities exactly as written (no added subsection letters) and state no legal dollar, percentage or deadline figure that is not in the list or supplied by the user.`, messages, deadline).then(stripMarkdown),
       o => console.log(JSON.stringify({ ...o, state: slugOf(state) || null, letterType: slugOf(letterType) || null })),
       lockOpts
     );
@@ -112,6 +124,7 @@ Your previous draft used citations, subsections or figures (dollar amounts, perc
       await fetch('https://payhip.com/api/v1/license/usage', {
         method: 'PUT',
         headers: { 'payhip-api-key': payhipApiKey, 'Content-Type': 'application/x-www-form-urlencoded' },
+        signal: AbortSignal.timeout(BUDGET.USAGE_MARK_MS),
         body: `product_link=${PRODUCT_LINK}&license_key=${encodeURIComponent(accessCode.trim())}`,
       });
     } catch { /* letter already generated; don't fail on a usage-mark hiccup */ }
