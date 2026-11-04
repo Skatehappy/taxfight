@@ -69,6 +69,25 @@ export function chainOk(chain, verifiedChains) {
 
 // ---- numeric claims: dollar / percent / day figures ----
 const FIG_CONTEXT = /\b(deadline|within|days?|fees?|interest|penalt\w*|exempt\w*|ceiling|cap|capped|limit|refund|statut\w*|appeal|files?|filed|due|freeze|frozen|rate)\b/i;
+// Spelled-out numbers ("thirty", "thirty-six", "five hundred", "one hundred and five", "two thousand").
+// Months/years windows are deliberately NOT tracked: letters use them for comparable-sale recency and ownership tenure,
+// and the verified log words them ("two-year", "year-end") too variably to match without dropping verified content.
+const SMALL = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90 };
+const BIG = { hundred: 100, thousand: 1e3, million: 1e6 };
+const NUMW = '(?:' + [...Object.keys(SMALL), ...Object.keys(BIG)].sort((a, b) => b.length - a.length).join('|') + ')';
+const NUM_PHRASE = NUMW + '(?:[\\s-]+' + NUMW + '|(?<=hundred|thousand|million)\\s+and\\s+' + NUMW + ')*';
+export function wordsToNumber(phrase) {
+  const toks = phrase.toLowerCase().split(/[\s-]+/).filter(w => w && w !== 'and');
+  let total = 0, cur = 0;
+  for (const w of toks) {
+    if (w in SMALL) cur += SMALL[w];
+    else if (w === 'hundred') cur = (cur || 1) * 100;
+    else if (w in BIG) { total += (cur || 1) * BIG[w]; cur = 0; }
+    else return null;
+  }
+  const n = total + cur;
+  return n > 0 ? n : null;
+}
 export function figures(text) {
   const out = new Set();
   for (const m of text.matchAll(/\$\s?(\d[\d,]*(?:\.\d+)?)(?:\s?(million|thousand)\b|k\b)?/gi)) {
@@ -79,6 +98,20 @@ export function figures(text) {
   }
   for (const m of text.matchAll(/(\d+(?:\.\d+)?)\s?(?:%|percent\b)/gi)) out.add(m[1] + '%');
   for (const m of text.matchAll(/\b(\d+)[\s-]+(?:calendar[\s-]+|business[\s-]+)?days?\b/gi)) out.add(m[1] + 'd');
+  // parenthetical numerals: "thirty (30) days", "(30) days", "30 (thirty) days", "ten percent (10%)"
+  for (const m of text.matchAll(/\(\s*(\d+)\s*\)\s*[\s-]*(?:calendar[\s-]+|business[\s-]+)?days?\b/gi)) out.add(m[1] + 'd');
+  for (const m of text.matchAll(/\b(\d+)\s*\([^)\d]{1,30}\)\s*[\s-]*(?:calendar[\s-]+|business[\s-]+)?days?\b/gi)) out.add(m[1] + 'd');
+  for (const m of text.matchAll(/\(\s*(\d+(?:\.\d+)?)\s*\)\s*(?:%|percent\b)/gi)) out.add(m[1] + '%');
+  for (const m of text.matchAll(/\b(\d[\d,]*(?:\.\d+)?)\s+dollars?\b/gi)) out.add('$' + Number(m[1].replace(/,/g, '')));
+  // spelled-out figures: "thirty days", "thirty-six days", "ten percent", "five hundred dollars"
+  const spelled = new RegExp('\\b(' + NUM_PHRASE + ')(?:\\s*\\([^)]{1,30}\\))?[\\s-]*(?:(?:calendar|business)[\\s-]+)?(days?|per[\\s-]?cent|dollars?)\\b', 'gi');
+  for (const m of text.matchAll(spelled)) {
+    const n = wordsToNumber(m[1]); if (n == null) continue;
+    const unit = m[2].toLowerCase();
+    if (unit.startsWith('day')) { if (n !== 1) out.add(n + 'd'); }   // "one day" is ordinary prose, not a deadline claim
+    else if (unit.startsWith('dollar')) out.add('$' + n);
+    else out.add(n + '%');
+  }
   return out;
 }
 // Figures that sit in a legal-context sentence but are neither in the state's verified material nor supplied by the user.
